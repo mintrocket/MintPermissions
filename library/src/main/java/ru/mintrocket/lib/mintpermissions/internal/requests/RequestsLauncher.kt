@@ -12,6 +12,7 @@ import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusProvider
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusUpdater
 import ru.mintrocket.lib.mintpermissions.models.*
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -27,7 +28,7 @@ internal class RequestsLauncher(
     fun init(activity: ComponentActivity) {
         queueManager
             .requestFlow
-            .mapLatest { request(activity, it) }
+            .map { request(activity, it) }
             .onEach {
                 queueManager.finishRequest(it.request)
                 requestsController.sendResult(it)
