@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ru.mintrocket.mintpermissions">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MintPermissions">
+        <activity
+            android:name=".data_flow.DataFlowActivity"
+            android:exported="false" />
+        <activity
+            android:name=".simple.SimpleExampleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".playground.PlaygroundActivity"
+            android:exported="false" />
+        <activity
+            android:name=".dialogs_flow.DialogsFlowActivity"
+            android:exported="false" />
+        <activity
+            android:name=".content_flow.ContentFlowActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
