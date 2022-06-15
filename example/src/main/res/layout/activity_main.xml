@@ -35,6 +35,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsvMainContent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -127,6 +128,14 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:dividerThickness="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/nsvMainContent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivLogo"
