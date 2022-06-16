@@ -37,7 +37,7 @@ dependencies {
 
 ## Samples
 
-To get started, you can install Example and explore its source code
+To get started, you can install [ExampleApp](https://github.com/mintrocket/MintPermissions/releases/latest) and explore its [source code](https://github.com/mintrocket/MintPermissions/tree/main/example/src/main/java/ru/mintrocket/mintpermissions)
 
 ### Initializing
 
