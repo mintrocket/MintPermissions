@@ -1,8 +1,8 @@
 package ru.mintrocket.lib.mintpermissions.internal.models
 
 import android.os.Parcelable
-import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import kotlinx.parcelize.Parcelize
+import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import java.util.*
 
 @Parcelize

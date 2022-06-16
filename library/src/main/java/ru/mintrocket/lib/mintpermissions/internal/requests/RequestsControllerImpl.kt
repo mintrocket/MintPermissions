@@ -1,10 +1,10 @@
 package ru.mintrocket.lib.mintpermissions.internal.requests
 
-import ru.mintrocket.lib.mintpermissions.internal.models.Request
-import ru.mintrocket.lib.mintpermissions.internal.models.RequestResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.mintrocket.lib.mintpermissions.internal.models.Request
+import ru.mintrocket.lib.mintpermissions.internal.models.RequestResult
 
 internal class RequestsControllerImpl(
     private val scope: CoroutineScope

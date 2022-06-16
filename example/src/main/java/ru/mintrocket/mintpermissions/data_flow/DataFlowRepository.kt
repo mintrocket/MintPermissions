@@ -30,7 +30,7 @@ class DataFlowRepository(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
-        val result = permissionsController.request(locationPermissions).results
+        val result = permissionsController.request(locationPermissions)
         require(result.isAllGranted()) {
             "Has not granted permissions ${result.filterNotGranted().map { it.status }}"
         }

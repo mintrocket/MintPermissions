@@ -10,12 +10,6 @@ internal class StatusUpdater(
     private val statusProvider: StatusProvider
 ) {
 
-    fun init(activity: ComponentActivity) {
-        activity.lifecycle.addObserver(StatusUpdaterLifecycleObserver(activity) {
-            updateStatuses(activity)
-        })
-    }
-
     fun updateStatuses(activity: ComponentActivity) {
         activity.lifecycleScope.launch(Dispatchers.Default) {
             statusesController.updateStatuses(statusProvider.getAllStatuses(activity))

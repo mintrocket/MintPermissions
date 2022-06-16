@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.launch
-import ru.mintrocket.lib.mintpermissions.MintPermissionsInitializer
+import ru.mintrocket.lib.mintpermissions.MintPermissions
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 import ru.mintrocket.mintpermissions.R
@@ -21,7 +21,6 @@ class SimpleExampleActivity : AppCompatActivity(R.layout.activity_simple_example
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MintPermissionsInitializer.createManager().init(this)
         binding.toolbar.setNavigationOnClickListener {
             finish()
         }
@@ -37,7 +36,7 @@ class SimpleExampleActivity : AppCompatActivity(R.layout.activity_simple_example
     }
 
     private fun takePhoto() {
-        val controller = MintPermissionsInitializer.permissionsController
+        val controller = MintPermissions.controller
         lifecycleScope.launch {
             val result = controller.request(Manifest.permission.CAMERA)
             when (result.status) {

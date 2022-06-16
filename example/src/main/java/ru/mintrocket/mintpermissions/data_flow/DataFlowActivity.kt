@@ -10,9 +10,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import ru.mintrocket.lib.mintpermissions.MintPermissionsManager
 import ru.mintrocket.mintpermissions.R
 import ru.mintrocket.mintpermissions.common.Routes
 import ru.mintrocket.mintpermissions.databinding.ActivityDataFlowBinding
@@ -21,11 +19,9 @@ class DataFlowActivity : AppCompatActivity(R.layout.activity_data_flow) {
 
     private val binding by viewBinding<ActivityDataFlowBinding>()
     private val viewModel by viewModel<DataFlowViewModel>()
-    private val permissionsManager by inject<MintPermissionsManager>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        permissionsManager.init(this)
         initViews()
         initObservers()
     }

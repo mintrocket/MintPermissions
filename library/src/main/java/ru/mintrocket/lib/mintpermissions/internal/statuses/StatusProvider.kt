@@ -39,15 +39,14 @@ class StatusProvider {
         isGranted: Boolean,
         activity: ComponentActivity
     ): MintPermissionStatus {
-        val needsRationale = activity.shouldShowRationale(permission)
-        val hasPermission = getPackagePermissions(activity).contains(permission)
         return if (isGranted) {
             MintPermissionStatus.Granted(permission)
         } else {
+            val needsRationale = activity.shouldShowRationale(permission)
             if (needsRationale) {
                 MintPermissionStatus.NeedsRationale(permission)
             } else {
-
+                val hasPermission = getPackagePermissions(activity).contains(permission)
                 if (hasPermission) {
                     MintPermissionStatus.Denied(permission)
                 } else {

@@ -3,6 +3,10 @@ package ru.mintrocket.lib.mintpermissions.internal.requests
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mintrocket.lib.mintpermissions.ext.isDenied
 import ru.mintrocket.lib.mintpermissions.ext.isGranted
 import ru.mintrocket.lib.mintpermissions.ext.isNeedsRationale
@@ -10,15 +14,13 @@ import ru.mintrocket.lib.mintpermissions.internal.models.Request
 import ru.mintrocket.lib.mintpermissions.internal.models.RequestResult
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusProvider
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusUpdater
-import ru.mintrocket.lib.mintpermissions.models.*
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.suspendCancellableCoroutine
+import ru.mintrocket.lib.mintpermissions.models.MintPermission
+import ru.mintrocket.lib.mintpermissions.models.MintPermissionAction
+import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
+import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 import kotlin.coroutines.resume
 
-internal class RequestsLauncher(
+internal class RequestsManager(
     private val queueManager: RequestsQueueManager,
     private val statusUpdater: StatusUpdater,
     private val statusProvider: StatusProvider,
@@ -61,7 +63,7 @@ internal class RequestsLauncher(
                 val action = computeAction(permission, old, new)
                 MintPermissionResult(status, action)
             }
-            continuation.resume(RequestResult(request, MintPermissionMultipleResult(results)))
+            continuation.resume(RequestResult(request, results))
         }
 
         launcher.launch(request.permissions.toTypedArray())

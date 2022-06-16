@@ -1,8 +1,8 @@
 package ru.mintrocket.lib.mintpermissions.internal.statuses
 
+import kotlinx.coroutines.flow.Flow
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
-import kotlinx.coroutines.flow.Flow
 
 interface StatusesController {
 

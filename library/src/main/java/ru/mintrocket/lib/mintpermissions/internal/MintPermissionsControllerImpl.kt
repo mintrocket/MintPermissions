@@ -1,14 +1,16 @@
 package ru.mintrocket.lib.mintpermissions.internal
 
-import ru.mintrocket.lib.mintpermissions.MintPermissionsController
-import ru.mintrocket.lib.mintpermissions.internal.models.Request
-import ru.mintrocket.lib.mintpermissions.internal.requests.RequestsController
-import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusesController
-import ru.mintrocket.lib.mintpermissions.models.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import ru.mintrocket.lib.mintpermissions.MintPermissionsController
+import ru.mintrocket.lib.mintpermissions.internal.models.Request
+import ru.mintrocket.lib.mintpermissions.internal.requests.RequestsController
+import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusesController
+import ru.mintrocket.lib.mintpermissions.models.MintPermission
+import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
+import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 import java.util.*
 
 internal class MintPermissionsControllerImpl(
@@ -55,14 +57,14 @@ internal class MintPermissionsControllerImpl(
 
     override suspend fun request(
         permissions: List<MintPermission>
-    ): MintPermissionMultipleResult {
+    ): List<MintPermissionResult> {
         val key = UUID.randomUUID()
         val request = Request(key, permissions)
-        return requestsController.request(request).result
+        return requestsController.request(request).results
     }
 
     override suspend fun request(permission: MintPermission): MintPermissionResult {
-        return request(listOf(permission)).results.first()
+        return request(listOf(permission)).first()
     }
 
     private fun Map<MintPermission, MintPermissionStatus>.getStatus(permission: MintPermission): MintPermissionStatus {
