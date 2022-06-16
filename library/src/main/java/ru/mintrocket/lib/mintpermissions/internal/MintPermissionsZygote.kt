@@ -57,7 +57,8 @@ internal object MintPermissionsZygote {
 
     val controller: MintPermissionsController by lazy { permissionsControllerImpl }
 
-    fun init(application: Application) {
+    fun init(application: Application, autoInitManagers: Boolean) {
+        lifecycleListener.setAutoInitMangers(autoInitManagers)
         application.unregisterActivityLifecycleCallbacks(lifecycleListener)
         application.registerActivityLifecycleCallbacks(lifecycleListener)
     }

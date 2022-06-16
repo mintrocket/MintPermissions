@@ -9,8 +9,8 @@ object MintPermissions {
         MintPermissionsZygote.controller
     }
 
-    fun init(application: Application) {
-        MintPermissionsZygote.init(application)
+    fun init(application: Application, autoInitManagers: Boolean) {
+        MintPermissionsZygote.init(application, autoInitManagers)
     }
 
     fun createManager(): MintPermissionsManager {

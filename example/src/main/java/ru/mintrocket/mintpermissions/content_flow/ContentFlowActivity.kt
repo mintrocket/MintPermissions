@@ -9,9 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import ru.mintrocket.lib.mintpermissions.MintPermissionsManager
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 import ru.mintrocket.mintpermissions.R
 import ru.mintrocket.mintpermissions.common.PermissionEvents
@@ -23,11 +21,9 @@ class ContentFlowActivity : AppCompatActivity(R.layout.activity_content_flow) {
 
     private val binding by viewBinding<ActivityContentFlowBinding>()
     private val viewModel by viewModel<ContentFlowViewModel>()
-    private val permissionsManager by inject<MintPermissionsManager>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        permissionsManager.init(this)
         initViews()
         initObservers()
     }

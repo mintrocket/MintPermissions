@@ -21,7 +21,6 @@ class SimpleExampleActivity : AppCompatActivity(R.layout.activity_simple_example
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MintPermissions.createManager().init(this)
         binding.toolbar.setNavigationOnClickListener {
             finish()
         }

@@ -5,13 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import ru.mintrocket.lib.mintpermissions.MintPermissionsManager
 import ru.mintrocket.mintpermissions.R
 import ru.mintrocket.mintpermissions.common.PermissionEvents
-import ru.mintrocket.mintpermissions.common.PermissionsFormatter
 import ru.mintrocket.mintpermissions.common.Routes
 import ru.mintrocket.mintpermissions.common.onEachEventNotNull
 import ru.mintrocket.mintpermissions.databinding.ActivityDialogsFlowBinding
@@ -20,11 +16,9 @@ class DialogsFlowActivity : AppCompatActivity(R.layout.activity_dialogs_flow) {
 
     private val binding by viewBinding<ActivityDialogsFlowBinding>()
     private val viewModel by viewModel<DialogsViewModel>()
-    private val permissionsManager by inject<MintPermissionsManager>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        permissionsManager.init(this)
         initViews()
         initObservers()
     }
