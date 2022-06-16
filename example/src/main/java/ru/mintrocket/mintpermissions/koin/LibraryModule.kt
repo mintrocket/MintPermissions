@@ -1,10 +1,9 @@
 package ru.mintrocket.mintpermissions.koin
 
-import ru.mintrocket.lib.mintpermissions.MintPermissionsInitializer
-import org.koin.androidx.viewmodel.dsl.viewModel
+import ru.mintrocket.lib.mintpermissions.MintPermissions
 import org.koin.dsl.module
 
 val libraryModule = module {
-    single { MintPermissionsInitializer.permissionsController }
-    factory { MintPermissionsInitializer.createManager() }
+    single { MintPermissions.controller }
+    factory { MintPermissions.createManager() }
 }
