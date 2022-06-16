@@ -1,0 +1,2 @@
+-keep class ru.mintrocket.lib.mintpermissions.models.**
+-keep class ru.mintrocket.lib.mintpermissions.MintPermissionsConfig** { *; }
