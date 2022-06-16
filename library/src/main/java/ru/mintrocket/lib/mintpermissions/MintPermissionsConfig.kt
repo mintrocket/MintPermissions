@@ -7,5 +7,5 @@ package ru.mintrocket.lib.mintpermissions
  * @constructor Create empty Mint permissions config
  */
 data class MintPermissionsConfig(
-    val autoInitManagers: Boolean = false
+    val autoInitManagers: Boolean = true
 )

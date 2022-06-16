@@ -4,21 +4,42 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk app_compile_sdk_version
 
     defaultConfig {
         applicationId "com.mintrocket.mintpermissions"
-        minSdk 21
-        targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        minSdk app_min_sdk_version
+        targetSdk app_target_sdk_version
+        versionCode app_version_code
+        versionName app_version_name
+        setProperty("archivesBaseName", "MintPermissions")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    signingConfigs {
+        release {
+            storeFile file("example_key.jks")
+            storePassword 'example'
+            keyAlias "example_alias"
+            keyPassword 'example'
+        }
+        debug {
+            storeFile file("example_key.jks")
+            storePassword 'example'
+            keyAlias "example_alias"
+            keyPassword 'example'
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled false
+            multiDexEnabled true
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

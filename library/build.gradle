@@ -48,7 +48,7 @@ afterEvaluate {
 
                 groupId = 'com.github.mintrocket'
                 artifactId = 'mintpermissions'
-                version = '0.0.1'
+                version = library_version_name
             }
         }
     }
