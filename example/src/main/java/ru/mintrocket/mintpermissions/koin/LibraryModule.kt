@@ -1,7 +1,7 @@
 package ru.mintrocket.mintpermissions.koin
 
-import ru.mintrocket.lib.mintpermissions.MintPermissions
 import org.koin.dsl.module
+import ru.mintrocket.lib.mintpermissions.MintPermissions
 
 val libraryModule = module {
     single { MintPermissions.controller }
