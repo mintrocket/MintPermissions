@@ -3,6 +3,7 @@ package ru.mintrocket.lib.mintpermissions.internal
 import android.app.Application
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import ru.mintrocket.lib.mintpermissions.MintPermissionsConfig
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
 import ru.mintrocket.lib.mintpermissions.MintPermissionsManager
 import ru.mintrocket.lib.mintpermissions.internal.requests.RequestsControllerImpl
@@ -57,8 +58,8 @@ internal object MintPermissionsZygote {
 
     val controller: MintPermissionsController by lazy { permissionsControllerImpl }
 
-    fun init(application: Application, autoInitManagers: Boolean) {
-        lifecycleListener.setAutoInitMangers(autoInitManagers)
+    fun init(application: Application, config: MintPermissionsConfig) {
+        lifecycleListener.setAutoInitMangers(config.autoInitManagers)
         application.unregisterActivityLifecycleCallbacks(lifecycleListener)
         application.registerActivityLifecycleCallbacks(lifecycleListener)
     }
