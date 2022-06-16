@@ -60,7 +60,7 @@ class PlaygroundViewModel(
     private fun requestPermissions(permissions: List<MintPermission>): Job {
         return viewModelScope.launch {
             val result = permissionsController.request(permissions)
-            latestResult.value = result.results
+            latestResult.value = result
         }
     }
 }

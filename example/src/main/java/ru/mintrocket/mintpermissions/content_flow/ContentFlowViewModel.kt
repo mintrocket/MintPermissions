@@ -48,11 +48,11 @@ class ContentFlowViewModel(
     private fun tryRunAction() {
         viewModelScope.launch {
             val result = permissionsController.request(cameraPermissions)
-            if (result.results.isAllGranted()) {
+            if (result.isAllGranted()) {
                 _grantedEvent.value = Event(Unit)
                 return@launch
             }
-            val denied = result.results.filterDenied()
+            val denied = result.filterDenied()
             if (denied.isNotEmpty()) {
                 _deniedEvent.value = Event(denied.map { it.status.permission })
                 return@launch

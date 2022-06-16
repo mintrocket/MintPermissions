@@ -61,7 +61,7 @@ class DialogsViewModel(
 
     private fun runRequest() {
         viewModelScope.launch {
-            val result = permissionsController.request(cameraPermissions).results
+            val result = permissionsController.request(cameraPermissions)
 
             if (result.isAllGranted()) {
                 _grantedEvent.value = Event(Unit)

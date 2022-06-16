@@ -14,7 +14,10 @@ import ru.mintrocket.lib.mintpermissions.internal.models.Request
 import ru.mintrocket.lib.mintpermissions.internal.models.RequestResult
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusProvider
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusUpdater
-import ru.mintrocket.lib.mintpermissions.models.*
+import ru.mintrocket.lib.mintpermissions.models.MintPermission
+import ru.mintrocket.lib.mintpermissions.models.MintPermissionAction
+import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
+import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 import kotlin.coroutines.resume
 
 internal class RequestsManager(
@@ -60,7 +63,7 @@ internal class RequestsManager(
                 val action = computeAction(permission, old, new)
                 MintPermissionResult(status, action)
             }
-            continuation.resume(RequestResult(request, MintPermissionMultipleResult(results)))
+            continuation.resume(RequestResult(request, results))
         }
 
         launcher.launch(request.permissions.toTypedArray())
