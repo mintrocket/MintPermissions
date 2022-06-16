@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MintPermissions" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/brand_mint</item>
+        <item name="colorPrimaryVariant">@color/brand_mint</item>
+        <item name="colorOnPrimary">@color/brand_white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/brand_orange</item>
+        <item name="colorSecondaryVariant">@color/brand_orange</item>
+        <item name="colorOnSecondary">@color/brand_dark</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/brand_white</item>
+        <item name="android:navigationBarColor">@color/brand_white</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="postSplashScreenTheme">@style/Theme.MintPermissions</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="android:windowSplashScreenBrandingImage" tools:targetApi="s">
+            @drawable/pic_logo_mintrocket
+        </item>
+    </style>
+</resources>

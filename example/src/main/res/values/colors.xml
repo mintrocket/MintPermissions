@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_mint">#18C798</color>
+    <color name="brand_dark">#36254F</color>
+    <color name="brand_orange">#F6C644</color>
+    <color name="brand_blue">#6092DF</color>
+    <color name="brand_dark_gray">#262626</color>
+    <color name="brand_white">#FFFFFF</color>
+</resources>
