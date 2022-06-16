@@ -1,10 +1,10 @@
 package ru.mintrocket.lib.mintpermissions.internal.requests
 
-import ru.mintrocket.lib.mintpermissions.internal.models.Request
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import ru.mintrocket.lib.mintpermissions.internal.models.Request
 
 internal class RequestsQueue {
 

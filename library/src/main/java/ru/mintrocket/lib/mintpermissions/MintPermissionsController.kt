@@ -1,10 +1,10 @@
 package ru.mintrocket.lib.mintpermissions
 
+import kotlinx.coroutines.flow.Flow
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionMultipleResult
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
-import kotlinx.coroutines.flow.Flow
 
 interface MintPermissionsController {
 

@@ -3,6 +3,10 @@ package ru.mintrocket.lib.mintpermissions.internal.requests
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mintrocket.lib.mintpermissions.ext.isDenied
 import ru.mintrocket.lib.mintpermissions.ext.isGranted
 import ru.mintrocket.lib.mintpermissions.ext.isNeedsRationale
@@ -11,11 +15,6 @@ import ru.mintrocket.lib.mintpermissions.internal.models.RequestResult
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusProvider
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusUpdater
 import ru.mintrocket.lib.mintpermissions.models.*
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
 internal class RequestsManager(
