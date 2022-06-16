@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-internal class RequestsLauncher(
+internal class RequestsManager(
     private val queueManager: RequestsQueueManager,
     private val statusUpdater: StatusUpdater,
     private val statusProvider: StatusProvider,

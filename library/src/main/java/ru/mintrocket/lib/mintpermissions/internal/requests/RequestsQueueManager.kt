@@ -5,12 +5,12 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import ru.mintrocket.lib.mintpermissions.internal.models.Request
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import ru.mintrocket.lib.mintpermissions.internal.models.Request
 
 internal class RequestsQueueManager(
     private val requestsController: RequestsController
@@ -53,8 +53,15 @@ internal class RequestsQueueManager(
     }
 
     private fun registerSavedStateProvider(activity: ComponentActivity) {
-        activity.savedStateRegistry.registerSavedStateProvider(SAVED_STATE_KEY) {
-            bundleOf(REQUESTS_KEY to ArrayList(queue.getAll()))
+        try {
+            activity.savedStateRegistry.registerSavedStateProvider(SAVED_STATE_KEY) {
+                bundleOf(REQUESTS_KEY to ArrayList(queue.getAll()))
+            }
+        } catch (ex: Exception) {
+            throw IllegalStateException(
+                "This exception may be because call some MintPermissionsManagerImpl.init(...) in one activity instance",
+                ex
+            )
         }
     }
 

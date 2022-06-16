@@ -3,33 +3,30 @@ package ru.mintrocket.lib.mintpermissions.internal
 import androidx.activity.ComponentActivity
 import ru.mintrocket.lib.mintpermissions.MintPermissionsManager
 import ru.mintrocket.lib.mintpermissions.internal.requests.RequestsController
-import ru.mintrocket.lib.mintpermissions.internal.requests.RequestsLauncher
+import ru.mintrocket.lib.mintpermissions.internal.requests.RequestsManager
 import ru.mintrocket.lib.mintpermissions.internal.requests.RequestsQueueManager
+import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusManger
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusProvider
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusUpdater
-import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusesController
 
 internal class MintPermissionsManagerImpl(
-    private val statusesController: StatusesController,
-    private val requestsController: RequestsController
+    private val requestsController: RequestsController,
+    private val statusProvider: StatusProvider,
+    private val statusUpdater: StatusUpdater,
 ) : MintPermissionsManager {
 
     private var initCalled = false
-
-    private val statusProvider by lazy {
-        StatusProvider()
-    }
 
     private val queueManager by lazy {
         RequestsQueueManager(requestsController)
     }
 
-    private val statusUpdater by lazy {
-        StatusUpdater(statusesController, statusProvider)
+    private val statusManger by lazy {
+        StatusManger(statusUpdater)
     }
 
     private val requestsManager by lazy {
-        RequestsLauncher(queueManager, statusUpdater, statusProvider, requestsController)
+        RequestsManager(queueManager, statusUpdater, statusProvider, requestsController)
     }
 
     override fun init(activity: ComponentActivity) {
@@ -38,7 +35,7 @@ internal class MintPermissionsManagerImpl(
         }
         initCalled = true
         queueManager.init(activity)
-        statusUpdater.init(activity)
+        statusManger.init(activity)
         requestsManager.init(activity)
     }
 }
