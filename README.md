@@ -25,7 +25,7 @@ allprojects {
 
 // Target module's build.gradle:
 dependencies {
-    implementation "com.github.mintrocket:MintPermissions:<LATESET-VERSION>"
+    implementation "com.github.mintrocket:MintPermissions:1.0.0"
 }
 ```
 
