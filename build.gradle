@@ -9,7 +9,7 @@ buildscript {
         app_version_code = 1
         app_version_name = "1.0"
         library_min_sdk_version = 15
-        library_version_name = "0.0.3"
+        library_version_name = "0.0.4"
 
         /* tools, plugins, etc. */
         kotlin_version = '1.6.21'

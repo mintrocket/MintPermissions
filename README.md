@@ -25,7 +25,7 @@ allprojects {
 
 // Target module's build.gradle:
 dependencies {
-    implementation "com.github.mintrocket:MintPermissions:0.0.3"
+    implementation "com.github.mintrocket:MintPermissions:0.0.4"
 }
 ```
 
