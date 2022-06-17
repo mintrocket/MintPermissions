@@ -1,11 +1,14 @@
 package ru.mintrocket.lib.mintpermissions.internal.statuses
 
+import android.os.Build
 import android.view.ViewTreeObserver
 import androidx.activity.ComponentActivity
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 
-internal class StatusUpdaterLifecycleObserver(
+@RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+internal class StatusUpdaterLifecycleObserverV16(
     private val activity: ComponentActivity,
     private val updateListener: () -> Unit
 ) : DefaultLifecycleObserver {

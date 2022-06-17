@@ -1,5 +1,6 @@
 package ru.mintrocket.lib.mintpermissions.internal.statuses
 
+import android.os.Build
 import androidx.activity.ComponentActivity
 
 internal class StatusManger(
@@ -7,8 +8,14 @@ internal class StatusManger(
 ) {
 
     fun init(activity: ComponentActivity) {
-        activity.lifecycle.addObserver(StatusUpdaterLifecycleObserver(activity) {
+        val listener = {
             statusUpdater.updateStatuses(activity)
-        })
+        }
+        val observer = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            StatusUpdaterLifecycleObserverV16(activity, listener)
+        } else {
+            StatusUpdaterLifecycleObserverV15(listener)
+        }
+        activity.lifecycle.addObserver(observer)
     }
 }

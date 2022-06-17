@@ -25,13 +25,13 @@ allprojects {
 
 // Target module's build.gradle:
 dependencies {
-    implementation "com.github.mintrocket:MintPermissions:0.0.3"
+    implementation "com.github.mintrocket:MintPermissions:0.0.4"
 }
 ```
 
 ## Compatibility
 
-**Android SDK**: Minimum API level is **21**\
+**Android SDK**: Minimum API level is **15**\
 **AndroidX**: this library requires [AndroidX](https://developer.android.com/jetpack/androidx/versions/)\
 **Coroutines**: this library requires [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-guide.html)
 
