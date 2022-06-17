@@ -31,7 +31,7 @@ dependencies {
 
 ## Compatibility
 
-**Android SDK**: Minimum API level is **21**\
+**Android SDK**: Minimum API level is **15**\
 **AndroidX**: this library requires [AndroidX](https://developer.android.com/jetpack/androidx/versions/)\
 **Coroutines**: this library requires [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-guide.html)
 
