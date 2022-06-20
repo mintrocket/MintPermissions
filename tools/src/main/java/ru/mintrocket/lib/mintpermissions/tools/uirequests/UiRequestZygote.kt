@@ -8,6 +8,7 @@ import ru.mintrocket.lib.mintpermissions.tools.uirequests.internal.UiRequestCont
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.internal.UiRequestManager
 
 class UiRequestZygote<T, R>(
+    private val key: String,
     private val consumer: UiRequestConsumer<T, R>,
     private val config: UiRequestConfig = UiRequestConfig()
 ) {
@@ -18,5 +19,7 @@ class UiRequestZygote<T, R>(
 
     val controller: UiRequestController<T, R> by lazy { controllerImpl }
 
-    fun createManager(): ManagerInitializer = UiRequestManager(config, controllerImpl, consumer)
+    fun createManager(): ManagerInitializer {
+        return UiRequestManager(key, config, controllerImpl, consumer)
+    }
 }

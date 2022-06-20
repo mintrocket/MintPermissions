@@ -8,7 +8,9 @@ import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiRequest
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiResult
 import java.util.*
 
-class UiRequestControllerImpl<T, R>(private val scope: CoroutineScope) : UiRequestController<T, R> {
+internal class UiRequestControllerImpl<T, R>(
+    private val scope: CoroutineScope
+) : UiRequestController<T, R> {
 
     private val queueNew = FlowQueue<UiRequest<T>>()
     private val cancelFlow = MutableSharedFlow<UiRequest<T>>()

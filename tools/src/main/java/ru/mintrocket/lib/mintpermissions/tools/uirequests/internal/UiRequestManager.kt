@@ -1,12 +1,13 @@
 package ru.mintrocket.lib.mintpermissions.tools.uirequests.internal
 
 import androidx.activity.ComponentActivity
-import androidx.activity.viewModels
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerInitializer
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConfig
@@ -14,18 +15,20 @@ import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConsumer
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiResult
 
 internal class UiRequestManager<T, R>(
+    private val zygoteKey: String,
     private val config: UiRequestConfig,
     private val controller: UiRequestControllerImpl<T, R>,
     private val consumer: UiRequestConsumer<T, R>,
 ) : ManagerInitializer {
 
     override fun init(activity: ComponentActivity) {
-        val viewModelFactory by lazy {
-            UiRequestViewModelFactory(config, controller, activity)
-        }
-        val viewModel by lazy {
-            activity.viewModels<UiRequestViewModel<T, R>> { viewModelFactory }.value
-        }
+
+        val viewModel = lazy {
+            val factory = UiRequestViewModelFactory(config, controller, activity)
+            val provider = ViewModelProvider(activity.viewModelStore, factory)
+            provider[zygoteKey, UiRequestViewModel::class.java] as UiRequestViewModel<T, R>
+        }.value
+
         activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onResume(owner: LifecycleOwner) {
                 super.onResume(owner)
@@ -39,13 +42,15 @@ internal class UiRequestManager<T, R>(
         })
         viewModel
             .requestFlow
-            .map {
-                val resultData = consumer.request(activity, it)
-                UiResult(it, resultData)
+            .mapLatest { request ->
+                request?.let {
+                    val resultData = consumer.request(activity, it)
+                    UiResult(it, resultData)
+                }
             }
+            .filterNotNull()
             .onEach {
-                viewModel.finishRequest(it.request)
-                controller.sendResult(it)
+                viewModel.finishRequest(it)
             }
             .launchIn(activity.lifecycleScope)
     }

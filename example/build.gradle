@@ -76,6 +76,7 @@ dependencies {
 
     // MintPermissions
     implementation(project(":library"))
+    implementation(project(":flows"))
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     testImplementation 'junit:junit:4.13.2'

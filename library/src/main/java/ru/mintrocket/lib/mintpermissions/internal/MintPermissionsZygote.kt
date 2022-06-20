@@ -15,12 +15,14 @@ import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestZygote
 
 internal object MintPermissionsZygote {
 
+    private const val KEY_REQUESTS = "mintpermissions"
+
     private val consumer by lazy {
         PermissionsRequestConsumer(statusProvider)
     }
 
     private val requestsZygote by lazy {
-        UiRequestZygote(consumer)
+        UiRequestZygote(KEY_REQUESTS, consumer)
     }
 
     private val statusProvider by lazy {
