@@ -9,4 +9,6 @@ interface StatusesController {
     fun observe(): Flow<Map<MintPermission, MintPermissionStatus>>
 
     suspend fun updateStatuses(statuses: List<MintPermissionStatus>)
+
+    fun reset()
 }

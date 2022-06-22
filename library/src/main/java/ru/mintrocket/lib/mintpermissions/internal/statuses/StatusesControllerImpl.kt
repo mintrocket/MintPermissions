@@ -1,5 +1,6 @@
 package ru.mintrocket.lib.mintpermissions.internal.statuses
 
+import android.util.Log
 import kotlinx.coroutines.flow.*
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
@@ -15,6 +16,7 @@ class StatusesControllerImpl : StatusesController {
     }
 
     override suspend fun updateStatuses(statuses: List<MintPermissionStatus>) {
+        Log.e("kekeke", "updateStatuses")
         statusFlow.update { currentMap ->
             val newMap = currentMap.orEmpty().toMutableMap()
             statuses.forEach {
@@ -22,5 +24,10 @@ class StatusesControllerImpl : StatusesController {
             }
             newMap
         }
+    }
+
+    override fun reset() {
+        Log.e("kekeke", "reset statuses")
+        statusFlow.value = null
     }
 }

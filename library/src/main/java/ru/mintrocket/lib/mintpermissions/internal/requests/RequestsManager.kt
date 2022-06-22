@@ -13,7 +13,6 @@ import ru.mintrocket.lib.mintpermissions.ext.isNeedsRationale
 import ru.mintrocket.lib.mintpermissions.internal.models.Request
 import ru.mintrocket.lib.mintpermissions.internal.models.RequestResult
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusProvider
-import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusUpdater
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionAction
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
@@ -22,7 +21,6 @@ import kotlin.coroutines.resume
 
 internal class RequestsManager(
     private val queueManager: RequestsQueueManager,
-    private val statusUpdater: StatusUpdater,
     private val statusProvider: StatusProvider,
     private val requestsController: RequestsController
 ) {
@@ -34,7 +32,6 @@ internal class RequestsManager(
             .onEach {
                 queueManager.finishRequest(it.request)
                 requestsController.sendResult(it)
-                statusUpdater.updateStatuses(activity)
             }
             .launchIn(activity.lifecycleScope)
     }

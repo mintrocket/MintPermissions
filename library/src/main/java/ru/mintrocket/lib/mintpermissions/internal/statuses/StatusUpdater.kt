@@ -15,4 +15,10 @@ internal class StatusUpdater(
             statusesController.updateStatuses(statusProvider.getAllStatuses(activity))
         }
     }
+
+    fun resetStatuses(activity: ComponentActivity) {
+        activity.lifecycleScope.launch(Dispatchers.Default) {
+            statusesController.reset()
+        }
+    }
 }

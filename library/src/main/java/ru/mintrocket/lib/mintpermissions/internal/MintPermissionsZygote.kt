@@ -41,7 +41,7 @@ internal object MintPermissionsZygote {
     }
 
     private val lifecycleListener by lazy {
-        MintPermissionsActivityLifecycleListener(statusUpdater)
+        MintPermissionsActivityLifecycleListener()
     }
 
     private fun createQueueManager(): RequestsQueueManager {
@@ -53,7 +53,7 @@ internal object MintPermissionsZygote {
     }
 
     private fun createRequestsManager(queueManager: RequestsQueueManager): RequestsManager {
-        return RequestsManager(queueManager, statusUpdater, statusProvider, requestsController)
+        return RequestsManager(queueManager, statusProvider, requestsController)
     }
 
     val controller: MintPermissionsController by lazy { permissionsControllerImpl }

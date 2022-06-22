@@ -10,12 +10,12 @@ import androidx.lifecycle.LifecycleOwner
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 internal class StatusUpdaterLifecycleObserverV16(
     private val activity: ComponentActivity,
-    private val updateListener: () -> Unit
+    private val activeListener: (Boolean) -> Unit
 ) : DefaultLifecycleObserver {
 
     private val focusListener = ViewTreeObserver.OnWindowFocusChangeListener {
         if (it) {
-            updateListener.invoke()
+            activeListener.invoke(it)
         }
     }
 
@@ -26,7 +26,12 @@ internal class StatusUpdaterLifecycleObserverV16(
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
-        updateListener.invoke()
+        activeListener.invoke(true)
+    }
+
+    override fun onPause(owner: LifecycleOwner) {
+        super.onPause(owner)
+        activeListener.invoke(false)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
