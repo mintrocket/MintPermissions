@@ -13,8 +13,10 @@ internal class StatusUpdaterLifecycleObserverV16(
     private val activeListener: (Boolean) -> Unit
 ) : DefaultLifecycleObserver {
 
+    private var currentResumed = false
+
     private val focusListener = ViewTreeObserver.OnWindowFocusChangeListener {
-        if (it) {
+        if (it && currentResumed) {
             activeListener.invoke(it)
         }
     }
@@ -26,11 +28,13 @@ internal class StatusUpdaterLifecycleObserverV16(
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
+        currentResumed = true
         activeListener.invoke(true)
     }
 
     override fun onPause(owner: LifecycleOwner) {
         super.onPause(owner)
+        currentResumed = false
         activeListener.invoke(false)
     }
 
