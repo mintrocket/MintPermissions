@@ -19,8 +19,8 @@ internal class MintPermissionsManagerImpl(
             "Manager should only be initialized once per activity"
         }
         initCalled = true
-        queueManager.init(activity)
         statusManger.init(activity)
+        queueManager.init(activity)
         requestsManager.init(activity)
     }
 }

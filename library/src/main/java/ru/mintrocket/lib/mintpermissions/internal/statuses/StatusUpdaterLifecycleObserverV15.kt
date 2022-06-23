@@ -1,19 +1,20 @@
 package ru.mintrocket.lib.mintpermissions.internal.statuses
 
+import androidx.activity.ComponentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 
 internal class StatusUpdaterLifecycleObserverV15(
-    private val updateListener: () -> Unit
+    private val activeListener: (Boolean) -> Unit
 ) : DefaultLifecycleObserver {
-
-    override fun onCreate(owner: LifecycleOwner) {
-        super.onCreate(owner)
-        updateListener.invoke()
-    }
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
-        updateListener.invoke()
+        activeListener.invoke(true)
+    }
+
+    override fun onPause(owner: LifecycleOwner) {
+        super.onPause(owner)
+        activeListener.invoke(true)
     }
 }

@@ -5,11 +5,8 @@ import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import ru.mintrocket.lib.mintpermissions.ext.initMintPermissionsManager
-import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusUpdater
 
-internal class MintPermissionsActivityLifecycleListener(
-    private val statusUpdater: StatusUpdater
-) : Application.ActivityLifecycleCallbacks {
+internal class MintPermissionsActivityLifecycleListener : Application.ActivityLifecycleCallbacks {
 
     private var autoInitManagers = false
 
@@ -19,7 +16,6 @@ internal class MintPermissionsActivityLifecycleListener(
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         (activity as? ComponentActivity)?.also {
-            statusUpdater.updateStatuses(it)
             if (autoInitManagers) {
                 it.initMintPermissionsManager()
             }

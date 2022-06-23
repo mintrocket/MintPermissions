@@ -1,5 +1,6 @@
 package ru.mintrocket.lib.mintpermissions.internal.statuses
 
+import android.util.Log
 import kotlinx.coroutines.flow.*
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
@@ -22,5 +23,9 @@ class StatusesControllerImpl : StatusesController {
             }
             newMap
         }
+    }
+
+    override fun reset() {
+        statusFlow.value = null
     }
 }
