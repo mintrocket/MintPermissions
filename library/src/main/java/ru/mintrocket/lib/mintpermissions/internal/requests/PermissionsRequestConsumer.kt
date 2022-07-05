@@ -2,55 +2,38 @@ package ru.mintrocket.lib.mintpermissions.internal.requests
 
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mintrocket.lib.mintpermissions.ext.isDenied
 import ru.mintrocket.lib.mintpermissions.ext.isGranted
 import ru.mintrocket.lib.mintpermissions.ext.isNeedsRationale
-import ru.mintrocket.lib.mintpermissions.internal.models.Request
-import ru.mintrocket.lib.mintpermissions.internal.models.RequestResult
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusProvider
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionAction
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiRequest
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConsumer
 import kotlin.coroutines.resume
 
-internal class RequestsManager(
-    private val queueManager: RequestsQueueManager,
+internal class PermissionsRequestConsumer(
     private val statusProvider: StatusProvider,
-    private val requestsController: RequestsController
-) {
+) : UiRequestConsumer<List<MintPermission>, List<MintPermissionResult>> {
 
-    fun init(activity: ComponentActivity) {
-        queueManager
-            .requestFlow
-            .map { request(activity, it) }
-            .onEach {
-                queueManager.finishRequest(it.request)
-                requestsController.sendResult(it)
-            }
-            .launchIn(activity.lifecycleScope)
-    }
-
-    private suspend fun request(
+    override suspend fun request(
         activity: ComponentActivity,
-        request: Request
-    ): RequestResult = suspendCancellableCoroutine { continuation ->
+        request: UiRequest<List<MintPermission>>
+    ): List<MintPermissionResult> = suspendCancellableCoroutine { continuation ->
         val resultRegistry = activity.activityResultRegistry
         val contract = ActivityResultContracts.RequestMultiplePermissions()
         val oldMap = statusProvider
-            .getStatuses(activity, request.permissions)
+            .getStatuses(activity, request.data)
             .associateBy { it.permission }
 
-        val launcher = resultRegistry.register(request.key.toString(), contract) {
+        val launcher = resultRegistry.register(request.key, contract) {
             if (!continuation.isActive || it.isEmpty()) {
                 return@register
             }
-            val statuses = statusProvider.getStatuses(activity, request.permissions)
+            val statuses = statusProvider.getStatuses(activity, request.data)
             val newMap = statuses.associateBy { it.permission }
 
             val results = statuses.map { status ->
@@ -60,10 +43,10 @@ internal class RequestsManager(
                 val action = computeAction(permission, old, new)
                 MintPermissionResult(status, action)
             }
-            continuation.resume(RequestResult(request, results))
+            continuation.resume(results)
         }
 
-        launcher.launch(request.permissions.toTypedArray())
+        launcher.launch(request.data.toTypedArray())
         continuation.invokeOnCancellation {
             launcher.unregister()
         }

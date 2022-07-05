@@ -1,23 +1,26 @@
-package ru.mintrocket.lib.mintpermissions.internal
+package ru.mintrocket.lib.mintpermissions.tools.initializer
 
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import ru.mintrocket.lib.mintpermissions.ext.initMintPermissionsManager
 
-internal class MintPermissionsActivityLifecycleListener : Application.ActivityLifecycleCallbacks {
+internal class InitializerLifecycleListener : Application.ActivityLifecycleCallbacks {
 
-    private var autoInitManagers = false
+    private val managerInitializers = mutableListOf<ManagerInitializer>()
 
-    fun setAutoInitMangers(enabled: Boolean) {
-        autoInitManagers = enabled
+    fun addManagerInitializer(initializer: ManagerInitializer) {
+        managerInitializers.add(initializer)
+    }
+
+    fun removeManagerInitializer(initializer: ManagerInitializer) {
+        managerInitializers.remove(initializer)
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         (activity as? ComponentActivity)?.also {
-            if (autoInitManagers) {
-                it.initMintPermissionsManager()
+            managerInitializers.forEach { initializer ->
+                initializer.init(activity)
             }
         }
     }
