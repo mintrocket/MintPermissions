@@ -1,23 +1,26 @@
 package ru.mintrocket.lib.mintpermissions.internal
 
 import android.app.Application
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import ru.mintrocket.lib.mintpermissions.MintPermissionsConfig
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
 import ru.mintrocket.lib.mintpermissions.MintPermissionsManager
-import ru.mintrocket.lib.mintpermissions.internal.requests.RequestsControllerImpl
-import ru.mintrocket.lib.mintpermissions.internal.requests.RequestsManager
-import ru.mintrocket.lib.mintpermissions.internal.requests.RequestsQueueManager
+import ru.mintrocket.lib.mintpermissions.ext.initMintPermissionsManager
+import ru.mintrocket.lib.mintpermissions.internal.requests.PermissionsRequestConsumer
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusManger
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusProvider
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusUpdater
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusesControllerImpl
+import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerAutoInitializer
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestZygote
 
 internal object MintPermissionsZygote {
 
-    private val coroutineScope by lazy {
-        CoroutineScope(Dispatchers.Default)
+    private val consumer by lazy {
+        PermissionsRequestConsumer(statusProvider)
+    }
+
+    private val requestsZygote by lazy {
+        UiRequestZygote(consumer)
     }
 
     private val statusProvider by lazy {
@@ -32,42 +35,28 @@ internal object MintPermissionsZygote {
         StatusesControllerImpl()
     }
 
-    private val requestsController by lazy {
-        RequestsControllerImpl(coroutineScope)
-    }
-
     private val permissionsControllerImpl by lazy {
-        MintPermissionsControllerImpl(requestsController, statusesController)
-    }
-
-    private val lifecycleListener by lazy {
-        MintPermissionsActivityLifecycleListener()
-    }
-
-    private fun createQueueManager(): RequestsQueueManager {
-        return RequestsQueueManager(requestsController)
+        MintPermissionsControllerImpl(requestsZygote.controller, statusesController)
     }
 
     private fun createStatusManger(): StatusManger {
         return StatusManger(statusUpdater)
     }
 
-    private fun createRequestsManager(queueManager: RequestsQueueManager): RequestsManager {
-        return RequestsManager(queueManager, statusProvider, requestsController)
-    }
-
     val controller: MintPermissionsController by lazy { permissionsControllerImpl }
 
     fun init(application: Application, config: MintPermissionsConfig) {
-        lifecycleListener.setAutoInitMangers(config.autoInitManagers)
-        application.unregisterActivityLifecycleCallbacks(lifecycleListener)
-        application.registerActivityLifecycleCallbacks(lifecycleListener)
+        ManagerAutoInitializer.init(application)
+        if (config.autoInitManagers) {
+            ManagerAutoInitializer.addInitializer {
+                it.initMintPermissionsManager()
+            }
+        }
     }
 
     fun createManager(): MintPermissionsManager {
-        val queueManager = createQueueManager()
+        val queueManager = requestsZygote.createManager()
         val statusManger = createStatusManger()
-        val requestsManager = createRequestsManager(queueManager)
-        return MintPermissionsManagerImpl(queueManager, statusManger, requestsManager)
+        return MintPermissionsManagerImpl(queueManager, statusManger)
     }
 }
