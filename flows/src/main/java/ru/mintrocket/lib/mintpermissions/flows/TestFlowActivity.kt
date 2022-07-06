@@ -17,7 +17,7 @@ class TestFlowActivity : AppCompatActivity() {
         SomeLib.createManager().init(this)
         setContentView(R.layout.activity_test_flow)
 
-        val flow = SomeLib.controller
+        val flow = SomeLib.dialogsFlow
 
         findViewById<View>(R.id.button).setOnClickListener {
             lifecycleScope.launch {

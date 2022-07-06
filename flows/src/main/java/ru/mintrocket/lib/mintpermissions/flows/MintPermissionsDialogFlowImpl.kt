@@ -9,7 +9,6 @@ import ru.mintrocket.lib.mintpermissions.flows.model.DialogResult
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
-import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestController
 
 data class FlowConfig(
     val checkBeforeSettings: Boolean = true,
@@ -29,8 +28,8 @@ data class FlowResult(
 
 class MintPermissionsDialogFlowImpl(
     private val permissionsController: MintPermissionsController,
-    private val dialogsController: UiRequestController<DialogRequest, DialogResult>,
-    private val appSettingsController: UiRequestController<Unit, Unit>
+    private val dialogsController: DialogsController,
+    private val appSettingsController: AppSettingsController
 ) : MintPermissionsDialogFlow {
 
     override suspend fun request(
@@ -63,7 +62,7 @@ class MintPermissionsDialogFlowImpl(
         flowResult = when {
             rationale.isNotEmpty() -> {
                 val request = DialogRequest(DialogRequestType.NEEDS_RATIONALE, rationale, config)
-                val dialogResult = dialogsController.request(request)
+                val dialogResult = dialogsController.open(request)
                 if (dialogResult == DialogResult.ACTION) {
                     requestInner(level + 1, config, permissions)
                 } else {
@@ -72,7 +71,7 @@ class MintPermissionsDialogFlowImpl(
             }
             denied.isNotEmpty() -> {
                 val request = DialogRequest(DialogRequestType.DENIED, denied, config)
-                val dialogResult = dialogsController.request(request)
+                val dialogResult = dialogsController.open(request)
                 if (dialogResult == DialogResult.ACTION) {
                     if (config.checkBeforeSettings) {
                         requestInner(
@@ -81,7 +80,7 @@ class MintPermissionsDialogFlowImpl(
                             permissions
                         )
                     } else {
-                        appSettingsController.request(Unit)
+                        appSettingsController.open()
                         requestInner(level + 1, config, permissions)
                     }
                 } else {

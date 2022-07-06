@@ -44,15 +44,15 @@ class ContentFlowActivity : AppCompatActivity(R.layout.activity_content_flow) {
     }
 
     private fun initObservers() {
-        viewModel.deniedEvent.onEachEventNotNull {
+        /*viewModel.deniedEvent.onEachEventNotNull {
             PermissionEvents.deniedDialog(this, it)
         }.launchIn(lifecycleScope)
 
         viewModel.grantedEvent.onEachEventNotNull {
             PermissionEvents.grantedToast(this)
-        }.launchIn(lifecycleScope)
+        }.launchIn(lifecycleScope)*/
 
-        viewModel.notGrantedState
+        viewModel.notGranted
             .onEach {
                 binding.llInfo.isVisible = it != null
                 binding.btAction.text = if (it == null) {
@@ -63,7 +63,7 @@ class ContentFlowActivity : AppCompatActivity(R.layout.activity_content_flow) {
             }
             .launchIn(lifecycleScope)
 
-        viewModel.notGrantedState
+        viewModel.notGranted
             .filterNotNull()
             .onEach { status ->
                 val icon = when (status) {

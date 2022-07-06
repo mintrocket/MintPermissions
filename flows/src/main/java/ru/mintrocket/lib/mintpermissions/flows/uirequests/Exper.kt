@@ -3,6 +3,7 @@ package ru.mintrocket.lib.mintpermissions.flows.uirequests
 import androidx.activity.ComponentActivity
 import ru.mintrocket.lib.mintpermissions.MintPermissions
 import ru.mintrocket.lib.mintpermissions.flows.*
+import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerInitializer
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestZygote
 
@@ -17,16 +18,22 @@ object SomeLib {
         DialogsConsumer(consumer, mapper)
     }
     private val dialogsZygote by lazy { UiRequestZygote(KEY_REQUESTS_DIALOGS, dialogsConsumer) }
+    private val dialogsController by lazy { DialogsController(dialogsZygote.controller) }
 
     private val settingsConsumer by lazy { AppSettingsConsumer() }
     private val settingsZygote by lazy { UiRequestZygote(KEY_REQUESTS_SETTINGS, settingsConsumer) }
+    private val settingsController by lazy { AppSettingsController(settingsZygote.controller) }
 
-    val controller by lazy {
+    val dialogsFlow by lazy {
         MintPermissionsDialogFlowImpl(
             MintPermissions.controller,
-            dialogsZygote.controller,
-            settingsZygote.controller
+            dialogsController,
+            settingsController
         )
+    }
+
+    fun createPlainFlow(permissions: List<MintPermission>): MintPermissionsPlainFlow {
+        return MintPermissionsPlainFlow(permissions, MintPermissions.controller, settingsController)
     }
 
     fun createManager(): SomeLibManager = SomeLibManager(
