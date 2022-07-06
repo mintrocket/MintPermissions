@@ -3,12 +3,17 @@ package ru.mintrocket.lib.mintpermissions.flows
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
 import ru.mintrocket.lib.mintpermissions.ext.filterDenied
 import ru.mintrocket.lib.mintpermissions.ext.filterNeedsRationale
+import ru.mintrocket.lib.mintpermissions.flows.model.DialogRequest
+import ru.mintrocket.lib.mintpermissions.flows.model.DialogRequestType
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestController
 
 data class FlowConfig(
-    val checkBeforeSettings: Boolean
+    val checkBeforeSettings: Boolean = true,
+    val customContentMapper: DialogContentMapper? = null,
+    val customContentConsumer: DialogContentConsumer? = null
 )
 
 enum class FlowResultStatus {
@@ -22,9 +27,9 @@ data class FlowResult(
 )
 
 class MintPermissionsDialogFlowImpl(
-    private val dialogsController: DialogsController,
     private val permissionsController: MintPermissionsController,
-    private val appSettingsLauncher: AppSettingsLauncher
+    private val dialogsController: UiRequestController<DialogRequest, DialogResult>,
+    private val appSettingsController: UiRequestController<Unit, Unit>
 ) : MintPermissionsDialogFlow {
 
     override suspend fun request(permissions: List<MintPermission>): List<MintPermissionStatus> {
@@ -46,7 +51,8 @@ class MintPermissionsDialogFlowImpl(
 
         flowResult = when {
             rationale.isNotEmpty() -> {
-                val dialogResult = dialogsController.showDialog(rationale)
+                val request = DialogRequest(DialogRequestType.NEEDS_RATIONALE, rationale, config)
+                val dialogResult = dialogsController.request(request)
                 if (dialogResult == DialogResult.ACTION) {
                     requestInner(level + 1, config, permissions)
                 } else {
@@ -54,7 +60,8 @@ class MintPermissionsDialogFlowImpl(
                 }
             }
             denied.isNotEmpty() -> {
-                val dialogResult = dialogsController.showDialog(denied)
+                val request = DialogRequest(DialogRequestType.DENIED, denied, config)
+                val dialogResult = dialogsController.request(request)
                 if (dialogResult == DialogResult.ACTION) {
                     if (config.checkBeforeSettings) {
                         requestInner(
@@ -63,7 +70,7 @@ class MintPermissionsDialogFlowImpl(
                             permissions
                         )
                     } else {
-                        appSettingsLauncher.launchAppSettings()
+                        appSettingsController.request(Unit)
                         requestInner(level + 1, config, permissions)
                     }
                 } else {
