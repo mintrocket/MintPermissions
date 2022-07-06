@@ -5,5 +5,13 @@ import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 
 interface MintPermissionsDialogFlow {
 
-    suspend fun request(permissions: List<MintPermission>): List<MintPermissionStatus>
+    suspend fun request(
+        permission: MintPermission,
+        config: FlowConfig? = null
+    ): MintPermissionStatus
+
+    suspend fun request(
+        permissions: List<MintPermission>,
+        config: FlowConfig? = null
+    ): List<MintPermissionStatus>
 }

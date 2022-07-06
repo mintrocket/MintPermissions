@@ -4,6 +4,7 @@ package ru.mintrocket.lib.mintpermissions.flows
 import androidx.activity.ComponentActivity
 import ru.mintrocket.lib.mintpermissions.flows.model.DialogRequest
 import ru.mintrocket.lib.mintpermissions.flows.model.DialogRequestContent
+import ru.mintrocket.lib.mintpermissions.flows.model.DialogResult
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConsumer
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiRequest
 

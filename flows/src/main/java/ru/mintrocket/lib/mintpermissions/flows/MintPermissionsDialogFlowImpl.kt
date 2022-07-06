@@ -5,6 +5,7 @@ import ru.mintrocket.lib.mintpermissions.ext.filterDenied
 import ru.mintrocket.lib.mintpermissions.ext.filterNeedsRationale
 import ru.mintrocket.lib.mintpermissions.flows.model.DialogRequest
 import ru.mintrocket.lib.mintpermissions.flows.model.DialogRequestType
+import ru.mintrocket.lib.mintpermissions.flows.model.DialogResult
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
@@ -32,9 +33,19 @@ class MintPermissionsDialogFlowImpl(
     private val appSettingsController: UiRequestController<Unit, Unit>
 ) : MintPermissionsDialogFlow {
 
-    override suspend fun request(permissions: List<MintPermission>): List<MintPermissionStatus> {
-        val config = FlowConfig(checkBeforeSettings = true)
-        return requestInner(0, config, permissions).permissionResults.map { it.status }
+    override suspend fun request(
+        permission: MintPermission,
+        config: FlowConfig?
+    ): MintPermissionStatus {
+        return request(listOf(permission)).first()
+    }
+
+    override suspend fun request(
+        permissions: List<MintPermission>,
+        config: FlowConfig?
+    ): List<MintPermissionStatus> {
+        val innerConfig = config ?: FlowConfig()
+        return requestInner(0, innerConfig, permissions).permissionResults.map { it.status }
     }
 
     private suspend fun requestInner(
