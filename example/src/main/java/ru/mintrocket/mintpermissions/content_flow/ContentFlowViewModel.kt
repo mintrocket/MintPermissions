@@ -19,7 +19,7 @@ class ContentFlowViewModel(
         )
     }
 
-    private val permissionsFlow = SomeLib.createPlainFlow(cameraPermissions)
+    private val permissionsFlow = SomeLib.createPlainFlow(emptyList())
 
     val isAllGranted = permissionsFlow.isAllGrantedFlow
 

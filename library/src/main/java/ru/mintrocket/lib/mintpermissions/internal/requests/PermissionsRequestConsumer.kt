@@ -11,8 +11,8 @@ import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionAction
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
-import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiRequest
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConsumer
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiRequest
 import kotlin.coroutines.resume
 
 internal class PermissionsRequestConsumer(
@@ -29,8 +29,8 @@ internal class PermissionsRequestConsumer(
             .getStatuses(activity, request.data)
             .associateBy { it.permission }
 
-        val launcher = resultRegistry.register(request.key, contract) {
-            if (!continuation.isActive || it.isEmpty()) {
+        val launcher = resultRegistry.register(request.key, contract) { resultMap ->
+            if (!continuation.isActive || (request.data.isNotEmpty() && resultMap.isEmpty())) {
                 return@register
             }
             val statuses = statusProvider.getStatuses(activity, request.data)
