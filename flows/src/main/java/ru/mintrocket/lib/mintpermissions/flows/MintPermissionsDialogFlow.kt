@@ -8,10 +8,10 @@ interface MintPermissionsDialogFlow {
     suspend fun request(
         permission: MintPermission,
         config: FlowConfig? = null
-    ): FlowResult
+    ): FlowResultStatus
 
     suspend fun request(
         permissions: List<MintPermission>,
         config: FlowConfig? = null
-    ): FlowMultipleResult
+    ): FlowResultStatus
 }

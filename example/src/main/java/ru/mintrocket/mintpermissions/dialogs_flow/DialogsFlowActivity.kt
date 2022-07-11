@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.flow.launchIn
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.mintrocket.lib.mintpermissions.flows.uirequests.SomeLib
 import ru.mintrocket.mintpermissions.R
 import ru.mintrocket.mintpermissions.common.PermissionEvents
 import ru.mintrocket.mintpermissions.common.Routes
@@ -19,6 +20,7 @@ class DialogsFlowActivity : AppCompatActivity(R.layout.activity_dialogs_flow) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        SomeLib.createManager().init(this)
         initViews()
         initObservers()
     }
@@ -28,7 +30,7 @@ class DialogsFlowActivity : AppCompatActivity(R.layout.activity_dialogs_flow) {
             finish()
         }
         binding.btCamera.setOnClickListener {
-            viewModel.onActionClick(false)
+            viewModel.onActionClick()
         }
         binding.llButtons.btNextActivity.setOnClickListener {
             Routes.dialogsFlow(this)
@@ -41,20 +43,6 @@ class DialogsFlowActivity : AppCompatActivity(R.layout.activity_dialogs_flow) {
     private fun initObservers() {
         viewModel.grantedEvent.onEachEventNotNull {
             PermissionEvents.grantedToast(this)
-        }.launchIn(lifecycleScope)
-
-        viewModel.deniedEvent.onEachEventNotNull {
-            PermissionEvents.deniedDialog(this, it)
-        }.launchIn(lifecycleScope)
-
-        viewModel.rationaleEvent.onEachEventNotNull {
-            PermissionEvents.rationaleDialog(this, it) {
-                viewModel.onActionClick(true)
-            }
-        }.launchIn(lifecycleScope)
-
-        viewModel.deniedPermanentlyEvent.onEachEventNotNull {
-            PermissionEvents.deniedPermanentlyDialog(this, it)
         }.launchIn(lifecycleScope)
     }
 }

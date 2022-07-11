@@ -15,11 +15,11 @@ class ContentFlowViewModel(
     companion object {
         private val cameraPermissions = listOf(
             Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.RECORD_AUDIO
         )
     }
 
-    private val permissionsFlow = SomeLib.createPlainFlow(emptyList())
+    private val permissionsFlow = SomeLib.createPlainFlow(cameraPermissions)
 
     val isAllGranted = permissionsFlow.isAllGrantedFlow
 
@@ -27,15 +27,13 @@ class ContentFlowViewModel(
 
     init {
         viewModelScope.launch {
-            permissionsFlow.initialRequest()
+            //permissionsFlow.initialRequest()
         }
     }
 
     fun onActionClick() {
         viewModelScope.launch {
-            permissionsFlow.request().also {
-                Log.w("kekeke", "permissionsFlow $it")
-            }
+            permissionsFlow.requestSequentially()
         }
     }
 }

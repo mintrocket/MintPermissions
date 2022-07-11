@@ -30,19 +30,18 @@ class MintPermissionsPlainFlow(
         .distinctUntilChanged()
 
     suspend fun initialRequest() {
-        permissionsController.request(permissions).also {
-            Log.w("kekeke", "MintPermissionsPlainFlow $it")
-        }
+        permissionsController.request(permissions)
     }
 
     suspend fun request(): FlowResultStatus {
-        return dialogFlow.request(permissions, flowConfig).status
+        return dialogFlow.request(permissions, flowConfig)
     }
 
     suspend fun requestSequentially(): FlowResultStatus {
+        Log.e("kekeke", "requestSequentially $permissions with $flowConfig")
         permissions.forEach {
             val result = dialogFlow.request(it, flowConfig)
-            if (result.status == FlowResultStatus.CANCELED) {
+            if (result == FlowResultStatus.CANCELED) {
                 return FlowResultStatus.CANCELED
             }
         }
