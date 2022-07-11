@@ -1,15 +1,12 @@
 package ru.mintrocket.mintpermissions.content_flow
 
 import android.Manifest
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
 import ru.mintrocket.lib.mintpermissions.flows.uirequests.SomeLib
-import ru.mintrocket.lib.mintpermissions.models.MintPermission
-import ru.mintrocket.mintpermissions.common.Event
 
 class ContentFlowViewModel(
     private val permissionsController: MintPermissionsController
@@ -36,7 +33,9 @@ class ContentFlowViewModel(
 
     fun onActionClick() {
         viewModelScope.launch {
-            permissionsFlow.requestNext()
+            permissionsFlow.request().also {
+                Log.w("kekeke", "permissionsFlow $it")
+            }
         }
     }
 }

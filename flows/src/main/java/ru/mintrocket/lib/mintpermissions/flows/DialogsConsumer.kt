@@ -10,16 +10,17 @@ import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiRequest
 
 internal class DialogsConsumer(
     private val contentConsumer: DialogContentConsumer,
-    private val mapper: DialogContentMapper
+    private val contentMapper: DialogContentMapper
 ) : UiRequestConsumer<DialogRequest, DialogResult> {
 
     override suspend fun request(
         activity: ComponentActivity,
         request: UiRequest<DialogRequest>
     ): DialogResult {
-        val config = request.data.config
-        val content = (config.customContentMapper ?: mapper).map(activity, request.data)
+        val actualMapper = request.data.customContentMapper ?: contentMapper
+        val actualConsumer = request.data.customContentConsumer ?: contentConsumer
+        val content = actualMapper.map(activity, request.data)
         val contentRequest = DialogRequestContent(request, content)
-        return (config.customContentConsumer ?: contentConsumer).request(activity, contentRequest)
+        return actualConsumer.request(activity, contentRequest)
     }
 }

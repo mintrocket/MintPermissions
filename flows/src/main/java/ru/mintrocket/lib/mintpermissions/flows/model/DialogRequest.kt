@@ -1,12 +1,14 @@
 package ru.mintrocket.lib.mintpermissions.flows.model
 
-import ru.mintrocket.lib.mintpermissions.flows.FlowConfig
+import ru.mintrocket.lib.mintpermissions.flows.DialogContentConsumer
+import ru.mintrocket.lib.mintpermissions.flows.DialogContentMapper
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
 
 data class DialogRequest(
     val type: DialogRequestType,
     val results: List<MintPermissionResult>,
-    val config: FlowConfig
+    val customContentMapper: DialogContentMapper?,
+    val customContentConsumer: DialogContentConsumer?
 )
 
 enum class DialogRequestType {

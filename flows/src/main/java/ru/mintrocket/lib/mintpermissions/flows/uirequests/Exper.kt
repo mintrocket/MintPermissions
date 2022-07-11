@@ -26,6 +26,7 @@ object SomeLib {
 
     val dialogsFlow by lazy {
         MintPermissionsDialogFlowImpl(
+            FlowConfig(),
             MintPermissions.controller,
             dialogsController,
             settingsController
@@ -35,7 +36,10 @@ object SomeLib {
     fun createPlainFlow(permissions: List<MintPermission>): MintPermissionsPlainFlow {
         return MintPermissionsPlainFlow(
             permissions,
-            FlowConfig(checkBeforeSettings = false),
+            FlowConfig(
+                showNeedsRationale = false,
+                checkBeforeSettings = false
+            ),
             MintPermissions.controller,
             dialogsFlow
         )

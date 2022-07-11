@@ -8,9 +8,9 @@ import ru.mintrocket.lib.mintpermissions.flows.model.DialogRequestType
 import ru.mintrocket.lib.mintpermissions.flows.model.DialogResult
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
-import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 
 data class FlowConfig(
+    val showNeedsRationale: Boolean = true,
     val checkBeforeSettings: Boolean = true,
     val customContentMapper: DialogContentMapper? = null,
     val customContentConsumer: DialogContentConsumer? = null
@@ -21,12 +21,18 @@ enum class FlowResultStatus {
     SUCCESS
 }
 
-data class FlowResult(
+data class FlowMultipleResult(
     val status: FlowResultStatus,
     val permissionResults: List<MintPermissionResult>
 )
 
+data class FlowResult(
+    val status: FlowResultStatus,
+    val permissionResult: MintPermissionResult
+)
+
 class MintPermissionsDialogFlowImpl(
+    private val defaultFlowConfig: FlowConfig,
     private val permissionsController: MintPermissionsController,
     private val dialogsController: DialogsController,
     private val appSettingsController: AppSettingsController
@@ -35,33 +41,43 @@ class MintPermissionsDialogFlowImpl(
     override suspend fun request(
         permission: MintPermission,
         config: FlowConfig?
-    ): MintPermissionStatus {
-        return request(listOf(permission)).first()
+    ): FlowResult {
+        return request(listOf(permission)).let {
+            FlowResult(it.status, it.permissionResults.first())
+        }
     }
 
     override suspend fun request(
         permissions: List<MintPermission>,
         config: FlowConfig?
-    ): List<MintPermissionStatus> {
-        val innerConfig = config ?: FlowConfig()
-        return requestInner(0, innerConfig, permissions).permissionResults.map { it.status }
+    ): FlowMultipleResult {
+        val innerConfig = config ?: defaultFlowConfig
+        return requestInner(0, innerConfig, permissions)
     }
 
     private suspend fun requestInner(
         level: Int,
         config: FlowConfig,
         permissions: List<MintPermission>
-    ): FlowResult {
-        var permissionsResult = permissionsController.request(permissions)
-        var flowResult = FlowResult(FlowResultStatus.SUCCESS, permissionsResult)
+    ): FlowMultipleResult {
+        val permissionsResult = permissionsController.request(permissions)
+        var flowResult = FlowMultipleResult(FlowResultStatus.SUCCESS, permissionsResult)
 
-
-        val rationale = permissionsResult.filterNeedsRationale()
+        val rationale = if (config.showNeedsRationale) {
+            permissionsResult.filterNeedsRationale()
+        } else {
+            emptyList()
+        }
         val denied = permissionsResult.filterDenied()
 
         flowResult = when {
             rationale.isNotEmpty() -> {
-                val request = DialogRequest(DialogRequestType.NEEDS_RATIONALE, rationale, config)
+                val request = DialogRequest(
+                    DialogRequestType.NEEDS_RATIONALE,
+                    rationale,
+                    config.customContentMapper,
+                    config.customContentConsumer
+                )
                 val dialogResult = dialogsController.open(request)
                 if (dialogResult == DialogResult.ACTION) {
                     requestInner(level + 1, config, permissions)
@@ -70,7 +86,12 @@ class MintPermissionsDialogFlowImpl(
                 }
             }
             denied.isNotEmpty() -> {
-                val request = DialogRequest(DialogRequestType.DENIED, denied, config)
+                val request = DialogRequest(
+                    DialogRequestType.DENIED,
+                    denied,
+                    config.customContentMapper,
+                    config.customContentConsumer
+                )
                 val dialogResult = dialogsController.open(request)
                 if (dialogResult == DialogResult.ACTION) {
                     if (config.checkBeforeSettings) {

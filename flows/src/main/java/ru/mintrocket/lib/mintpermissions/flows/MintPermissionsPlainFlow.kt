@@ -1,5 +1,6 @@
 package ru.mintrocket.lib.mintpermissions.flows
 
+import android.util.Log
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
@@ -29,11 +30,23 @@ class MintPermissionsPlainFlow(
         .distinctUntilChanged()
 
     suspend fun initialRequest() {
-        permissionsController.request(permissions)
+        permissionsController.request(permissions).also {
+            Log.w("kekeke", "MintPermissionsPlainFlow $it")
+        }
     }
 
-    suspend fun requestNext() {
-        dialogFlow.request(permissions, flowConfig)
+    suspend fun request(): FlowResultStatus {
+        return dialogFlow.request(permissions, flowConfig).status
+    }
+
+    suspend fun requestSequentially(): FlowResultStatus {
+        permissions.forEach {
+            val result = dialogFlow.request(it, flowConfig)
+            if (result.status == FlowResultStatus.CANCELED) {
+                return FlowResultStatus.CANCELED
+            }
+        }
+        return FlowResultStatus.SUCCESS
     }
 
 }
