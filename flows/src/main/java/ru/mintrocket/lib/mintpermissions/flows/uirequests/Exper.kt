@@ -33,7 +33,12 @@ object SomeLib {
     }
 
     fun createPlainFlow(permissions: List<MintPermission>): MintPermissionsPlainFlow {
-        return MintPermissionsPlainFlow(permissions, MintPermissions.controller, settingsController)
+        return MintPermissionsPlainFlow(
+            permissions,
+            FlowConfig(checkBeforeSettings = false),
+            MintPermissions.controller,
+            dialogsFlow
+        )
     }
 
     fun createManager(): SomeLibManager = SomeLibManager(
