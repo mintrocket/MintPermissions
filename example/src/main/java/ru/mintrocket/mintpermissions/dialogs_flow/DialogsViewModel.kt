@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
-import ru.mintrocket.lib.mintpermissions.flows.FlowResultStatus
-import ru.mintrocket.lib.mintpermissions.flows.uirequests.MintPermissionsFlowZygote
+import ru.mintrocket.lib.mintpermissions.flows.internal.FlowResultStatus
+import ru.mintrocket.lib.mintpermissions.flows.internal.MintPermissionsFlowZygote
 import ru.mintrocket.mintpermissions.common.Event
 
 class DialogsViewModel(

@@ -1,4 +1,4 @@
-package ru.mintrocket.lib.mintpermissions.flows.uirequests
+package ru.mintrocket.lib.mintpermissions.flows
 
 import androidx.activity.ComponentActivity
 

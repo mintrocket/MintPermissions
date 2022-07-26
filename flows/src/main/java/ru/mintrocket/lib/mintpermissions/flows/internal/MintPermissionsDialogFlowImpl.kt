@@ -1,9 +1,12 @@
-package ru.mintrocket.lib.mintpermissions.flows
+package ru.mintrocket.lib.mintpermissions.flows.internal
 
 import android.util.Log
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
 import ru.mintrocket.lib.mintpermissions.ext.filterDenied
 import ru.mintrocket.lib.mintpermissions.ext.filterNeedsRationale
+import ru.mintrocket.lib.mintpermissions.flows.*
+import ru.mintrocket.lib.mintpermissions.flows.ui.DialogContentConsumer
+import ru.mintrocket.lib.mintpermissions.flows.ui.DialogContentMapper
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequest
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequestType
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogResult
@@ -33,11 +36,11 @@ data class FlowResult(
     val permissionResult: MintPermissionResult
 )
 
-class MintPermissionsDialogFlowImpl(
+internal class MintPermissionsDialogFlowImpl(
     private val defaultFlowConfig: FlowConfig,
     private val permissionsController: MintPermissionsController,
-    private val dialogsController: DialogsController,
-    private val appSettingsController: AppSettingsController
+    private val dialogsController: DialogsControllerImpl,
+    private val appSettingsController: AppSettingsControllerImpl
 ) : MintPermissionsDialogFlow {
 
     override suspend fun request(
@@ -148,7 +151,7 @@ class MintPermissionsDialogFlowImpl(
                 val checkerConfig = config.copy(checkBeforeSettings = false)
                 requestInner(checkerConfig, permissions)
             } else {
-                appSettingsController.open()
+                appSettingsController.openSettings()
                 requestInner(config, permissions)
             }
         } else {

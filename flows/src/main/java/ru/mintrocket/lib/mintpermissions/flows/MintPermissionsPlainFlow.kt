@@ -1,6 +1,7 @@
 package ru.mintrocket.lib.mintpermissions.flows
 
 import kotlinx.coroutines.flow.Flow
+import ru.mintrocket.lib.mintpermissions.flows.internal.FlowResultStatus
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 
 interface MintPermissionsPlainFlow {

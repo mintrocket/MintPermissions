@@ -6,7 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.flow.launchIn
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import ru.mintrocket.lib.mintpermissions.flows.uirequests.MintPermissionsFlowZygote
+import ru.mintrocket.lib.mintpermissions.flows.internal.MintPermissionsFlowZygote
 import ru.mintrocket.mintpermissions.R
 import ru.mintrocket.mintpermissions.common.PermissionEvents
 import ru.mintrocket.mintpermissions.common.Routes

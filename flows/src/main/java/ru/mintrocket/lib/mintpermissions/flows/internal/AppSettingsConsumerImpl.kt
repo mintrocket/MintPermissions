@@ -1,4 +1,4 @@
-package ru.mintrocket.lib.mintpermissions.flows
+package ru.mintrocket.lib.mintpermissions.flows.internal
 
 import android.content.Intent
 import android.net.Uri
@@ -11,7 +11,7 @@ import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
 import java.util.*
 import kotlin.coroutines.resume
 
-class AppSettingsConsumer : UiRequestConsumer<Unit, Unit> {
+internal class AppSettingsConsumerImpl : UiRequestConsumer<Unit, Unit> {
 
     override suspend fun request(activity: ComponentActivity, request: UiRequest<Unit>) {
         suspendCancellableCoroutine<Unit> { continuation ->

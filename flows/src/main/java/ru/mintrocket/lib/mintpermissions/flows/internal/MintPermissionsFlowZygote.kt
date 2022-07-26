@@ -1,10 +1,11 @@
-package ru.mintrocket.lib.mintpermissions.flows.uirequests
+package ru.mintrocket.lib.mintpermissions.flows.internal
 
 import android.app.Application
 import ru.mintrocket.lib.mintpermissions.MintPermissions
 import ru.mintrocket.lib.mintpermissions.MintPermissionsConfig
 import ru.mintrocket.lib.mintpermissions.ext.initMintPermissionsManager
-import ru.mintrocket.lib.mintpermissions.flows.*
+import ru.mintrocket.lib.mintpermissions.flows.ui.DefaultDialogContentConsumerImpl
+import ru.mintrocket.lib.mintpermissions.flows.ui.DefaultDialogRequestMapperImpl
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerAutoInitializer
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestZygote
@@ -17,14 +18,14 @@ internal object MintPermissionsFlowZygote {
     private val dialogsConsumer by lazy {
         val consumer = DefaultDialogContentConsumerImpl()
         val mapper = DefaultDialogRequestMapperImpl()
-        DialogsConsumer(consumer, mapper)
+        DialogsConsumerImpl(consumer, mapper)
     }
     private val dialogsZygote by lazy { UiRequestZygote(KEY_REQUESTS_DIALOGS, dialogsConsumer) }
-    private val dialogsController by lazy { DialogsController(dialogsZygote.controller) }
+    val dialogsController by lazy { DialogsControllerImpl(dialogsZygote.controller) }
 
-    private val settingsConsumer by lazy { AppSettingsConsumer() }
+    private val settingsConsumer by lazy { AppSettingsConsumerImpl() }
     private val settingsZygote by lazy { UiRequestZygote(KEY_REQUESTS_SETTINGS, settingsConsumer) }
-    private val settingsController by lazy { AppSettingsController(settingsZygote.controller) }
+    val settingsController by lazy { AppSettingsControllerImpl(settingsZygote.controller) }
 
     val dialogsFlow by lazy {
         MintPermissionsDialogFlowImpl(

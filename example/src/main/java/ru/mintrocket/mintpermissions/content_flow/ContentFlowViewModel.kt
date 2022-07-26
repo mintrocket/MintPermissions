@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
-import ru.mintrocket.lib.mintpermissions.flows.uirequests.MintPermissionsFlowZygote
+import ru.mintrocket.lib.mintpermissions.flows.internal.MintPermissionsFlowZygote
 
 class ContentFlowViewModel(
     private val permissionsController: MintPermissionsController

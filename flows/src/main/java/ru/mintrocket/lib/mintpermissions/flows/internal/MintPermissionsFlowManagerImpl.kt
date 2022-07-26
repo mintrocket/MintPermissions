@@ -1,9 +1,10 @@
-package ru.mintrocket.lib.mintpermissions.flows.uirequests
+package ru.mintrocket.lib.mintpermissions.flows.internal
 
 import androidx.activity.ComponentActivity
+import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsFlowManager
 import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerInitializer
 
-class MintPermissionsFlowManagerImpl(
+internal class MintPermissionsFlowManagerImpl(
     private val dialogsManager: ManagerInitializer,
     private val settingsManager: ManagerInitializer,
 ) : MintPermissionsFlowManager {

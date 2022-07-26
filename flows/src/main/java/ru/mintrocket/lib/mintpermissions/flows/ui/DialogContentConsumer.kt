@@ -1,4 +1,4 @@
-package ru.mintrocket.lib.mintpermissions.flows
+package ru.mintrocket.lib.mintpermissions.flows.ui
 
 import androidx.activity.ComponentActivity
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequestContent

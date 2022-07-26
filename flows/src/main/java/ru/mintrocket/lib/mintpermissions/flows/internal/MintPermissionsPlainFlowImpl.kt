@@ -1,4 +1,4 @@
-package ru.mintrocket.lib.mintpermissions.flows
+package ru.mintrocket.lib.mintpermissions.flows.internal
 
 import android.util.Log
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -6,9 +6,11 @@ import kotlinx.coroutines.flow.map
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
 import ru.mintrocket.lib.mintpermissions.ext.filterNotGranted
 import ru.mintrocket.lib.mintpermissions.ext.isAllGranted
+import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsDialogFlow
+import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsPlainFlow
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 
-class MintPermissionsPlainFlowImpl(
+internal class MintPermissionsPlainFlowImpl(
     private val permissions: List<MintPermission>,
     private val flowConfig: FlowConfig,
     private val permissionsController: MintPermissionsController,
