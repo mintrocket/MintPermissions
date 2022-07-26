@@ -10,12 +10,10 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import ru.mintrocket.lib.mintpermissions.flows.uirequests.SomeLib
+import ru.mintrocket.lib.mintpermissions.flows.uirequests.MintPermissionsFlowZygote
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 import ru.mintrocket.mintpermissions.R
-import ru.mintrocket.mintpermissions.common.PermissionEvents
 import ru.mintrocket.mintpermissions.common.Routes
-import ru.mintrocket.mintpermissions.common.onEachEventNotNull
 import ru.mintrocket.mintpermissions.databinding.ActivityContentFlowBinding
 
 class ContentFlowActivity : AppCompatActivity(R.layout.activity_content_flow) {
@@ -25,7 +23,7 @@ class ContentFlowActivity : AppCompatActivity(R.layout.activity_content_flow) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        SomeLib.createManager().init(this)
+        MintPermissionsFlowZygote.createManager().init(this)
         initViews()
         initObservers()
     }

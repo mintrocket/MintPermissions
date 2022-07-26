@@ -1,12 +1,11 @@
 package ru.mintrocket.mintpermissions.content_flow
 
 import android.Manifest
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
-import ru.mintrocket.lib.mintpermissions.flows.uirequests.SomeLib
+import ru.mintrocket.lib.mintpermissions.flows.uirequests.MintPermissionsFlowZygote
 
 class ContentFlowViewModel(
     private val permissionsController: MintPermissionsController
@@ -19,7 +18,7 @@ class ContentFlowViewModel(
         )
     }
 
-    private val permissionsFlow = SomeLib.createPlainFlow(cameraPermissions)
+    private val permissionsFlow = MintPermissionsFlowZygote.createPlainFlow(cameraPermissions)
 
     val isAllGranted = permissionsFlow.isAllGrantedFlow
 

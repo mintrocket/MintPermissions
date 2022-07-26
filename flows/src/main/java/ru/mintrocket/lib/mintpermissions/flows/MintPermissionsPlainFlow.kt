@@ -1,51 +1,16 @@
 package ru.mintrocket.lib.mintpermissions.flows
 
-import android.util.Log
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
-import ru.mintrocket.lib.mintpermissions.MintPermissionsController
-import ru.mintrocket.lib.mintpermissions.ext.filterNotGranted
-import ru.mintrocket.lib.mintpermissions.ext.isAllGranted
-import ru.mintrocket.lib.mintpermissions.models.MintPermission
+import kotlinx.coroutines.flow.Flow
+import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 
-class MintPermissionsPlainFlow(
-    private val permissions: List<MintPermission>,
-    private val flowConfig: FlowConfig,
-    private val permissionsController: MintPermissionsController,
-    private val dialogFlow: MintPermissionsDialogFlow
-) {
+interface MintPermissionsPlainFlow {
+    val isAllGrantedFlow: Flow<Boolean>
+    val notGrantedFlow: Flow<List<MintPermissionStatus>>
+    val firstNotGrantedFlow: Flow<MintPermissionStatus?>
 
-    val isAllGrantedFlow = permissionsController
-        .observe(permissions)
-        .map { it.isAllGranted() }
-        .distinctUntilChanged()
+    suspend fun initialRequest()
 
-    val notGrantedFlow = permissionsController
-        .observe(permissions)
-        .map { it.filterNotGranted() }
-        .distinctUntilChanged()
+    suspend fun request(): FlowResultStatus
 
-    val firstNotGrantedFlow = notGrantedFlow
-        .map { it.firstOrNull() }
-        .distinctUntilChanged()
-
-    suspend fun initialRequest() {
-        permissionsController.request(permissions)
-    }
-
-    suspend fun request(): FlowResultStatus {
-        return dialogFlow.request(permissions, flowConfig)
-    }
-
-    suspend fun requestSequentially(): FlowResultStatus {
-        Log.e("kekeke", "requestSequentially $permissions with $flowConfig")
-        permissions.forEach {
-            val result = dialogFlow.request(it, flowConfig)
-            if (result == FlowResultStatus.CANCELED) {
-                return FlowResultStatus.CANCELED
-            }
-        }
-        return FlowResultStatus.SUCCESS
-    }
-
+    suspend fun requestSequentially(): FlowResultStatus
 }
