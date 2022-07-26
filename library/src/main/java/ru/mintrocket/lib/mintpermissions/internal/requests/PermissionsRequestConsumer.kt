@@ -12,7 +12,7 @@ import ru.mintrocket.lib.mintpermissions.models.MintPermissionAction
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConsumer
-import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiRequest
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
 import kotlin.coroutines.resume
 
 internal class PermissionsRequestConsumer(

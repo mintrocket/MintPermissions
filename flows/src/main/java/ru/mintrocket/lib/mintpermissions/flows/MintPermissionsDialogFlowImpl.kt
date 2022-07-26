@@ -4,9 +4,9 @@ import android.util.Log
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
 import ru.mintrocket.lib.mintpermissions.ext.filterDenied
 import ru.mintrocket.lib.mintpermissions.ext.filterNeedsRationale
-import ru.mintrocket.lib.mintpermissions.flows.model.DialogRequest
-import ru.mintrocket.lib.mintpermissions.flows.model.DialogRequestType
-import ru.mintrocket.lib.mintpermissions.flows.model.DialogResult
+import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequest
+import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequestType
+import ru.mintrocket.lib.mintpermissions.flows.models.DialogResult
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
 

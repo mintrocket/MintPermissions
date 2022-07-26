@@ -2,11 +2,11 @@ package ru.mintrocket.lib.mintpermissions.flows
 
 
 import androidx.activity.ComponentActivity
-import ru.mintrocket.lib.mintpermissions.flows.model.DialogRequest
-import ru.mintrocket.lib.mintpermissions.flows.model.DialogRequestContent
-import ru.mintrocket.lib.mintpermissions.flows.model.DialogResult
+import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequest
+import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequestContent
+import ru.mintrocket.lib.mintpermissions.flows.models.DialogResult
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConsumer
-import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiRequest
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
 
 internal class DialogsConsumer(
     private val contentConsumer: DialogContentConsumer,

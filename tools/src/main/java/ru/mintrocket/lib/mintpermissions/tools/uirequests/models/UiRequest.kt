@@ -1,4 +1,4 @@
-package ru.mintrocket.lib.mintpermissions.tools.uirequests.model
+package ru.mintrocket.lib.mintpermissions.tools.uirequests.models
 
 import java.io.Serializable
 

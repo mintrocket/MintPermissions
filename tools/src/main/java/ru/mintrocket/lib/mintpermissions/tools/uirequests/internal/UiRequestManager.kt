@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.onEach
 import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerInitializer
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConfig
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConsumer
-import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiResult
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiResult
 
 internal class UiRequestManager<T, R>(
     private val zygoteKey: String,

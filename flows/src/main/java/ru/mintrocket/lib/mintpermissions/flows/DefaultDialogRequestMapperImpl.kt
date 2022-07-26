@@ -1,8 +1,8 @@
 package ru.mintrocket.lib.mintpermissions.flows
 
 import android.content.Context
-import ru.mintrocket.lib.mintpermissions.flows.model.DialogContent
-import ru.mintrocket.lib.mintpermissions.flows.model.DialogRequest
+import ru.mintrocket.lib.mintpermissions.flows.models.DialogContent
+import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequest
 
 class DefaultDialogRequestMapperImpl : DialogContentMapper {
 

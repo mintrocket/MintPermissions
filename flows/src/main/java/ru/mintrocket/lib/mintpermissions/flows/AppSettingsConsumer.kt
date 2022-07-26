@@ -7,7 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConsumer
-import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiRequest
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
 import java.util.*
 import kotlin.coroutines.resume
 

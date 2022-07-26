@@ -1,4 +1,4 @@
-package ru.mintrocket.lib.mintpermissions.flows.model
+package ru.mintrocket.lib.mintpermissions.flows.models
 
 data class DialogContent(
     val title: CharSequence?,

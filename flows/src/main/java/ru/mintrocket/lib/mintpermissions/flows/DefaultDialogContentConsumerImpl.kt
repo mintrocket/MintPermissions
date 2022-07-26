@@ -3,8 +3,8 @@ package ru.mintrocket.lib.mintpermissions.flows
 import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AlertDialog
 import kotlinx.coroutines.suspendCancellableCoroutine
-import ru.mintrocket.lib.mintpermissions.flows.model.DialogRequestContent
-import ru.mintrocket.lib.mintpermissions.flows.model.DialogResult
+import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequestContent
+import ru.mintrocket.lib.mintpermissions.flows.models.DialogResult
 import kotlin.coroutines.resume
 
 class DefaultDialogContentConsumerImpl : DialogContentConsumer {

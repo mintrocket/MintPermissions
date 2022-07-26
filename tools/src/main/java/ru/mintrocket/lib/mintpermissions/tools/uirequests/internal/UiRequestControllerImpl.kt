@@ -4,8 +4,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestController
-import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiRequest
-import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiResult
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiResult
 import java.util.*
 
 internal class UiRequestControllerImpl<T, R>(

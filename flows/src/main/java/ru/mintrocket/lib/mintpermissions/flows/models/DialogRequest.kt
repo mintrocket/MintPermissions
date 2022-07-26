@@ -1,4 +1,4 @@
-package ru.mintrocket.lib.mintpermissions.flows.model
+package ru.mintrocket.lib.mintpermissions.flows.models
 
 import ru.mintrocket.lib.mintpermissions.flows.DialogContentConsumer
 import ru.mintrocket.lib.mintpermissions.flows.DialogContentMapper

@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConfig
-import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiRequest
-import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiResult
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiResult
 
 internal class UiRequestViewModel<T, R>(
     private val handle: SavedStateHandle,
