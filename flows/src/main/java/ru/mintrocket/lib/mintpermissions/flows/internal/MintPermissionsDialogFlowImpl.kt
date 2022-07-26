@@ -151,7 +151,7 @@ internal class MintPermissionsDialogFlowImpl(
                 val checkerConfig = config.copy(checkBeforeSettings = false)
                 requestInner(checkerConfig, permissions)
             } else {
-                appSettingsController.openSettings()
+                appSettingsController.open()
                 requestInner(config, permissions)
             }
         } else {

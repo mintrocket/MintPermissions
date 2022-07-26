@@ -7,5 +7,5 @@ internal class AppSettingsControllerImpl(
     private val requestController: UiRequestController<Unit, Unit>,
 ) : AppSettingsController {
 
-    override suspend fun openSettings() = requestController.request(Unit)
+    override suspend fun open() = requestController.request(Unit)
 }
