@@ -19,8 +19,8 @@ internal class DialogsConsumerImpl(
         activity: ComponentActivity,
         request: UiRequest<DialogRequest>
     ): DialogResult {
-        val actualMapper = request.data.customContentMapper ?: contentMapper
-        val actualConsumer = request.data.customContentConsumer ?: contentConsumer
+        val actualMapper = request.data.contentMapper ?: contentMapper
+        val actualConsumer = request.data.contentConsumer ?: contentConsumer
         val content = actualMapper.map(activity, request.data)
         val contentRequest = DialogRequestContent(request, content)
         return actualConsumer.request(activity, contentRequest)

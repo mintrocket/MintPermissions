@@ -95,8 +95,8 @@ internal class MintPermissionsDialogFlowImpl(
         val request = DialogRequest(
             group = DialogRequestGroup.NEEDS_RATIONALE,
             results = rationaleResults,
-            customContentMapper = config.customContentMapper,
-            customContentConsumer = config.customContentConsumer
+            contentMapper = config.customContentMapper,
+            contentConsumer = config.customContentConsumer
         )
         val dialogResult = if (config.showNeedsRationale) {
             dialogsController.open(request)
@@ -118,8 +118,8 @@ internal class MintPermissionsDialogFlowImpl(
         val request = DialogRequest(
             group = DialogRequestGroup.DENIED,
             results = deniedResults,
-            customContentMapper = config.customContentMapper,
-            customContentConsumer = config.customContentConsumer
+            contentMapper = config.customContentMapper,
+            contentConsumer = config.customContentConsumer
         )
         val dialogResult = dialogsController.open(request)
         return if (dialogResult == DialogResult.ACTION) {

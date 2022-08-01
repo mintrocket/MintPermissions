@@ -9,8 +9,6 @@ interface MintPermissionsPlainFlow {
     val notGrantedFlow: Flow<List<MintPermissionStatus>>
     val firstNotGrantedFlow: Flow<MintPermissionStatus?>
 
-    suspend fun initialRequest()
-
     suspend fun request(): FlowResultStatus
 
     suspend fun requestSequentially(): FlowResultStatus

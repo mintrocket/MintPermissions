@@ -33,10 +33,6 @@ internal class MintPermissionsPlainFlowImpl(
         .map { it.firstOrNull() }
         .distinctUntilChanged()
 
-    override suspend fun initialRequest() {
-        permissionsController.request(permissions)
-    }
-
     override suspend fun request(): FlowResultStatus {
         return dialogFlow.request(permissions, flowConfig)
     }

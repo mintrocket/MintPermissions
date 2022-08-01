@@ -18,9 +18,7 @@ internal class AppSettingsConsumerImpl : UiRequestConsumer<Unit, Unit> {
             val resultRegistry = activity.activityResultRegistry
             val contract = ActivityResultContracts.StartActivityForResult()
 
-            val key = UUID.randomUUID()
-
-            val launcher = resultRegistry.register(key.toString(), contract) { result ->
+            val launcher = resultRegistry.register(request.key, contract) {
                 continuation.resume(Unit)
             }
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {

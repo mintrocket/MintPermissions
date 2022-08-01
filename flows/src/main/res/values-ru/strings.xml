@@ -1,0 +1,8 @@
+<resources>
+    <string name="mint_flow_dialog_title">Требуется доступ к %s</string>
+    <string name="mint_flow_dialog_rationale_message">Приложению необходим доступ к %s для того, чтобы эта функция работала.\nМы с уважением относимся к приватным данным пользователя и используем эти разрешения только когда это действительно необходимо.</string>
+    <string name="mint_flow_dialog_denied_message">Чтобы дать разрешение, перейдите в настройки устройства и откройте доступ этому приложению доступ к: %s.</string>
+    <string name="mint_flow_dialog_cancel">Не сейчас</string>
+    <string name="mint_flow_dialog_rationale_action">Понятно</string>
+    <string name="mint_flow_dialog_denied_action">Открыть настройки</string>
+</resources>

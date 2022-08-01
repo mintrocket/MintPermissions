@@ -7,6 +7,6 @@ import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
 data class DialogRequest(
     val group: DialogRequestGroup,
     val results: List<MintPermissionResult>,
-    val customContentMapper: DialogContentMapper?,
-    val customContentConsumer: DialogContentConsumer?
+    val contentMapper: DialogContentMapper?,
+    val contentConsumer: DialogContentConsumer?
 )

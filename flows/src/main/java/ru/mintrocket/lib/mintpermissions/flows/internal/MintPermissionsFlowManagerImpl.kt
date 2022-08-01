@@ -9,7 +9,13 @@ internal class MintPermissionsFlowManagerImpl(
     private val settingsManager: ManagerInitializer,
 ) : MintPermissionsFlowManager {
 
+    private var initCalled = false
+
     override fun init(activity: ComponentActivity) {
+        require(!initCalled) {
+            "Manager should only be initialized once per activity"
+        }
+        initCalled = true
         dialogsManager.init(activity)
         settingsManager.init(activity)
     }
