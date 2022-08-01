@@ -77,6 +77,9 @@ internal class MintPermissionsDialogFlowImpl(
         val rationale = permissionsResult.filterNeedsRationale()
         val denied = permissionsResult.filterDenied()
 
+        Log.e("kekeke", "requestInner ratinale $rationale")
+        Log.e("kekeke", "requestInner denied $denied")
+
         return when {
             rationale.isNotEmpty() -> handleRationale(config, rationale, permissions)
             denied.isNotEmpty() -> handleDenied(config, denied, permissions)

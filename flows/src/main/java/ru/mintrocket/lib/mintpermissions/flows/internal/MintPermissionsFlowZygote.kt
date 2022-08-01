@@ -4,6 +4,7 @@ import android.app.Application
 import ru.mintrocket.lib.mintpermissions.MintPermissions
 import ru.mintrocket.lib.mintpermissions.MintPermissionsConfig
 import ru.mintrocket.lib.mintpermissions.ext.initMintPermissionsManager
+import ru.mintrocket.lib.mintpermissions.flows.ext.initMintPermissionsFlowManager
 import ru.mintrocket.lib.mintpermissions.flows.models.FlowConfig
 import ru.mintrocket.lib.mintpermissions.flows.ui.DefaultDialogContentConsumerImpl
 import ru.mintrocket.lib.mintpermissions.flows.ui.DefaultDialogRequestMapperImpl
@@ -59,7 +60,7 @@ internal object MintPermissionsFlowZygote {
         ManagerAutoInitializer.init(application)
         if (config.autoInitManagers) {
             ManagerAutoInitializer.addInitializer {
-                it.initMintPermissionsManager()
+                it.initMintPermissionsFlowManager()
             }
         }
     }

@@ -16,7 +16,7 @@ object MintPermissionsFlow {
         permissions: List<MintPermission>,
         config: FlowConfig? = null
     ): MintPermissionsPlainFlow {
-        return MintPermissionsFlowZygote.createPlainFlow(permissions)
+        return MintPermissionsFlowZygote.createPlainFlow(permissions, config)
     }
 
     val dialogsController: DialogsController by lazy {

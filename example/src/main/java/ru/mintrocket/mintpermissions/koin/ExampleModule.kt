@@ -16,7 +16,7 @@ val exampleModule = module {
     viewModel { DialogsViewModel(get()) }
 
     // Content
-    viewModel { ContentFlowViewModel(get()) }
+    viewModel { ContentFlowViewModel() }
 
     // Data
     single { DataFlowRepository(get()) }

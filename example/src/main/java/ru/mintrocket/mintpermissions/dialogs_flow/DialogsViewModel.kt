@@ -6,13 +6,12 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ru.mintrocket.lib.mintpermissions.MintPermissionsController
+import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsDialogFlow
 import ru.mintrocket.lib.mintpermissions.flows.models.FlowResultStatus
-import ru.mintrocket.lib.mintpermissions.flows.internal.MintPermissionsFlowZygote
 import ru.mintrocket.mintpermissions.common.Event
 
 class DialogsViewModel(
-    private val permissionsController: MintPermissionsController,
+    private val permissionsDialogFlow: MintPermissionsDialogFlow
 ) : ViewModel() {
 
     companion object {
@@ -28,7 +27,7 @@ class DialogsViewModel(
 
     fun onActionClick() {
         viewModelScope.launch {
-            val result = MintPermissionsFlowZygote.dialogsFlow.request(cameraPermissions)
+            val result = permissionsDialogFlow.request(cameraPermissions)
             if (result == FlowResultStatus.SUCCESS) {
                 _grantedEvent.value = Event(Unit)
             }
