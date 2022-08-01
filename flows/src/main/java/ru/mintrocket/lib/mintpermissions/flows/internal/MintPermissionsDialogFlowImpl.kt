@@ -27,13 +27,18 @@ internal class MintPermissionsDialogFlowImpl(
         config: FlowConfig?
     ): FlowResultStatus {
         val innerConfig = config ?: defaultFlowConfig
-        return requestWithoutRationale(permissions, innerConfig)
+        return requestWithRationaleCheck(permissions, innerConfig)
     }
 
-    private suspend fun requestWithoutRationale(
+    private suspend fun requestWithRationaleCheck(
         permissions: List<MintPermission>,
         config: FlowConfig
     ): FlowResultStatus {
+        val safeRationaleResult = safeRationale(config, permissions)
+        if (safeRationaleResult == FlowResultStatus.CANCELED) {
+            return FlowResultStatus.CANCELED
+        }
+
         if (config.showGroupedByStatus) {
             val rationale = permissionsController
                 .get(permissions)
@@ -77,18 +82,33 @@ internal class MintPermissionsDialogFlowImpl(
         }
     }
 
+    private suspend fun safeRationale(
+        config: FlowConfig,
+        permissions: List<MintPermission>
+    ): FlowResultStatus {
+        val needsRationale = permissionsController.get(permissions).filterNeedsRationale()
+        return if (config.showNeedsRationale && needsRationale.isNotEmpty()) {
+            val fakeResults = needsRationale.map {
+                MintPermissionResult(it, null)
+            }
+            handleRationale(config, fakeResults, permissions)
+        } else {
+            FlowResultStatus.SUCCESS
+        }
+    }
+
     private suspend fun handleRationale(
         config: FlowConfig,
         rationaleResults: List<MintPermissionResult>,
         permissions: List<MintPermission>
     ): FlowResultStatus {
-        val request = DialogRequest(
-            group = DialogRequestGroup.NEEDS_RATIONALE,
-            results = rationaleResults,
-            contentMapper = config.contentMapper,
-            contentConsumer = config.contentConsumer
-        )
         val dialogResult = if (config.showNeedsRationale) {
+            val request = DialogRequest(
+                group = DialogRequestGroup.NEEDS_RATIONALE,
+                results = rationaleResults,
+                contentMapper = config.contentMapper,
+                contentConsumer = config.contentConsumer
+            )
             dialogsController.open(request)
         } else {
             DialogResult.CANCEL
