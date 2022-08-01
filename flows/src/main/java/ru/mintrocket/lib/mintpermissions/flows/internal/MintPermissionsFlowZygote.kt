@@ -4,8 +4,8 @@ import android.app.Application
 import ru.mintrocket.lib.mintpermissions.MintPermissions
 import ru.mintrocket.lib.mintpermissions.MintPermissionsConfig
 import ru.mintrocket.lib.mintpermissions.flows.ext.initMintPermissionsFlowManager
-import ru.mintrocket.lib.mintpermissions.flows.internal.ui.DefaultDialogContentConsumerImpl
-import ru.mintrocket.lib.mintpermissions.flows.internal.ui.DefaultDialogContentMapperImpl
+import ru.mintrocket.lib.mintpermissions.flows.ui.DefaultDialogContentConsumerImpl
+import ru.mintrocket.lib.mintpermissions.flows.ui.DefaultDialogContentMapperImpl
 import ru.mintrocket.lib.mintpermissions.flows.models.FlowConfig
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerAutoInitializer

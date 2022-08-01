@@ -1,14 +1,13 @@
-package ru.mintrocket.lib.mintpermissions.flows.internal.ui
+package ru.mintrocket.lib.mintpermissions.flows.ui
 
 import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AlertDialog
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequestContent
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogResult
-import ru.mintrocket.lib.mintpermissions.flows.ui.DialogContentConsumer
 import kotlin.coroutines.resume
 
-internal class DefaultDialogContentConsumerImpl : DialogContentConsumer {
+class DefaultDialogContentConsumerImpl : DialogContentConsumer {
 
     override suspend fun request(
         activity: ComponentActivity,
