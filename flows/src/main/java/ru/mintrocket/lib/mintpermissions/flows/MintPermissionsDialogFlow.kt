@@ -1,7 +1,7 @@
 package ru.mintrocket.lib.mintpermissions.flows
 
-import ru.mintrocket.lib.mintpermissions.flows.internal.FlowConfig
-import ru.mintrocket.lib.mintpermissions.flows.internal.FlowResultStatus
+import ru.mintrocket.lib.mintpermissions.flows.models.FlowConfig
+import ru.mintrocket.lib.mintpermissions.flows.models.FlowResultStatus
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 
 interface MintPermissionsDialogFlow {

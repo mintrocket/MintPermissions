@@ -9,7 +9,7 @@ class DefaultDialogRequestMapperImpl : DialogContentMapper {
     override suspend fun map(context: Context, request: DialogRequest): DialogContent {
         return DialogContent(
             "Some title",
-            "Request ${request.type} with results ${request.results.map { it.status }}",
+            "Request ${request.group} with results ${request.results.map { it.status }}",
             "Action",
             "Cancel"
         )

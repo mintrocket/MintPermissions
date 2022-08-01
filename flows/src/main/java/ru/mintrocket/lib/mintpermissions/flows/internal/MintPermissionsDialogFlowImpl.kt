@@ -4,37 +4,10 @@ import android.util.Log
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
 import ru.mintrocket.lib.mintpermissions.ext.filterDenied
 import ru.mintrocket.lib.mintpermissions.ext.filterNeedsRationale
-import ru.mintrocket.lib.mintpermissions.flows.*
-import ru.mintrocket.lib.mintpermissions.flows.ui.DialogContentConsumer
-import ru.mintrocket.lib.mintpermissions.flows.ui.DialogContentMapper
-import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequest
-import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequestType
-import ru.mintrocket.lib.mintpermissions.flows.models.DialogResult
+import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsDialogFlow
+import ru.mintrocket.lib.mintpermissions.flows.models.*
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
-
-data class FlowConfig(
-    val showGroupedByStatus: Boolean = true,
-    val showNeedsRationale: Boolean = true,
-    val checkBeforeSettings: Boolean = true,
-    val customContentMapper: DialogContentMapper? = null,
-    val customContentConsumer: DialogContentConsumer? = null
-)
-
-enum class FlowResultStatus {
-    CANCELED,
-    SUCCESS
-}
-
-data class FlowMultipleResult(
-    val status: FlowResultStatus,
-    val permissionResults: List<MintPermissionResult>
-)
-
-data class FlowResult(
-    val status: FlowResultStatus,
-    val permissionResult: MintPermissionResult
-)
 
 internal class MintPermissionsDialogFlowImpl(
     private val defaultFlowConfig: FlowConfig,
@@ -117,7 +90,7 @@ internal class MintPermissionsDialogFlowImpl(
         permissions: List<MintPermission>
     ): FlowResultStatus {
         val request = DialogRequest(
-            type = DialogRequestType.NEEDS_RATIONALE,
+            group = DialogRequestGroup.NEEDS_RATIONALE,
             results = rationaleResults,
             customContentMapper = config.customContentMapper,
             customContentConsumer = config.customContentConsumer
@@ -140,7 +113,7 @@ internal class MintPermissionsDialogFlowImpl(
         permissions: List<MintPermission>
     ): FlowResultStatus {
         val request = DialogRequest(
-            type = DialogRequestType.DENIED,
+            group = DialogRequestGroup.DENIED,
             results = deniedResults,
             customContentMapper = config.customContentMapper,
             customContentConsumer = config.customContentConsumer

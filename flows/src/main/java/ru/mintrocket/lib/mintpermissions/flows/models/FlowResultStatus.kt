@@ -1,4 +1,6 @@
 package ru.mintrocket.lib.mintpermissions.flows.models
 
-class PlainContent {
+enum class FlowResultStatus {
+    CANCELED,
+    SUCCESS
 }

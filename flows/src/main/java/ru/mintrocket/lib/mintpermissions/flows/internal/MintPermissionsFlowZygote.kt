@@ -4,6 +4,7 @@ import android.app.Application
 import ru.mintrocket.lib.mintpermissions.MintPermissions
 import ru.mintrocket.lib.mintpermissions.MintPermissionsConfig
 import ru.mintrocket.lib.mintpermissions.ext.initMintPermissionsManager
+import ru.mintrocket.lib.mintpermissions.flows.models.FlowConfig
 import ru.mintrocket.lib.mintpermissions.flows.ui.DefaultDialogContentConsumerImpl
 import ru.mintrocket.lib.mintpermissions.flows.ui.DefaultDialogRequestMapperImpl
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
@@ -14,6 +15,12 @@ internal object MintPermissionsFlowZygote {
 
     private const val KEY_REQUESTS_SETTINGS = "mintpermissions_settings"
     private const val KEY_REQUESTS_DIALOGS = "mintpermissions_dialogs"
+
+    private val defaultDialogConfig = FlowConfig()
+    private val defaultPlainConfig = FlowConfig(
+        showNeedsRationale = false,
+        checkBeforeSettings = false
+    )
 
     private val dialogsConsumer by lazy {
         val consumer = DefaultDialogContentConsumerImpl()
@@ -29,20 +36,20 @@ internal object MintPermissionsFlowZygote {
 
     val dialogsFlow by lazy {
         MintPermissionsDialogFlowImpl(
-            FlowConfig(),
+            defaultDialogConfig,
             MintPermissions.controller,
             dialogsController,
             settingsController
         )
     }
 
-    fun createPlainFlow(permissions: List<MintPermission>): MintPermissionsPlainFlowImpl {
+    fun createPlainFlow(
+        permissions: List<MintPermission>,
+        config: FlowConfig? = null
+    ): MintPermissionsPlainFlowImpl {
         return MintPermissionsPlainFlowImpl(
             permissions,
-            FlowConfig(
-                showNeedsRationale = false,
-                checkBeforeSettings = false
-            ),
+            config ?: defaultPlainConfig,
             MintPermissions.controller,
             dialogsFlow
         )

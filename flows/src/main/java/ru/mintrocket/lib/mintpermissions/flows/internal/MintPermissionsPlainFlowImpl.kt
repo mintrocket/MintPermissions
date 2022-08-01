@@ -8,6 +8,8 @@ import ru.mintrocket.lib.mintpermissions.ext.filterNotGranted
 import ru.mintrocket.lib.mintpermissions.ext.isAllGranted
 import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsDialogFlow
 import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsPlainFlow
+import ru.mintrocket.lib.mintpermissions.flows.models.FlowConfig
+import ru.mintrocket.lib.mintpermissions.flows.models.FlowResultStatus
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 
 internal class MintPermissionsPlainFlowImpl(
