@@ -2,7 +2,7 @@ package ru.mintrocket.lib.mintpermissions.models
 
 /**
  * Mint permission action
- * Used for detekt status changes
+ * Used for detect status changes
  *
  * @property permission from [android.Manifest.permission]
  * @constructor Create empty Mint permission action

@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
 import ru.mintrocket.lib.mintpermissions.ext.filterNotGranted
-import ru.mintrocket.lib.mintpermissions.ext.isAllGranted
 import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsDialogFlow
 import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsPlainFlow
 import ru.mintrocket.lib.mintpermissions.flows.models.FlowConfig
@@ -14,33 +13,28 @@ import ru.mintrocket.lib.mintpermissions.models.MintPermission
 
 internal class MintPermissionsPlainFlowImpl(
     private val permissions: List<MintPermission>,
-    private val flowConfig: FlowConfig,
+    private val defaultFlowConfig: FlowConfig,
     private val permissionsController: MintPermissionsController,
     private val dialogFlow: MintPermissionsDialogFlow
 ) : MintPermissionsPlainFlow {
 
-    override val isAllGrantedFlow = permissionsController
-        .observe(permissions)
-        .map { it.isAllGranted() }
-        .distinctUntilChanged()
-
-    override val notGrantedFlow = permissionsController
+    override fun observeNotGranted() = permissionsController
         .observe(permissions)
         .map { it.filterNotGranted() }
         .distinctUntilChanged()
 
-    override val firstNotGrantedFlow = notGrantedFlow
+    override fun observeFirstNotGranted() = observeNotGranted()
         .map { it.firstOrNull() }
         .distinctUntilChanged()
 
-    override suspend fun request(): FlowResultStatus {
-        return dialogFlow.request(permissions, flowConfig)
+    override suspend fun request(config: FlowConfig?): FlowResultStatus {
+        return dialogFlow.request(permissions, config ?: defaultFlowConfig)
     }
 
-    override suspend fun requestSequentially(): FlowResultStatus {
-        Log.e("kekeke", "requestSequentially $permissions with $flowConfig")
+    override suspend fun requestSequentially(config: FlowConfig?): FlowResultStatus {
+        Log.e("kekeke", "requestSequentially $permissions with $config")
         permissions.forEach {
-            val result = dialogFlow.request(it, flowConfig)
+            val result = dialogFlow.request(it, config ?: defaultFlowConfig)
             if (result == FlowResultStatus.CANCELED) {
                 return FlowResultStatus.CANCELED
             }

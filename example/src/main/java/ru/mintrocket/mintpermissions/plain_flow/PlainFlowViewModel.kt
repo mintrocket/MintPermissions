@@ -5,8 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsFlow
+import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsPlainFlow
 
-class PlainFlowViewModel : ViewModel() {
+class PlainFlowViewModel(
+    private val permissionsFlow: MintPermissionsPlainFlow
+) : ViewModel() {
 
     companion object {
         private val cameraPermissions = listOf(
@@ -15,9 +18,7 @@ class PlainFlowViewModel : ViewModel() {
         )
     }
 
-    private val permissionsFlow = MintPermissionsFlow.createPlainFlow(cameraPermissions)
-
-    val notGranted = permissionsFlow.firstNotGrantedFlow
+    val notGranted = permissionsFlow.observeFirstNotGranted()
 
     fun onActionClick() {
         viewModelScope.launch {

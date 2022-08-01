@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 
 /**
  * Mint permissions manager
+ * This manager is needed to connect the activity and the controller
  *
  * @constructor Create empty Mint permissions manager
  */

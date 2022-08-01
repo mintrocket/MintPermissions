@@ -1,13 +1,14 @@
-package ru.mintrocket.lib.mintpermissions.flows.ui
+package ru.mintrocket.lib.mintpermissions.flows.internal.ui
 
 import android.content.Context
 import ru.mintrocket.lib.mintpermissions.flows.R
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogContent
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequest
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequestGroup
+import ru.mintrocket.lib.mintpermissions.flows.ui.DialogContentMapper
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 
-class DefaultDialogRequestMapperImpl : DialogContentMapper {
+internal class DefaultDialogContentMapperImpl : DialogContentMapper {
 
     private val regexName by lazy { Regex("android\\.permission\\.(\\w+)") }
 
