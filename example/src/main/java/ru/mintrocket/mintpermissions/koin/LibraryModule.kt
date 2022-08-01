@@ -9,4 +9,8 @@ val libraryModule = module {
     single { MintPermissions.controller }
     factory { MintPermissions.createManager() }
     factory { MintPermissionsFlow.createManager() }
+
+    // this needs only for your custom flow
+    single { MintPermissionsFlow.dialogsController }
+    single { MintPermissionsFlow.appSettingsController }
 }

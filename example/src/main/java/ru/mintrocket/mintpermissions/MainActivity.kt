@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
 
         binding.btContent.setOnClickListener {
-            Routes.contentFlow(this)
+            Routes.plainFlow(this)
         }
 
         binding.btData.setOnClickListener {

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import ru.mintrocket.mintpermissions.content_flow.ContentFlowActivity
+import ru.mintrocket.mintpermissions.plain_flow.PlainFlowActivity
 import ru.mintrocket.mintpermissions.data_flow.DataFlowActivity
 import ru.mintrocket.mintpermissions.dialogs_flow.DialogsFlowActivity
 import ru.mintrocket.mintpermissions.playground.PlaygroundActivity
@@ -16,8 +16,8 @@ object Routes {
         context.startActivity(Intent(context, DialogsFlowActivity::class.java))
     }
 
-    fun contentFlow(context: Context) {
-        context.startActivity(Intent(context, ContentFlowActivity::class.java))
+    fun plainFlow(context: Context) {
+        context.startActivity(Intent(context, PlainFlowActivity::class.java))
     }
 
     fun dataFlow(context: Context) {

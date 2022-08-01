@@ -1,4 +1,4 @@
-package ru.mintrocket.mintpermissions.content_flow
+package ru.mintrocket.mintpermissions.plain_flow
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -13,12 +13,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 import ru.mintrocket.mintpermissions.R
 import ru.mintrocket.mintpermissions.common.Routes
-import ru.mintrocket.mintpermissions.databinding.ActivityContentFlowBinding
+import ru.mintrocket.mintpermissions.databinding.ActivityPlainFlowBinding
 
-class ContentFlowActivity : AppCompatActivity(R.layout.activity_content_flow) {
+class PlainFlowActivity : AppCompatActivity(R.layout.activity_plain_flow) {
 
-    private val binding by viewBinding<ActivityContentFlowBinding>()
-    private val viewModel by viewModel<ContentFlowViewModel>()
+    private val binding by viewBinding<ActivityPlainFlowBinding>()
+    private val viewModel by viewModel<PlainFlowViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class ContentFlowActivity : AppCompatActivity(R.layout.activity_content_flow) {
             viewModel.onActionClick()
         }
         binding.llButtons.btNextActivity.setOnClickListener {
-            Routes.contentFlow(this)
+            Routes.plainFlow(this)
         }
         binding.llButtons.btAppSettings.setOnClickListener {
             Routes.appSettings(this)

@@ -1,4 +1,4 @@
-package ru.mintrocket.mintpermissions.content_flow
+package ru.mintrocket.mintpermissions.plain_flow
 
 import android.Manifest
 import androidx.lifecycle.ViewModel
@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsFlow
 
-class ContentFlowViewModel : ViewModel() {
+class PlainFlowViewModel : ViewModel() {
 
     companion object {
         private val cameraPermissions = listOf(

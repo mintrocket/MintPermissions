@@ -28,7 +28,7 @@
             android:name=".dialogs_flow.DialogsFlowActivity"
             android:exported="false" />
         <activity
-            android:name=".content_flow.ContentFlowActivity"
+            android:name=".plain_flow.PlainFlowActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
