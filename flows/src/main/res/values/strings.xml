@@ -1,2 +1,8 @@
 <resources>
+    <string name="mint_flow_dialog_title">Requires access to %s</string>
+    <string name="mint_flow_dialog_rationale_message">The app needs access to the %s for this feature to work.\nWe respect user privacy and only use these permissions when absolutely necessary.</string>
+    <string name="mint_flow_dialog_denied_message">To give access, go to device settings and give this app access to: %s.</string>
+    <string name="mint_flow_dialog_cancel">Not now</string>
+    <string name="mint_flow_dialog_rationale_action">I understand</string>
+    <string name="mint_flow_dialog_denied_action">Go to settings</string>
 </resources>

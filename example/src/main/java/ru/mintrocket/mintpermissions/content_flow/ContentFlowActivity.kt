@@ -42,14 +42,6 @@ class ContentFlowActivity : AppCompatActivity(R.layout.activity_content_flow) {
     }
 
     private fun initObservers() {
-        /*viewModel.deniedEvent.onEachEventNotNull {
-            PermissionEvents.deniedDialog(this, it)
-        }.launchIn(lifecycleScope)
-
-        viewModel.grantedEvent.onEachEventNotNull {
-            PermissionEvents.grantedToast(this)
-        }.launchIn(lifecycleScope)*/
-
         viewModel.notGranted
             .onEach {
                 binding.llInfo.isVisible = it != null
