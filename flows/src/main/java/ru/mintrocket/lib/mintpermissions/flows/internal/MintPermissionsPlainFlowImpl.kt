@@ -1,6 +1,5 @@
 package ru.mintrocket.lib.mintpermissions.flows.internal
 
-import android.util.Log
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
@@ -32,7 +31,6 @@ internal class MintPermissionsPlainFlowImpl(
     }
 
     override suspend fun requestSequentially(config: FlowConfig?): FlowResultStatus {
-        Log.e("kekeke", "requestSequentially $permissions with $config")
         permissions.forEach {
             val result = dialogFlow.request(it, config ?: defaultFlowConfig)
             if (result == FlowResultStatus.CANCELED) {

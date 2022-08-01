@@ -1,6 +1,5 @@
 package ru.mintrocket.lib.mintpermissions.flows.internal
 
-import android.util.Log
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
 import ru.mintrocket.lib.mintpermissions.ext.filterDenied
 import ru.mintrocket.lib.mintpermissions.ext.filterNeedsRationale
@@ -42,8 +41,6 @@ internal class MintPermissionsDialogFlowImpl(
                 .map { it.permission }
             val result = requestInner(config, rationale)
 
-            Log.e("kekeke", "group rationale res $result")
-
             if (result == FlowResultStatus.CANCELED) {
                 return FlowResultStatus.CANCELED
             }
@@ -55,30 +52,23 @@ internal class MintPermissionsDialogFlowImpl(
                 .filterDenied()
                 .map { it.permission }
             val result = requestInner(config, denied)
-            Log.e("kekeke", "group denied res $result")
 
             if (result == FlowResultStatus.CANCELED) {
                 return FlowResultStatus.CANCELED
             }
         }
 
-        return requestInner(config, permissions).also {
-            Log.e("kekeke", "group full res $it")
-        }
+        return requestInner(config, permissions)
     }
 
     private suspend fun requestInner(
         config: FlowConfig,
         permissions: List<MintPermission>
     ): FlowResultStatus {
-        Log.e("kekeke", "requestInner $permissions with $config")
         val permissionsResult = permissionsController.request(permissions)
 
         val rationale = permissionsResult.filterNeedsRationale()
         val denied = permissionsResult.filterDenied()
-
-        Log.e("kekeke", "requestInner ratinale $rationale")
-        Log.e("kekeke", "requestInner denied $denied")
 
         return when {
             rationale.isNotEmpty() -> handleRationale(config, rationale, permissions)
