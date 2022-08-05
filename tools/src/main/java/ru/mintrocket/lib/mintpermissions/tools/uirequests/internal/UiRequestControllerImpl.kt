@@ -1,19 +1,18 @@
 package ru.mintrocket.lib.mintpermissions.tools.uirequests.internal
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestController
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiResult
 import java.util.*
 
-internal class UiRequestControllerImpl<T, R>() : UiRequestController<T, R> {
+internal class UiRequestControllerImpl<T, R>(
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate
+) : UiRequestController<T, R> {
 
     private val scope by lazy {
-        CoroutineScope(Dispatchers.Main.immediate + SupervisorJob())
+        CoroutineScope(dispatcher + SupervisorJob())
     }
 
     private val queueNew = FlowQueue<UiRequest<T>>()

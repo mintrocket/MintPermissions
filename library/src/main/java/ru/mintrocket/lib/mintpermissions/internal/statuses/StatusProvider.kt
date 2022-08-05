@@ -3,25 +3,36 @@ package ru.mintrocket.lib.mintpermissions.internal.statuses
 import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.core.app.ActivityCompat
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import ru.mintrocket.lib.mintpermissions.internal.ext.getPackagePermissions
 import ru.mintrocket.lib.mintpermissions.internal.ext.isPermissionGranted
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 
-class StatusProvider {
+class StatusProvider(
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Default
+) {
 
     private var cachedPackagePermissions: List<MintPermission>? = null
 
-    fun getAllStatuses(activity: ComponentActivity): List<MintPermissionStatus> {
-        return getStatuses(activity, getCachedPackagePermissions(activity))
+    suspend fun getAllStatuses(activity: ComponentActivity): List<MintPermissionStatus> {
+        return withContext(dispatcher) {
+            getStatuses(activity, getCachedPackagePermissions(activity))
+        }
     }
 
-    fun getStatuses(
+    suspend fun getStatuses(
         activity: ComponentActivity,
         permissions: List<MintPermission>
-    ): List<MintPermissionStatus> = permissions.map { permission ->
-        val isGranted = activity.isPermissionGranted(permission)
-        toStatus(permission, isGranted, activity)
+    ): List<MintPermissionStatus> {
+        return withContext(dispatcher) {
+            permissions.map { permission ->
+                val isGranted = activity.isPermissionGranted(permission)
+                toStatus(permission, isGranted, activity)
+            }
+        }
     }
 
     private fun toStatus(

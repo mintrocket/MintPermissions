@@ -11,7 +11,7 @@ internal interface StatusesController {
 
     fun observe(): Flow<Map<MintPermission, MintPermissionStatus>>
 
-    suspend fun updateStatuses(statuses: List<MintPermissionStatus>)
+    fun updateStatuses(statuses: List<MintPermissionStatus>)
 
     fun reset()
 }
@@ -28,7 +28,7 @@ private class StatusesControllerImpl : StatusesController {
         return statusFlow.filterNotNull()
     }
 
-    override suspend fun updateStatuses(statuses: List<MintPermissionStatus>) {
+    override fun updateStatuses(statuses: List<MintPermissionStatus>) {
         statusFlow.update { currentMap ->
             currentMap.orEmpty() + statuses.associateBy { it.permission }
         }

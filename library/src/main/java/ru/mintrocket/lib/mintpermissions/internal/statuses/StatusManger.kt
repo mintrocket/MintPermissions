@@ -12,7 +12,7 @@ internal class StatusManger(
             if (isActive) {
                 statusUpdater.updateStatuses(activity)
             } else {
-                statusUpdater.resetStatuses(activity)
+                statusUpdater.resetStatuses()
             }
         }
         activity.lifecycle.addObserver(observer)

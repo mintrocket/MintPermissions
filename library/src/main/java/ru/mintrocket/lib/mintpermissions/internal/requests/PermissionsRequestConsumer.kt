@@ -38,7 +38,7 @@ internal class PermissionsRequestConsumer(
         return computeResults(activity, request, oldMap)
     }
 
-    private fun computeResults(
+    private suspend fun computeResults(
         activity: ComponentActivity,
         request: UiRequest<List<MintPermission>>,
         oldMap: Map<MintPermission, MintPermissionStatus>

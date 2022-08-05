@@ -12,12 +12,10 @@ import androidx.lifecycle.LifecycleOwner
 internal fun StatusUpdaterLifecycleObserver(
     activity: ComponentActivity,
     activeListener: (Boolean) -> Unit
-): LifecycleObserver {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-        return StatusUpdaterLifecycleObserverV16(activity, activeListener)
-    } else {
-        return StatusUpdaterLifecycleObserverV15(activeListener)
-    }
+): LifecycleObserver = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+    StatusUpdaterLifecycleObserverV16(activity, activeListener)
+} else {
+    StatusUpdaterLifecycleObserverV15(activeListener)
 }
 
 private class StatusUpdaterLifecycleObserverV15(
@@ -31,7 +29,7 @@ private class StatusUpdaterLifecycleObserverV15(
 
     override fun onPause(owner: LifecycleOwner) {
         super.onPause(owner)
-        activeListener(true)
+        activeListener(false)
     }
 }
 
