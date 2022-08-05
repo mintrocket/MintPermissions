@@ -3,6 +3,8 @@ package ru.mintrocket.lib.mintpermissions.flows.internal
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
 import ru.mintrocket.lib.mintpermissions.ext.filterDenied
 import ru.mintrocket.lib.mintpermissions.ext.filterNeedsRationale
+import ru.mintrocket.lib.mintpermissions.ext.isDenied
+import ru.mintrocket.lib.mintpermissions.ext.isNeedsRationale
 import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsDialogFlow
 import ru.mintrocket.lib.mintpermissions.flows.models.*
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
@@ -41,15 +43,19 @@ internal class MintPermissionsDialogFlowImpl(
         }
 
         if (config.showGroupedByStatus) {
-            val rationale = needRationalePermissions(permissions)
-            if (requestInner(config, rationale) == FlowResultStatus.CANCELED) {
+            val result = requestGroup(config, permissions) {
+                it.isNeedsRationale()
+            }
+            if (result == FlowResultStatus.CANCELED) {
                 return FlowResultStatus.CANCELED
             }
         }
 
         if (config.showGroupedByStatus) {
-            val denied = deniedPermissions(permissions)
-            if (requestInner(config, denied) == FlowResultStatus.CANCELED) {
+            val result = requestGroup(config, permissions) {
+                it.isDenied()
+            }
+            if (result == FlowResultStatus.CANCELED) {
                 return FlowResultStatus.CANCELED
             }
         }
@@ -57,18 +63,31 @@ internal class MintPermissionsDialogFlowImpl(
         return requestInner(config, permissions)
     }
 
-    private suspend fun deniedPermissions(permissions: List<MintPermission>): List<MintPermission> {
-        return permissionsController
+    private suspend fun requestGroup(
+        config: FlowConfig,
+        permissions: List<MintPermission>,
+        groupFilter: (MintPermissionStatus) -> Boolean
+    ): FlowResultStatus {
+        val group = permissionsController
             .get(permissions)
-            .filterDenied()
+            .filter(groupFilter::invoke)
             .map(MintPermissionStatus::permission)
+        return requestInner(config, group)
     }
 
-    private suspend fun needRationalePermissions(permissions: List<MintPermission>): List<MintPermission> {
-        return permissionsController
-            .get(permissions)
-            .filterNeedsRationale()
-            .map(MintPermissionStatus::permission)
+    private suspend fun safeRationale(
+        config: FlowConfig,
+        permissions: List<MintPermission>
+    ): FlowResultStatus {
+        val needsRationale = permissionsController.get(permissions).filterNeedsRationale()
+        return if (config.showNeedsRationale && needsRationale.isNotEmpty()) {
+            val fakeResults = needsRationale.map {
+                MintPermissionResult(it, null)
+            }
+            handleRationale(config, fakeResults, permissions)
+        } else {
+            FlowResultStatus.SUCCESS
+        }
     }
 
     private suspend fun requestInner(
@@ -90,41 +109,27 @@ internal class MintPermissionsDialogFlowImpl(
         return FlowResultStatus.SUCCESS
     }
 
-    private suspend fun safeRationale(
-        config: FlowConfig,
-        permissions: List<MintPermission>
-    ): FlowResultStatus {
-        val needsRationale = permissionsController.get(permissions).filterNeedsRationale()
-        return if (config.showNeedsRationale && needsRationale.isNotEmpty()) {
-            val fakeResults = needsRationale.map {
-                MintPermissionResult(it, null)
-            }
-            handleRationale(config, fakeResults, permissions)
-        } else {
-            FlowResultStatus.SUCCESS
-        }
-    }
-
     private suspend fun handleRationale(
         config: FlowConfig,
         rationaleResults: List<MintPermissionResult>,
         permissions: List<MintPermission>
     ): FlowResultStatus {
-        val dialogResult: DialogResult
-        if (config.showNeedsRationale) {
+        val dialogResult = if (config.showNeedsRationale) {
             val request = DialogRequest(
                 group = DialogRequestGroup.NEEDS_RATIONALE,
                 results = rationaleResults,
                 contentMapper = config.contentMapper,
                 contentConsumer = config.contentConsumer
             )
-            dialogResult = dialogsController.open(request)
+            dialogsController.open(request)
         } else {
-            dialogResult = DialogResult.CANCEL
+            DialogResult.CANCEL
         }
 
-        if (dialogResult == DialogResult.ACTION) return requestInner(config, permissions)
-        return FlowResultStatus.CANCELED
+        if (dialogResult == DialogResult.CANCEL) {
+            return FlowResultStatus.CANCELED
+        }
+        return requestInner(config, permissions)
     }
 
     private suspend fun handleDenied(
@@ -132,6 +137,11 @@ internal class MintPermissionsDialogFlowImpl(
         deniedResults: List<MintPermissionResult>,
         permissions: List<MintPermission>
     ): FlowResultStatus {
+        val checkerConfig = if (config.checkBeforeSettings) {
+            config.copy(checkBeforeSettings = false)
+        } else {
+            config
+        }
         val request = DialogRequest(
             group = DialogRequestGroup.DENIED,
             results = deniedResults,
@@ -139,17 +149,14 @@ internal class MintPermissionsDialogFlowImpl(
             contentConsumer = config.contentConsumer
         )
         val dialogResult = dialogsController.open(request)
-        return if (dialogResult == DialogResult.ACTION) {
-            if (config.checkBeforeSettings) {
-                val checkerConfig = config.copy(checkBeforeSettings = false)
-                requestInner(checkerConfig, permissions)
-            } else {
-                appSettingsController.open()
-                requestInner(config, permissions)
-            }
-        } else {
-            FlowResultStatus.CANCELED
+
+        if (dialogResult == DialogResult.CANCEL) {
+            return FlowResultStatus.CANCELED
         }
+        if (!config.checkBeforeSettings) {
+            appSettingsController.open()
+        }
+        return requestInner(checkerConfig, permissions)
     }
 
 }
