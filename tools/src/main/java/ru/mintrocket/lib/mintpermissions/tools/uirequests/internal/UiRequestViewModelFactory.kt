@@ -14,18 +14,16 @@ internal class UiRequestViewModelFactory<T, R>(
     defaultArgs: Bundle? = null
 ) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <V : ViewModel> create(
         key: String,
         modelClass: Class<V>,
         handle: SavedStateHandle
     ): V {
-        val viewModel = when (modelClass) {
-            UiRequestViewModel::class.java -> UiRequestViewModel(handle, config, controller)
-            else -> null
-        }
-
-        return requireNotNull(viewModel as? V) {
+        require(modelClass == UiRequestViewModel::class.java) {
             "Unsupported $modelClass"
         }
+
+        return UiRequestViewModel(handle, config, controller) as V
     }
 }

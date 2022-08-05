@@ -9,8 +9,11 @@ object ManagerAutoInitializer {
     }
 
     fun init(application: Application) {
-        application.unregisterActivityLifecycleCallbacks(lifecycleListener)
-        application.registerActivityLifecycleCallbacks(lifecycleListener)
+        with(application) {
+            // Need comment
+            unregisterActivityLifecycleCallbacks(lifecycleListener)
+            registerActivityLifecycleCallbacks(lifecycleListener)
+        }
     }
 
     fun addInitializer(initializer: ManagerInitializer) {

@@ -6,10 +6,10 @@ import ru.mintrocket.lib.mintpermissions.MintPermissionsController
 import ru.mintrocket.lib.mintpermissions.MintPermissionsManager
 import ru.mintrocket.lib.mintpermissions.ext.initMintPermissionsManager
 import ru.mintrocket.lib.mintpermissions.internal.requests.PermissionsRequestConsumer
+import ru.mintrocket.lib.mintpermissions.internal.statuses.*
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusManger
-import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusProvider
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusUpdater
-import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusesControllerImpl
+import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusesController
 import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerAutoInitializer
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestZygote
 
@@ -34,7 +34,7 @@ internal object MintPermissionsZygote {
     }
 
     private val statusesController by lazy {
-        StatusesControllerImpl()
+        StatusesController()
     }
 
     private val permissionsControllerImpl by lazy {

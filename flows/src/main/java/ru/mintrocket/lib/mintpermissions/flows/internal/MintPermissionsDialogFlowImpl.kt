@@ -7,6 +7,7 @@ import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsDialogFlow
 import ru.mintrocket.lib.mintpermissions.flows.models.*
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
+import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 
 internal class MintPermissionsDialogFlowImpl(
     private val defaultFlowConfig: FlowConfig,
@@ -40,30 +41,34 @@ internal class MintPermissionsDialogFlowImpl(
         }
 
         if (config.showGroupedByStatus) {
-            val rationale = permissionsController
-                .get(permissions)
-                .filterNeedsRationale()
-                .map { it.permission }
-            val result = requestInner(config, rationale)
-
-            if (result == FlowResultStatus.CANCELED) {
+            val rationale = needRationalePermissions(permissions)
+            if (requestInner(config, rationale) == FlowResultStatus.CANCELED) {
                 return FlowResultStatus.CANCELED
             }
         }
 
         if (config.showGroupedByStatus) {
-            val denied = permissionsController
-                .get(permissions)
-                .filterDenied()
-                .map { it.permission }
-            val result = requestInner(config, denied)
-
-            if (result == FlowResultStatus.CANCELED) {
+            val denied = deniedPermissions(permissions)
+            if (requestInner(config, denied) == FlowResultStatus.CANCELED) {
                 return FlowResultStatus.CANCELED
             }
         }
 
         return requestInner(config, permissions)
+    }
+
+    private suspend fun deniedPermissions(permissions: List<MintPermission>): List<MintPermission> {
+        return permissionsController
+            .get(permissions)
+            .filterDenied()
+            .map(MintPermissionStatus::permission)
+    }
+
+    private suspend fun needRationalePermissions(permissions: List<MintPermission>): List<MintPermission> {
+        return permissionsController
+            .get(permissions)
+            .filterNeedsRationale()
+            .map(MintPermissionStatus::permission)
     }
 
     private suspend fun requestInner(
@@ -73,13 +78,16 @@ internal class MintPermissionsDialogFlowImpl(
         val permissionsResult = permissionsController.request(permissions)
 
         val rationale = permissionsResult.filterNeedsRationale()
-        val denied = permissionsResult.filterDenied()
-
-        return when {
-            rationale.isNotEmpty() -> handleRationale(config, rationale, permissions)
-            denied.isNotEmpty() -> handleDenied(config, denied, permissions)
-            else -> FlowResultStatus.SUCCESS
+        if (rationale.isNotEmpty()) {
+            return handleRationale(config, rationale, permissions)
         }
+
+        val denied = permissionsResult.filterDenied()
+        if (denied.isNotEmpty()) {
+            return handleDenied(config, denied, permissions)
+        }
+
+        return FlowResultStatus.SUCCESS
     }
 
     private suspend fun safeRationale(
@@ -102,22 +110,21 @@ internal class MintPermissionsDialogFlowImpl(
         rationaleResults: List<MintPermissionResult>,
         permissions: List<MintPermission>
     ): FlowResultStatus {
-        val dialogResult = if (config.showNeedsRationale) {
+        val dialogResult: DialogResult
+        if (config.showNeedsRationale) {
             val request = DialogRequest(
                 group = DialogRequestGroup.NEEDS_RATIONALE,
                 results = rationaleResults,
                 contentMapper = config.contentMapper,
                 contentConsumer = config.contentConsumer
             )
-            dialogsController.open(request)
+            dialogResult = dialogsController.open(request)
         } else {
-            DialogResult.CANCEL
+            dialogResult = DialogResult.CANCEL
         }
-        return if (dialogResult == DialogResult.ACTION) {
-            requestInner(config, permissions)
-        } else {
-            FlowResultStatus.CANCELED
-        }
+
+        if (dialogResult == DialogResult.ACTION) return requestInner(config, permissions)
+        return FlowResultStatus.CANCELED
     }
 
     private suspend fun handleDenied(

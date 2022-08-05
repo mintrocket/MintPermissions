@@ -16,9 +16,42 @@ class DefaultDialogContentMapperImpl : DialogContentMapper {
             makeNameForText(it.status.permission)
         }
 
-        val title = context.getString(R.string.mint_flow_dialog_title, permissionNames)
+        val title = getTitle(context, permissionNames)
+        val message = getMessage(request, context, permissionNames)
+        val positive = getPositiveButtonMsg(request, context)
+        val negative = getNegativeButtonMsg(context)
+        return DialogContent(title, message, positive, negative)
+    }
 
-        val message = when (request.group) {
+    private fun getTitle(
+        context: Context,
+        permissionNames: String
+    ): String {
+        return context.getString(R.string.mint_flow_dialog_title, permissionNames)
+    }
+
+    private fun getNegativeButtonMsg(context: Context): String {
+        return context.getString(R.string.mint_flow_dialog_cancel)
+    }
+
+    private fun getPositiveButtonMsg(
+        request: DialogRequest,
+        context: Context
+    ) = when (request.group) {
+        DialogRequestGroup.NEEDS_RATIONALE -> {
+            context.getString(R.string.mint_flow_dialog_rationale_action)
+        }
+        DialogRequestGroup.DENIED -> {
+            context.getString(R.string.mint_flow_dialog_denied_action)
+        }
+    }
+
+    private fun getMessage(
+        request: DialogRequest,
+        context: Context,
+        permissionNames: String
+    ): String {
+        return when (request.group) {
             DialogRequestGroup.NEEDS_RATIONALE -> {
                 context.getString(R.string.mint_flow_dialog_rationale_message, permissionNames)
             }
@@ -26,19 +59,6 @@ class DefaultDialogContentMapperImpl : DialogContentMapper {
                 context.getString(R.string.mint_flow_dialog_denied_message, permissionNames)
             }
         }
-
-        val positive = when (request.group) {
-            DialogRequestGroup.NEEDS_RATIONALE -> {
-                context.getString(R.string.mint_flow_dialog_rationale_action)
-            }
-            DialogRequestGroup.DENIED -> {
-                context.getString(R.string.mint_flow_dialog_denied_action)
-            }
-        }
-
-        val negative = context.getString(R.string.mint_flow_dialog_cancel)
-
-        return DialogContent(title, message, positive, negative)
     }
 
     private fun makeNameForText(permission: MintPermission): String {

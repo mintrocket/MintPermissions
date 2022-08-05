@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.onEach
 import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerInitializer
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConfig
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConsumer
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiResult
 
 internal class UiRequestManager<T, R>(
@@ -21,6 +22,7 @@ internal class UiRequestManager<T, R>(
     private val consumer: UiRequestConsumer<T, R>,
 ) : ManagerInitializer {
 
+    @Suppress("UNCHECKED_CAST")
     override fun init(activity: ComponentActivity) {
 
         val viewModel = lazy {
@@ -29,29 +31,33 @@ internal class UiRequestManager<T, R>(
             provider[zygoteKey, UiRequestViewModel::class.java] as UiRequestViewModel<T, R>
         }.value
 
-        activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
-            override fun onResume(owner: LifecycleOwner) {
-                super.onResume(owner)
-                viewModel.setEnabled(true)
-            }
-
-            override fun onPause(owner: LifecycleOwner) {
-                super.onPause(owner)
-                viewModel.setEnabled(false)
-            }
-        })
-        viewModel
-            .requestFlow
-            .mapLatest { request ->
-                request?.let {
-                    val resultData = consumer.request(activity, it)
-                    UiResult(it, resultData)
-                }
-            }
+        activity.lifecycle.addObserver(ViewModeEnableObserver(viewModel))
+        viewModel.requestFlow
             .filterNotNull()
-            .onEach {
-                viewModel.finishRequest(it)
-            }
+            .mapLatest { request -> executeRequest(activity, request) }
+            .onEach(viewModel::finishRequest)
             .launchIn(activity.lifecycleScope)
+    }
+
+    private suspend fun executeRequest(
+        activity: ComponentActivity,
+        request: UiRequest<T>
+    ): UiResult<T, R> {
+        val resultData = consumer.request(activity, request)
+        return UiResult(request, resultData)
+    }
+
+    private class ViewModeEnableObserver(
+        private val viewModel: UiRequestViewModel<*, *>
+    ) : DefaultLifecycleObserver {
+        override fun onResume(owner: LifecycleOwner) {
+            super.onResume(owner)
+            viewModel.setEnabled(true)
+        }
+
+        override fun onPause(owner: LifecycleOwner) {
+            super.onPause(owner)
+            viewModel.setEnabled(false)
+        }
     }
 }

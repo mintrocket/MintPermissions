@@ -19,7 +19,7 @@ internal class MintPermissionsControllerImpl(
     override fun observe(permission: MintPermission): Flow<MintPermissionStatus> {
         return statusesController
             .observe()
-            .map { it[permission] ?: MintPermissionStatus.NotFound(permission) }
+            .map { statusMap -> statusMap.getStatus(permission) }
             .distinctUntilChanged()
     }
 
@@ -27,9 +27,7 @@ internal class MintPermissionsControllerImpl(
         return statusesController
             .observe()
             .map { statusMap ->
-                permissions.map {
-                    statusMap.getStatus(it)
-                }
+                permissions.map { permission -> statusMap.getStatus(permission) }
             }
             .distinctUntilChanged()
     }
@@ -55,13 +53,17 @@ internal class MintPermissionsControllerImpl(
 
     override suspend fun request(
         permissions: List<MintPermission>
-    ): List<MintPermissionResult> = requestsController.request(permissions)
+    ): List<MintPermissionResult> {
+        return requestsController.request(permissions)
+    }
 
     override suspend fun request(permission: MintPermission): MintPermissionResult {
         return request(listOf(permission)).first()
     }
 
-    private fun Map<MintPermission, MintPermissionStatus>.getStatus(permission: MintPermission): MintPermissionStatus {
+    private fun Map<MintPermission, MintPermissionStatus>.getStatus(
+        permission: MintPermission
+    ): MintPermissionStatus {
         return get(permission) ?: MintPermissionStatus.NotFound(permission)
     }
 }
