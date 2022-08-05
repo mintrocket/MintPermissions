@@ -4,6 +4,9 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
+import androidx.core.os.BuildCompat
+import androidx.core.view.KeyEventDispatcher.Component
+import ru.mintrocket.lib.mintpermissions.ext.checkSelfPermissionIsGranted
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 
@@ -19,53 +22,40 @@ class StatusProvider {
         activity: ComponentActivity,
         permissions: List<MintPermission>
     ): List<MintPermissionStatus> = permissions.map { permission ->
-        val isGranted = ContextCompat.checkSelfPermission(
-            activity,
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
+        val isGranted = activity.checkSelfPermissionIsGranted(permission)
         toStatus(permission, isGranted, activity)
     }
 
     private fun ComponentActivity.shouldShowRationale(permission: MintPermission): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            shouldShowRequestPermissionRationale(permission)
-        } else {
-            false
-        }
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                shouldShowRequestPermissionRationale(permission)
     }
 
     private fun toStatus(
         permission: MintPermission,
         isGranted: Boolean,
         activity: ComponentActivity
-    ): MintPermissionStatus {
-        return if (isGranted) {
-            MintPermissionStatus.Granted(permission)
-        } else {
-            val needsRationale = activity.shouldShowRationale(permission)
-            if (needsRationale) {
-                MintPermissionStatus.NeedsRationale(permission)
-            } else {
-                val hasPermission = getPackagePermissions(activity).contains(permission)
-                if (hasPermission) {
-                    MintPermissionStatus.Denied(permission)
-                } else {
-                    MintPermissionStatus.NotFound(permission)
-                }
-            }
+    ) = when {
+        isGranted -> MintPermissionStatus.Granted(permission)
+        activity.shouldShowRationale(permission) -> {
+            MintPermissionStatus.NeedsRationale(permission)
         }
+        permission in getPackagePermissions(activity) -> {
+            MintPermissionStatus.Denied(permission)
+        }
+        else -> MintPermissionStatus.NotFound(permission)
     }
 
     private fun getPackagePermissions(activity: ComponentActivity): List<MintPermission> {
+        val cachedPackagePermissions = cachedPackagePermissions
         if (cachedPackagePermissions == null) {
-            val info = activity.packageManager.getPackageInfo(
-                activity.packageName,
-                PackageManager.GET_PERMISSIONS
-            )
-            cachedPackagePermissions = info.requestedPermissions?.toList().orEmpty()
+            val info = activity.packageManager
+                .getPackageInfo(activity.packageName, PackageManager.GET_PERMISSIONS)
+            return info.requestedPermissions?.toList().orEmpty().also { permissions ->
+                this.cachedPackagePermissions = permissions
+            }
         }
-        return requireNotNull(cachedPackagePermissions) {
-            "cachedPackagePermissions is null after init"
-        }
+
+        return cachedPackagePermissions
     }
 }

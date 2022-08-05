@@ -1,7 +1,10 @@
 package ru.mintrocket.lib.mintpermissions.ext
 
 import android.app.Application
+import android.content.Context
+import android.content.pm.PackageManager
 import androidx.activity.ComponentActivity
+import androidx.core.content.ContextCompat
 import ru.mintrocket.lib.mintpermissions.MintPermissions
 import ru.mintrocket.lib.mintpermissions.MintPermissionsConfig
 
@@ -24,4 +27,9 @@ fun Application.initMintPermissions(config: MintPermissionsConfig? = null) {
  */
 fun ComponentActivity.initMintPermissionsManager() {
     MintPermissions.createManager().init(this)
+}
+
+internal fun Context.checkSelfPermissionIsGranted(permission: String): Boolean {
+    return ContextCompat.checkSelfPermission(this, permission) ==
+            PackageManager.PERMISSION_GRANTED
 }

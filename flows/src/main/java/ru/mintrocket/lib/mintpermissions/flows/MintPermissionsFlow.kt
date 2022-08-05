@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package ru.mintrocket.lib.mintpermissions.flows
 
 import android.app.Application
