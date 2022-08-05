@@ -11,11 +11,11 @@ internal class FlowQueue<T> {
     val headFlow = _queue.map { it.firstOrNull() }.distinctUntilChanged()
 
     fun add(item: T) {
-        _queue.update { it + item }
+        _queue.update { it.plus(item) }
     }
 
     fun contains(item: T): Boolean {
-        return item in _queue.value
+        return _queue.value.contains(item)
     }
 
     fun remove(item: T) {

@@ -1,8 +1,6 @@
 package ru.mintrocket.lib.mintpermissions.tools.uirequests.internal
 
 import androidx.activity.ComponentActivity
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.filterNotNull
@@ -24,14 +22,13 @@ internal class UiRequestManager<T, R>(
 
     @Suppress("UNCHECKED_CAST")
     override fun init(activity: ComponentActivity) {
-
         val viewModel = lazy {
             val factory = UiRequestViewModelFactory(config, controller, activity)
             val provider = ViewModelProvider(activity.viewModelStore, factory)
             provider[zygoteKey, UiRequestViewModel::class.java] as UiRequestViewModel<T, R>
         }.value
 
-        activity.lifecycle.addObserver(ViewModeEnableObserver(viewModel))
+        activity.lifecycle.addObserver(ViewModeEnabledObserver(viewModel))
         viewModel.requestFlow
             .filterNotNull()
             .mapLatest { request -> executeRequest(activity, request) }
@@ -45,19 +42,5 @@ internal class UiRequestManager<T, R>(
     ): UiResult<T, R> {
         val resultData = consumer.request(activity, request)
         return UiResult(request, resultData)
-    }
-
-    private class ViewModeEnableObserver(
-        private val viewModel: UiRequestViewModel<*, *>
-    ) : DefaultLifecycleObserver {
-        override fun onResume(owner: LifecycleOwner) {
-            super.onResume(owner)
-            viewModel.setEnabled(true)
-        }
-
-        override fun onPause(owner: LifecycleOwner) {
-            super.onPause(owner)
-            viewModel.setEnabled(false)
-        }
     }
 }

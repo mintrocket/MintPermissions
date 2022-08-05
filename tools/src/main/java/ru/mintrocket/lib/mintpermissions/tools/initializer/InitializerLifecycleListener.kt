@@ -19,7 +19,7 @@ internal class InitializerLifecycleListener : Application.ActivityLifecycleCallb
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         (activity as? ComponentActivity)?.also {
-            managerInitializers.forEach { initializer ->
+            managerInitializers.toList().forEach { initializer ->
                 initializer.init(activity)
             }
         }

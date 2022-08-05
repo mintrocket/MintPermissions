@@ -9,11 +9,9 @@ object ManagerAutoInitializer {
     }
 
     fun init(application: Application) {
-        with(application) {
-            // Need comment
-            unregisterActivityLifecycleCallbacks(lifecycleListener)
-            registerActivityLifecycleCallbacks(lifecycleListener)
-        }
+        // It is necessary so that several libraries can use automatic initialization
+        application.unregisterActivityLifecycleCallbacks(lifecycleListener)
+        application.registerActivityLifecycleCallbacks(lifecycleListener)
     }
 
     fun addInitializer(initializer: ManagerInitializer) {

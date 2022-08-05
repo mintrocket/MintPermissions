@@ -1,6 +1,5 @@
 package ru.mintrocket.lib.mintpermissions.tools.uirequests.internal
 
-import androidx.annotation.MainThread
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,9 +29,10 @@ internal class UiRequestViewModel<T, R>(
 
     init {
         if (config.saveQueueState) {
-            queue.restore(handle.get<List<UiRequest<T>>>(KEY_REQUESTS).orEmpty())
+            val savedRequests = handle.get<List<UiRequest<T>>>(KEY_REQUESTS).orEmpty()
+            queue.restore(savedRequests)
             queue.queueFlow
-                .onEach { handle.set(KEY_REQUESTS, it) }
+                .onEach { handle[KEY_REQUESTS] = it }
                 .launchIn(viewModelScope)
         }
 
@@ -68,10 +68,7 @@ internal class UiRequestViewModel<T, R>(
     }
 
     private fun stopObservingNew() {
-        val observingNewJob = observingNewJob
-        if (observingNewJob != null) {
-            observingNewJob.cancel()
-            this.observingNewJob = null
-        }
+        observingNewJob?.cancel()
+        observingNewJob = null
     }
 }
