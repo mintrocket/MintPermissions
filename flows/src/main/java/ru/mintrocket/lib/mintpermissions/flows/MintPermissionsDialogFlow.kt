@@ -3,7 +3,6 @@ package ru.mintrocket.lib.mintpermissions.flows
 import ru.mintrocket.lib.mintpermissions.flows.models.FlowConfig
 import ru.mintrocket.lib.mintpermissions.flows.models.FlowResultStatus
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
-import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 
 /**
  * Mint permissions dialog flow
@@ -14,7 +13,7 @@ import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
  * The controller itself shows a dialog when it needs to give the user an explanation of what this permission is for.
  * A dialog is also shown with a suggestion to go to the application settings
  */
-interface MintPermissionsDialogFlow {
+public interface MintPermissionsDialogFlow {
 
     /**
      * Request single permission
@@ -23,7 +22,7 @@ interface MintPermissionsDialogFlow {
      * @param config permission from [android.Manifest.permission]
      * @return status [FlowResultStatus]. Returns [FlowResultStatus.SUCCESS] if all permissions was granted.
      */
-    suspend fun request(
+    public suspend fun request(
         permission: MintPermission,
         config: FlowConfig? = null
     ): FlowResultStatus
@@ -35,7 +34,7 @@ interface MintPermissionsDialogFlow {
      * @param config permission from [android.Manifest.permission]
      * @return status [FlowResultStatus]. Returns [FlowResultStatus.SUCCESS] if all permissions was granted.
      */
-    suspend fun request(
+    public suspend fun request(
         permissions: List<MintPermission>,
         config: FlowConfig? = null
     ): FlowResultStatus

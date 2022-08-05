@@ -9,7 +9,7 @@ import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequestContent
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogResult
 import kotlin.coroutines.resume
 
-class DefaultDialogContentConsumerImpl : DialogContentConsumer {
+public class DefaultDialogContentConsumerImpl : DialogContentConsumer {
 
     override suspend fun request(
         activity: ComponentActivity,

@@ -8,7 +8,7 @@ import ru.mintrocket.lib.mintpermissions.flows.models.FlowResultStatus
 /**
  * Used to display a dialog. You can override and show for example a custom BottomSheetDialog.
  */
-interface DialogContentConsumer {
+public interface DialogContentConsumer {
 
     /**
      * Request for show dialog
@@ -20,7 +20,7 @@ interface DialogContentConsumer {
      * @param request request with content for dialog
      * @return result [DialogResult]
      */
-    suspend fun request(
+    public suspend fun request(
         activity: ComponentActivity,
         request: DialogRequestContent
     ): DialogResult

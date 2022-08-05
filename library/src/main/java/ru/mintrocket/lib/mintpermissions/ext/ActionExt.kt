@@ -2,8 +2,14 @@ package ru.mintrocket.lib.mintpermissions.ext
 
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionAction
 
-fun MintPermissionAction.isGranted(): Boolean = this is MintPermissionAction.Granted
+public fun MintPermissionAction.isGranted(): Boolean {
+    return this is MintPermissionAction.Granted
+}
 
-fun MintPermissionAction.isNeedsRationale(): Boolean = this is MintPermissionAction.NeedsRationale
+public fun MintPermissionAction.isNeedsRationale(): Boolean {
+    return this is MintPermissionAction.NeedsRationale
+}
 
-fun MintPermissionAction.isDenied(): Boolean = this is MintPermissionAction.DeniedPermanently
+public fun MintPermissionAction.isDenied(): Boolean {
+    return this is MintPermissionAction.DeniedPermanently
+}

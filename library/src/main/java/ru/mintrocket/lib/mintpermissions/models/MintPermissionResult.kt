@@ -7,7 +7,7 @@ package ru.mintrocket.lib.mintpermissions.models
  * @property action nullable instance of [MintPermissionAction]. Notnull when [MintPermissionStatus] changed after request
  * @constructor Create empty Mint permission result
  */
-data class MintPermissionResult(
+public data class MintPermissionResult(
     val status: MintPermissionStatus,
     val action: MintPermissionAction?
 )

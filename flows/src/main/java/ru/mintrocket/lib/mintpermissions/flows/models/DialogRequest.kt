@@ -13,7 +13,7 @@ import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
  * @property contentConsumer for custom consumer (for example, you can show BottomSheetDialog)
  * @constructor Create empty [DialogRequest]
  */
-data class DialogRequest(
+public data class DialogRequest(
     val group: DialogRequestGroup,
     val results: List<MintPermissionResult>,
     val contentMapper: DialogContentMapper?,

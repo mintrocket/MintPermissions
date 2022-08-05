@@ -9,7 +9,7 @@ package ru.mintrocket.lib.mintpermissions.flows.models
  * @property cancelBtn for dialog cancel button (by default for "negative" button)
  * @constructor Create empty [DialogContent]
  */
-data class DialogContent(
+public data class DialogContent(
     val title: CharSequence?,
     val message: CharSequence,
     val actionBtn: CharSequence,

@@ -8,7 +8,7 @@ import ru.mintrocket.lib.mintpermissions.flows.internal.MintPermissionsFlowZygot
 import ru.mintrocket.lib.mintpermissions.flows.models.FlowConfig
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 
-object MintPermissionsFlow {
+public object MintPermissionsFlow {
 
     /**
      * Always return same instance.
@@ -16,7 +16,7 @@ object MintPermissionsFlow {
      *
      * @return single instance of [MintPermissionsDialogFlow]
      */
-    val dialogFlow: MintPermissionsDialogFlow by lazy {
+    public val dialogFlow: MintPermissionsDialogFlow by lazy {
         MintPermissionsFlowZygote.dialogsFlow
     }
 
@@ -26,7 +26,7 @@ object MintPermissionsFlow {
      *
      * @return new instance of [MintPermissionsPlainFlow]
      */
-    fun createPlainFlow(
+    public fun createPlainFlow(
         permissions: List<MintPermission>,
         config: FlowConfig? = null
     ): MintPermissionsPlainFlow {
@@ -40,7 +40,7 @@ object MintPermissionsFlow {
      *
      * @return single instance of [DialogsController]
      */
-    val dialogsController: DialogsController by lazy {
+    public val dialogsController: DialogsController by lazy {
         MintPermissionsFlowZygote.dialogsController
     }
 
@@ -51,7 +51,7 @@ object MintPermissionsFlow {
      *
      * @return single instance of [AppSettingsController]
      */
-    val appSettingsController: AppSettingsController by lazy {
+    public val appSettingsController: AppSettingsController by lazy {
         MintPermissionsFlowZygote.settingsController
     }
 
@@ -61,7 +61,7 @@ object MintPermissionsFlow {
      *
      * @return single instance of [MintPermissionsController]
      */
-    val defaultDialogConfig: FlowConfig = MintPermissionsFlowZygote.defaultDialogConfig
+    public val defaultDialogConfig: FlowConfig = MintPermissionsFlowZygote.defaultDialogConfig
 
     /**
      * Always return same instance.
@@ -69,7 +69,7 @@ object MintPermissionsFlow {
      *
      * @return single instance of [MintPermissionsController]
      */
-    val defaultPlainConfig: FlowConfig = MintPermissionsFlowZygote.defaultPlainConfig
+    public val defaultPlainConfig: FlowConfig = MintPermissionsFlowZygote.defaultPlainConfig
 
     /**
      * Should be initialized once on create application
@@ -77,7 +77,7 @@ object MintPermissionsFlow {
      * @receiver instance of your [Application]
      * @param config config for internal components
      */
-    fun init(application: Application, config: MintPermissionsConfig? = null) {
+    public fun init(application: Application, config: MintPermissionsConfig? = null) {
         MintPermissionsFlowZygote.init(application, config ?: MintPermissionsConfig())
     }
 
@@ -88,7 +88,7 @@ object MintPermissionsFlow {
      * @receiver instance of [ComponentActivity]
      * @throws Exception then initialized multiple times
      */
-    fun createManager(): MintPermissionsFlowManager {
+    public fun createManager(): MintPermissionsFlowManager {
         return MintPermissionsFlowZygote.createManager()
     }
 }

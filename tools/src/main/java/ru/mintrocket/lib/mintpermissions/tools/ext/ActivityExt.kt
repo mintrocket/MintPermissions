@@ -12,7 +12,7 @@ import kotlin.coroutines.resume
 * For example, if you make a request for permissions and rotate the screen, then invalid data
 * may be returned. In this case, if the user gives permission, then valid data will be returned.
 * */
-suspend fun <I, O> ComponentActivity.awaitActivityResult(
+public suspend fun <I, O> ComponentActivity.awaitActivityResult(
     contract: ActivityResultContract<I, O>,
     key: String,
     input: I,

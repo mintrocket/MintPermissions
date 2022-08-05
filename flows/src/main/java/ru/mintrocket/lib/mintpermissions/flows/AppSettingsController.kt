@@ -5,10 +5,10 @@ import ru.mintrocket.lib.mintpermissions.flows.models.FlowResultStatus
 /**
  * You may need this controller if you need to make your own flow
  */
-interface AppSettingsController {
+public interface AppSettingsController {
 
     /**
      * Opens the application settings and waits for the user to return to the application
      */
-    suspend fun open()
+    public suspend fun open()
 }
