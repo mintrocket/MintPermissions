@@ -50,14 +50,12 @@ class DefaultDialogContentMapperImpl : DialogContentMapper {
         request: DialogRequest,
         context: Context,
         permissionNames: String
-    ): String {
-        return when (request.group) {
-            DialogRequestGroup.NEEDS_RATIONALE -> {
-                context.getString(R.string.mint_flow_dialog_rationale_message, permissionNames)
-            }
-            DialogRequestGroup.DENIED -> {
-                context.getString(R.string.mint_flow_dialog_denied_message, permissionNames)
-            }
+    ): String = when (request.group) {
+        DialogRequestGroup.NEEDS_RATIONALE -> {
+            context.getString(R.string.mint_flow_dialog_rationale_message, permissionNames)
+        }
+        DialogRequestGroup.DENIED -> {
+            context.getString(R.string.mint_flow_dialog_denied_message, permissionNames)
         }
     }
 
