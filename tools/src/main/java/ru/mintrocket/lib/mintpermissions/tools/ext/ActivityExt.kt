@@ -20,7 +20,7 @@ suspend fun <I, O> ComponentActivity.awaitActivityResult(
 ): O = suspendCancellableCoroutine { continuation ->
     val launcher = activityResultRegistry.register(key, contract) { result ->
         val isPassedByFilter = resultFilter?.invoke(result) ?: true
-        if (!continuation.isActive && !isPassedByFilter) {
+        if (!continuation.isActive || !isPassedByFilter) {
             return@register
         }
         continuation.resume(result)
