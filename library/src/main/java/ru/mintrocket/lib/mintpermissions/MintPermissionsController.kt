@@ -74,7 +74,3 @@ interface MintPermissionsController {
      */
     suspend fun request(permissions: List<MintPermission>): List<MintPermissionResult>
 }
-
-suspend fun MintPermissionsController.request(vararg permissions: MintPermission): List<MintPermissionResult> {
-    return request(permissions.asList())
-}

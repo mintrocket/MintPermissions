@@ -19,7 +19,9 @@ internal class MintPermissionsControllerImpl(
     override fun observe(permission: MintPermission): Flow<MintPermissionStatus> {
         return statusesController
             .observe()
-            .map { statusMap -> statusMap.getStatus(permission) }
+            .map { statusMap ->
+                statusMap.getStatus(permission)
+            }
             .distinctUntilChanged()
     }
 
@@ -27,7 +29,9 @@ internal class MintPermissionsControllerImpl(
         return statusesController
             .observe()
             .map { statusMap ->
-                permissions.map { permission -> statusMap.getStatus(permission) }
+                permissions.map { permission ->
+                    statusMap.getStatus(permission)
+                }
             }
             .distinctUntilChanged()
     }
