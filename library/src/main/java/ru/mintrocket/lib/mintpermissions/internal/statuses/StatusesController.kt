@@ -7,18 +7,17 @@ import kotlinx.coroutines.flow.update
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 
+internal fun StatusesController(): StatusesController = StatusesControllerImpl()
+
+private typealias StatusMap = Map<MintPermission, MintPermissionStatus>
+
 internal interface StatusesController {
 
     fun observe(): Flow<Map<MintPermission, MintPermissionStatus>>
 
     fun updateStatuses(statuses: List<MintPermissionStatus>)
-
     fun reset()
 }
-
-internal fun StatusesController(): StatusesController = StatusesControllerImpl()
-
-private typealias StatusMap = Map<MintPermission, MintPermissionStatus>
 
 private class StatusesControllerImpl : StatusesController {
 

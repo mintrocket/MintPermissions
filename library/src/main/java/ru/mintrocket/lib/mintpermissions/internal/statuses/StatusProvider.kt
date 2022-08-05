@@ -11,7 +11,7 @@ import ru.mintrocket.lib.mintpermissions.internal.ext.isPermissionGranted
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 
-class StatusProvider(
+internal class StatusProvider(
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) {
 
