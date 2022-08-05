@@ -6,6 +6,8 @@ import ru.mintrocket.lib.mintpermissions.ext.filterNeedsRationale
 import ru.mintrocket.lib.mintpermissions.ext.isDenied
 import ru.mintrocket.lib.mintpermissions.ext.isNeedsRationale
 import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsDialogFlow
+import ru.mintrocket.lib.mintpermissions.flows.ext.isCancel
+import ru.mintrocket.lib.mintpermissions.flows.ext.isCanceled
 import ru.mintrocket.lib.mintpermissions.flows.models.*
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
@@ -38,7 +40,7 @@ internal class MintPermissionsDialogFlowImpl(
         config: FlowConfig
     ): FlowResultStatus {
         val safeRationaleResult = safeRationale(config, permissions)
-        if (safeRationaleResult == FlowResultStatus.CANCELED) {
+        if (safeRationaleResult.isCanceled()) {
             return FlowResultStatus.CANCELED
         }
 
@@ -46,7 +48,7 @@ internal class MintPermissionsDialogFlowImpl(
             val result = requestGroup(config, permissions) {
                 it.isNeedsRationale()
             }
-            if (result == FlowResultStatus.CANCELED) {
+            if (result.isCanceled()) {
                 return FlowResultStatus.CANCELED
             }
         }
@@ -55,7 +57,7 @@ internal class MintPermissionsDialogFlowImpl(
             val result = requestGroup(config, permissions) {
                 it.isDenied()
             }
-            if (result == FlowResultStatus.CANCELED) {
+            if (result.isCanceled()) {
                 return FlowResultStatus.CANCELED
             }
         }
@@ -126,7 +128,7 @@ internal class MintPermissionsDialogFlowImpl(
             DialogResult.CANCEL
         }
 
-        if (dialogResult == DialogResult.CANCEL) {
+        if (dialogResult.isCancel()) {
             return FlowResultStatus.CANCELED
         }
         return requestInner(config, permissions)
@@ -150,7 +152,7 @@ internal class MintPermissionsDialogFlowImpl(
         )
         val dialogResult = dialogsController.open(request)
 
-        if (dialogResult == DialogResult.CANCEL) {
+        if (dialogResult.isCancel()) {
             return FlowResultStatus.CANCELED
         }
         if (!config.checkBeforeSettings) {
