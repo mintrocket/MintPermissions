@@ -28,8 +28,3 @@ fun Application.initMintPermissions(config: MintPermissionsConfig? = null) {
 fun ComponentActivity.initMintPermissionsManager() {
     MintPermissions.createManager().init(this)
 }
-
-internal fun Context.checkSelfPermissionIsGranted(permission: String): Boolean {
-    return ContextCompat.checkSelfPermission(this, permission) ==
-            PackageManager.PERMISSION_GRANTED
-}
