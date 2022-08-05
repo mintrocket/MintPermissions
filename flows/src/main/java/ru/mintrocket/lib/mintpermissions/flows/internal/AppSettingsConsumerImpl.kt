@@ -5,12 +5,9 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
-import kotlinx.coroutines.suspendCancellableCoroutine
-import ru.mintrocket.lib.mintpermissions.flows.ext.awaitActivityResult
+import ru.mintrocket.lib.mintpermissions.tools.ext.awaitActivityResult
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConsumer
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
-import java.util.*
-import kotlin.coroutines.resume
 
 internal class AppSettingsConsumerImpl : UiRequestConsumer<Unit, Unit> {
 
@@ -18,6 +15,7 @@ internal class AppSettingsConsumerImpl : UiRequestConsumer<Unit, Unit> {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
             data = Uri.fromParts("package", activity.packageName, null)
         }
-        activity.awaitActivityResult(request.key, intent)
+        val contract = ActivityResultContracts.StartActivityForResult()
+        activity.awaitActivityResult(contract, request.key, intent)
     }
 }
