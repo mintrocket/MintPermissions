@@ -5,11 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConfig
-import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiRequest
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiResult
 
 internal class UiRequestViewModel<T, R>(
     private val handle: SavedStateHandle,
@@ -24,12 +25,15 @@ internal class UiRequestViewModel<T, R>(
     private val queue by lazy { FlowQueue<UiRequest<T>>() }
     private var observingNewJob: Job? = null
 
-    val requestFlow by lazy { queue.headFlow.filterNotNull() }
+    val requestFlow = queue.headFlow
 
     init {
         if (config.saveQueueState) {
-            queue.restore(handle.get<List<UiRequest<T>>>(KEY_REQUESTS).orEmpty())
-            queue.queueFlow.onEach { handle.set(KEY_REQUESTS, it) }.launchIn(viewModelScope)
+            val savedRequests = handle.get<List<UiRequest<T>>>(KEY_REQUESTS).orEmpty()
+            queue.restore(savedRequests)
+            queue.queueFlow
+                .onEach { handle[KEY_REQUESTS] = it }
+                .launchIn(viewModelScope)
         }
 
         controller
@@ -39,8 +43,11 @@ internal class UiRequestViewModel<T, R>(
             .launchIn(viewModelScope)
     }
 
-    fun finishRequest(request: UiRequest<T>) {
-        queue.remove(request)
+    fun finishRequest(result: UiResult<T, R>) {
+        viewModelScope.launch {
+            queue.remove(result.request)
+            controller.sendResult(result)
+        }
     }
 
     fun setEnabled(enabled: Boolean) {
@@ -55,10 +62,8 @@ internal class UiRequestViewModel<T, R>(
         stopObservingNew()
         observingNewJob = controller
             .observeNewRequest()
-            .onEach {
-                queue.add(it)
-                controller.consumeRequest(it)
-            }
+            .onEach(queue::add)
+            .onEach(controller::consumeRequest)
             .launchIn(viewModelScope)
     }
 

@@ -1,14 +1,19 @@
 package ru.mintrocket.lib.mintpermissions.tools.uirequests.internal
 
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestController
-import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiRequest
-import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiResult
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiResult
 import java.util.*
 
-class UiRequestControllerImpl<T, R>(private val scope: CoroutineScope) : UiRequestController<T, R> {
+internal class UiRequestControllerImpl<T, R>(
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate
+) : UiRequestController<T, R> {
+
+    private val scope by lazy {
+        CoroutineScope(dispatcher + SupervisorJob())
+    }
 
     private val queueNew = FlowQueue<UiRequest<T>>()
     private val cancelFlow = MutableSharedFlow<UiRequest<T>>()
@@ -22,7 +27,7 @@ class UiRequestControllerImpl<T, R>(private val scope: CoroutineScope) : UiReque
         return cancelFlow.asSharedFlow()
     }
 
-    suspend fun consumeRequest(request: UiRequest<T>) {
+    fun consumeRequest(request: UiRequest<T>) {
         queueNew.remove(request)
     }
 

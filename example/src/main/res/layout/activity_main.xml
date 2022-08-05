@@ -97,11 +97,11 @@
                 android:text="Dialogs Flow" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btContent"
+                android:id="@+id/btPlain"
                 style="?materialButtonOutlinedStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Content Flow" />
+                android:text="Plain Flow" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btData"
@@ -109,7 +109,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Data Flow" />
-
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"

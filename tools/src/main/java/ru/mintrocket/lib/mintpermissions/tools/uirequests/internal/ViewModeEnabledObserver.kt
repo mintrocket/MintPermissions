@@ -1,20 +1,19 @@
-package ru.mintrocket.lib.mintpermissions.internal.statuses
+package ru.mintrocket.lib.mintpermissions.tools.uirequests.internal
 
-import androidx.activity.ComponentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 
-internal class StatusUpdaterLifecycleObserverV15(
-    private val activeListener: (Boolean) -> Unit
+internal class ViewModeEnabledObserver(
+    private val viewModel: UiRequestViewModel<*, *>
 ) : DefaultLifecycleObserver {
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
-        activeListener.invoke(true)
+        viewModel.setEnabled(true)
     }
 
     override fun onPause(owner: LifecycleOwner) {
         super.onPause(owner)
-        activeListener.invoke(true)
+        viewModel.setEnabled(false)
     }
 }

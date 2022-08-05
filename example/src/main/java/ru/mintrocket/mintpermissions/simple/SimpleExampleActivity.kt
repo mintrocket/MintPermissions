@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.launch
 import ru.mintrocket.lib.mintpermissions.MintPermissions
@@ -37,7 +38,7 @@ class SimpleExampleActivity : AppCompatActivity(R.layout.activity_simple_example
 
     private fun takePhoto() {
         val controller = MintPermissions.controller
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             val result = controller.request(Manifest.permission.CAMERA)
             when (result.status) {
                 is MintPermissionStatus.Granted -> {

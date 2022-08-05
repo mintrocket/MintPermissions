@@ -2,7 +2,6 @@ package ru.mintrocket.lib.mintpermissions.internal.statuses
 
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 internal class StatusUpdater(
@@ -11,14 +10,13 @@ internal class StatusUpdater(
 ) {
 
     fun updateStatuses(activity: ComponentActivity) {
-        activity.lifecycleScope.launch(Dispatchers.Default) {
-            statusesController.updateStatuses(statusProvider.getAllStatuses(activity))
+        activity.lifecycleScope.launch {
+            val statuses = statusProvider.getAllStatuses(activity)
+            statusesController.updateStatuses(statuses)
         }
     }
 
-    fun resetStatuses(activity: ComponentActivity) {
-        activity.lifecycleScope.launch(Dispatchers.Default) {
-            statusesController.reset()
-        }
+    fun resetStatuses() {
+        statusesController.reset()
     }
 }

@@ -9,6 +9,7 @@ object ManagerAutoInitializer {
     }
 
     fun init(application: Application) {
+        // It is necessary so that several libraries can use automatic initialization
         application.unregisterActivityLifecycleCallbacks(lifecycleListener)
         application.registerActivityLifecycleCallbacks(lifecycleListener)
     }

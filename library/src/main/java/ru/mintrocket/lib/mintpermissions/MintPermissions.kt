@@ -6,7 +6,7 @@ import ru.mintrocket.lib.mintpermissions.internal.MintPermissionsZygote
 object MintPermissions {
 
     /**
-     * Always return new instance.
+     * Always return same instance.
      * You can use it everywhere, activities, viewmodels, repos, etc.
      *
      * @return single instance of [MintPermissionsController]

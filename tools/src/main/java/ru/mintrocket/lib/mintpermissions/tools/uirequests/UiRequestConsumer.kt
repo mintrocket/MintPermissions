@@ -1,7 +1,7 @@
 package ru.mintrocket.lib.mintpermissions.tools.uirequests
 
 import androidx.activity.ComponentActivity
-import ru.mintrocket.lib.mintpermissions.tools.uirequests.model.UiRequest
+import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
 
 interface UiRequestConsumer<T, R> {
 

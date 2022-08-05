@@ -1,6 +1,5 @@
 package ru.mintrocket.lib.mintpermissions.internal.statuses
 
-import android.os.Build
 import androidx.activity.ComponentActivity
 import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerInitializer
 
@@ -9,17 +8,12 @@ internal class StatusManger(
 ) : ManagerInitializer {
 
     override fun init(activity: ComponentActivity) {
-        val activeListener = { isActive: Boolean ->
+        val observer = StatusUpdaterLifecycleObserver(activity) { isActive: Boolean ->
             if (isActive) {
                 statusUpdater.updateStatuses(activity)
             } else {
-                statusUpdater.resetStatuses(activity)
+                statusUpdater.resetStatuses()
             }
-        }
-        val observer = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            StatusUpdaterLifecycleObserverV16(activity, activeListener)
-        } else {
-            StatusUpdaterLifecycleObserverV15(activeListener)
         }
         activity.lifecycle.addObserver(observer)
     }

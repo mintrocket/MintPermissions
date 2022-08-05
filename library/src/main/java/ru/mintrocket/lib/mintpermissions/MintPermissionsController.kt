@@ -54,7 +54,7 @@ interface MintPermissionsController {
     /**
      * Get all declared permissions statuses
      *
-     * @return flow of single [MintPermissionStatus]
+     * @return list of [MintPermissionStatus]
      */
     suspend fun getAll(): List<MintPermissionStatus>
 
@@ -62,7 +62,7 @@ interface MintPermissionsController {
      * Request single permission
      *
      * @param permission permission from [android.Manifest.permission]
-     * @return flow of single [MintPermissionStatus]. If not found in declared permissions, returns [MintPermissionStatus.NotFound]
+     * @return single [MintPermissionStatus]. If not found in declared permissions, returns [MintPermissionStatus.NotFound]
      */
     suspend fun request(permission: MintPermission): MintPermissionResult
 
@@ -70,7 +70,7 @@ interface MintPermissionsController {
      * Request multiple permissions
      *
      * @param permissions permissions from [android.Manifest.permission]
-     * @return flow of list [MintPermissionStatus]. If not found in declared permissions, returns [MintPermissionStatus.NotFound]
+     * @return list of [MintPermissionStatus]. If not found in declared permissions, returns [MintPermissionStatus.NotFound]
      */
     suspend fun request(permissions: List<MintPermission>): List<MintPermissionResult>
 }

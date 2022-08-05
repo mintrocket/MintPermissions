@@ -5,10 +5,36 @@ import android.view.ViewTreeObserver
 import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 
+@Suppress("FunctionName")
+internal fun StatusUpdaterLifecycleObserver(
+    activity: ComponentActivity,
+    activeListener: (Boolean) -> Unit
+): LifecycleObserver = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+    StatusUpdaterLifecycleObserverV16(activity, activeListener)
+} else {
+    StatusUpdaterLifecycleObserverV15(activeListener)
+}
+
+private class StatusUpdaterLifecycleObserverV15(
+    private val activeListener: (Boolean) -> Unit
+) : DefaultLifecycleObserver {
+
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
+        activeListener(true)
+    }
+
+    override fun onPause(owner: LifecycleOwner) {
+        super.onPause(owner)
+        activeListener(false)
+    }
+}
+
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-internal class StatusUpdaterLifecycleObserverV16(
+private class StatusUpdaterLifecycleObserverV16(
     private val activity: ComponentActivity,
     private val activeListener: (Boolean) -> Unit
 ) : DefaultLifecycleObserver {
