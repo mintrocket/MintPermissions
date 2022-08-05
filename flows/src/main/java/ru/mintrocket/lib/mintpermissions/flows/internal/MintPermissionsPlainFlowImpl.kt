@@ -6,6 +6,7 @@ import ru.mintrocket.lib.mintpermissions.MintPermissionsController
 import ru.mintrocket.lib.mintpermissions.ext.filterNotGranted
 import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsDialogFlow
 import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsPlainFlow
+import ru.mintrocket.lib.mintpermissions.flows.ext.isCanceled
 import ru.mintrocket.lib.mintpermissions.flows.models.FlowConfig
 import ru.mintrocket.lib.mintpermissions.flows.models.FlowResultStatus
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
@@ -33,7 +34,7 @@ internal class MintPermissionsPlainFlowImpl(
     override suspend fun requestSequentially(config: FlowConfig?): FlowResultStatus {
         permissions.forEach {
             val result = dialogFlow.request(it, config ?: defaultFlowConfig)
-            if (result == FlowResultStatus.CANCELED) {
+            if (result.isCanceled()) {
                 return FlowResultStatus.CANCELED
             }
         }

@@ -11,7 +11,7 @@ import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsFlow
  * @receiver instance of your [Application]
  * @param config config for internal components
  */
-fun Application.initMintPermissionsFlow(config: MintPermissionsConfig? = null) {
+public fun Application.initMintPermissionsFlow(config: MintPermissionsConfig? = null) {
     MintPermissionsFlow.init(this, config)
 }
 
@@ -22,6 +22,6 @@ fun Application.initMintPermissionsFlow(config: MintPermissionsConfig? = null) {
  * @receiver instance of [ComponentActivity]
  * @throws Exception then initialized multiple times
  */
-fun ComponentActivity.initMintPermissionsFlowManager() {
+public fun ComponentActivity.initMintPermissionsFlowManager() {
     MintPermissionsFlow.createManager().init(this)
 }

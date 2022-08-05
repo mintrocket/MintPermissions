@@ -5,7 +5,7 @@ package ru.mintrocket.lib.mintpermissions.flows.models
  *
  * Uses for understand what content to show
  */
-enum class DialogRequestGroup {
+public enum class DialogRequestGroup {
     NEEDS_RATIONALE,
     DENIED,
 }

@@ -5,7 +5,7 @@ package ru.mintrocket.lib.mintpermissions.flows.models
  *
  * Used to understand how the user interacted with the dialog
  */
-enum class DialogResult {
+public enum class DialogResult {
     CANCEL,
     ACTION
 }

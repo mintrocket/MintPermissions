@@ -2,7 +2,7 @@ package ru.mintrocket.lib.mintpermissions.tools.initializer
 
 import androidx.activity.ComponentActivity
 
-fun interface ManagerInitializer {
+public fun interface ManagerInitializer {
 
-    fun init(activity: ComponentActivity)
+    public fun init(activity: ComponentActivity)
 }

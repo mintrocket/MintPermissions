@@ -5,7 +5,7 @@ package ru.mintrocket.lib.mintpermissions.flows.models
  *
  * Used for flow result. Success when all permissions is granted.
  */
-enum class FlowResultStatus {
+public enum class FlowResultStatus {
     CANCELED,
     SUCCESS
 }

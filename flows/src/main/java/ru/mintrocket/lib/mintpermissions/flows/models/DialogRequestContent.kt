@@ -10,7 +10,7 @@ import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
  * @property content for show in dialog
  * @constructor Create empty [DialogRequestContent]
  */
-data class DialogRequestContent(
+public data class DialogRequestContent(
     val request: UiRequest<DialogRequest>,
     val content: DialogContent
 )

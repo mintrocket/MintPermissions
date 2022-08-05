@@ -2,7 +2,6 @@ package ru.mintrocket.lib.mintpermissions.internal
 
 import androidx.activity.ComponentActivity
 import ru.mintrocket.lib.mintpermissions.MintPermissionsManager
-import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusManger
 import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerInitializer
 
 internal class MintPermissionsManagerImpl(

@@ -1,6 +1,5 @@
 package ru.mintrocket.lib.mintpermissions.flows.models
 
-import ru.mintrocket.lib.mintpermissions.flows.MintPermissionsDialogFlow
 import ru.mintrocket.lib.mintpermissions.flows.ui.DialogContentConsumer
 import ru.mintrocket.lib.mintpermissions.flows.ui.DialogContentMapper
 
@@ -21,7 +20,7 @@ import ru.mintrocket.lib.mintpermissions.flows.ui.DialogContentMapper
  * @property contentConsumer for custom consumer (for example, you can show BottomSheetDialog)
  * @constructor Create empty [DialogContent]
  */
-data class FlowConfig(
+public data class FlowConfig(
     val showGroupedByStatus: Boolean = true,
     val showNeedsRationale: Boolean = true,
     val checkBeforeSettings: Boolean = false,

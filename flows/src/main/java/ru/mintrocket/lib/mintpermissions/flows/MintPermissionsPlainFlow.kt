@@ -13,21 +13,21 @@ import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
  * The controller is used internally, only it has the dialog for [MintPermissionStatus.NeedsRationale]
  * disabled by default, because it is assumed that the explanation will be displayed inside the screen.
  */
-interface MintPermissionsPlainFlow {
+public interface MintPermissionsPlainFlow {
 
     /**
      * Observe permissions without [MintPermissionStatus.Granted] status
      *
      * @return flow of list [MintPermissionStatus]. All granted when list is empty
      */
-    fun observeNotGranted(): Flow<List<MintPermissionStatus>>
+    public fun observeNotGranted(): Flow<List<MintPermissionStatus>>
 
     /**
      * Observe first permission without [MintPermissionStatus.Granted] status
      *
      * @return flow nullable [MintPermissionStatus]. All granted when status [MintPermissionStatus] is null
      */
-    fun observeFirstNotGranted(): Flow<MintPermissionStatus?>
+    public fun observeFirstNotGranted(): Flow<MintPermissionStatus?>
 
     /**
      * Request permissions with default [MintPermissionsDialogFlow] behavior
@@ -35,7 +35,7 @@ interface MintPermissionsPlainFlow {
      * @param config [FlowConfig] config for request
      * @return status [FlowResultStatus]. Returns [FlowResultStatus.SUCCESS] if all permissions was granted.
      */
-    suspend fun request(config: FlowConfig? = null): FlowResultStatus
+    public suspend fun request(config: FlowConfig? = null): FlowResultStatus
 
     /**
      * Request permissions sequentially with [MintPermissionsDialogFlow].
@@ -43,5 +43,5 @@ interface MintPermissionsPlainFlow {
      * @param config [FlowConfig] config for request
      * @return status [FlowResultStatus]. Returns [FlowResultStatus.SUCCESS] if all permissions was granted.
      */
-    suspend fun requestSequentially(config: FlowConfig? = null): FlowResultStatus
+    public suspend fun requestSequentially(config: FlowConfig? = null): FlowResultStatus
 }

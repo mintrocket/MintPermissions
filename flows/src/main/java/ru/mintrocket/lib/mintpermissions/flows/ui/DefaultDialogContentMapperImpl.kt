@@ -7,7 +7,7 @@ import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequest
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequestGroup
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 
-class DefaultDialogContentMapperImpl : DialogContentMapper {
+public class DefaultDialogContentMapperImpl : DialogContentMapper {
 
     private val regexName by lazy { Regex("android\\.permission\\.(\\w+)") }
 
