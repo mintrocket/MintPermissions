@@ -1,13 +1,8 @@
 package ru.mintrocket.lib.mintpermissions.tools.uirequests
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerInitializer
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.internal.UiRequestControllerImpl
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.internal.UiRequestManager
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 public class UiRequestZygote<T, R>(
     private val key: String,

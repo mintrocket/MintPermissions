@@ -2,7 +2,6 @@ package ru.mintrocket.lib.mintpermissions.flows
 
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequest
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogResult
-import ru.mintrocket.lib.mintpermissions.flows.models.FlowResultStatus
 
 /**
  * You may need this controller if you need to make your own flow

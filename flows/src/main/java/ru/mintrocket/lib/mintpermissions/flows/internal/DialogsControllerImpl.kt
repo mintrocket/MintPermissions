@@ -9,5 +9,6 @@ internal class DialogsControllerImpl(
     private val requestController: UiRequestController<DialogRequest, DialogResult>
 ) : DialogsController {
 
-    override suspend fun open(request: DialogRequest): DialogResult = requestController.request(request)
+    override suspend fun open(request: DialogRequest): DialogResult =
+        requestController.request(request)
 }
