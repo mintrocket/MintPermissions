@@ -28,7 +28,7 @@ class DialogsFlowActivity : AppCompatActivity(R.layout.activity_dialogs_flow) {
             finish()
         }
         binding.btCamera.setOnClickListener {
-            viewModel.onActionClick(false)
+            viewModel.onActionClick()
         }
         binding.llButtons.btNextActivity.setOnClickListener {
             Routes.dialogsFlow(this)
@@ -41,20 +41,6 @@ class DialogsFlowActivity : AppCompatActivity(R.layout.activity_dialogs_flow) {
     private fun initObservers() {
         viewModel.grantedEvent.onEachEventNotNull {
             PermissionEvents.grantedToast(this)
-        }.launchIn(lifecycleScope)
-
-        viewModel.deniedEvent.onEachEventNotNull {
-            PermissionEvents.deniedDialog(this, it)
-        }.launchIn(lifecycleScope)
-
-        viewModel.rationaleEvent.onEachEventNotNull {
-            PermissionEvents.rationaleDialog(this, it) {
-                viewModel.onActionClick(true)
-            }
-        }.launchIn(lifecycleScope)
-
-        viewModel.deniedPermanentlyEvent.onEachEventNotNull {
-            PermissionEvents.deniedPermanentlyDialog(this, it)
         }.launchIn(lifecycleScope)
     }
 }

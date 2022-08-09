@@ -6,7 +6,7 @@ package ru.mintrocket.lib.mintpermissions.models
  * @property permission from [android.Manifest.permission]
  * @constructor Create empty Mint permission status
  */
-sealed class MintPermissionStatus(open val permission: MintPermission) {
+public sealed class MintPermissionStatus(public open val permission: MintPermission) {
 
     /**
      * Granted
@@ -15,7 +15,7 @@ sealed class MintPermissionStatus(open val permission: MintPermission) {
      * @property permission from [android.Manifest.permission]
      * @constructor Create empty Granted
      */
-    data class Granted(
+    public data class Granted(
         override val permission: MintPermission
     ) : MintPermissionStatus(permission)
 
@@ -27,7 +27,7 @@ sealed class MintPermissionStatus(open val permission: MintPermission) {
      * @property permission from [android.Manifest.permission]
      * @constructor Create empty Denied
      */
-    data class Denied(
+    public data class Denied(
         override val permission: MintPermission
     ) : MintPermissionStatus(permission)
 
@@ -38,7 +38,7 @@ sealed class MintPermissionStatus(open val permission: MintPermission) {
      * @property permission from [android.Manifest.permission]
      * @constructor Create empty Needs rationale
      */
-    data class NeedsRationale(
+    public data class NeedsRationale(
         override val permission: MintPermission
     ) : MintPermissionStatus(permission)
 
@@ -49,7 +49,7 @@ sealed class MintPermissionStatus(open val permission: MintPermission) {
      * @property permission from [android.Manifest.permission]
      * @constructor Create empty Not found
      */
-    data class NotFound(
+    public data class NotFound(
         override val permission: MintPermission
     ) : MintPermissionStatus(permission)
 }

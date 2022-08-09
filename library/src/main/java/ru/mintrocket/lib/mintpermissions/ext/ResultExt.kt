@@ -3,10 +3,18 @@ package ru.mintrocket.lib.mintpermissions.ext
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
 
 
-fun MintPermissionResult.isGranted(): Boolean = status.isGranted()
+public fun MintPermissionResult.isGranted(): Boolean {
+    return status.isGranted()
+}
 
-fun MintPermissionResult.isDenied(): Boolean = status.isDenied()
+public fun MintPermissionResult.isDenied(): Boolean {
+    return status.isDenied()
+}
 
-fun MintPermissionResult.isNeedsRationale(): Boolean = status.isNeedsRationale()
+public fun MintPermissionResult.isNeedsRationale(): Boolean {
+    return status.isNeedsRationale()
+}
 
-fun MintPermissionResult.isNotFound(): Boolean = status.isNotFound()
+public fun MintPermissionResult.isNotFound(): Boolean {
+    return status.isNotFound()
+}

@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             Routes.dialogsFlow(this)
         }
 
-        binding.btContent.setOnClickListener {
-            Routes.contentFlow(this)
+        binding.btPlain.setOnClickListener {
+            Routes.plainFlow(this)
         }
 
         binding.btData.setOnClickListener {

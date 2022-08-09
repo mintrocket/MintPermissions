@@ -4,40 +4,72 @@ import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
 
 
 /* Any flags */
-fun List<MintPermissionResult>.isAnyGranted() = any { it.isGranted() }
+public fun List<MintPermissionResult>.isAnyGranted(): Boolean {
+    return any { it.isGranted() }
+}
 
-fun List<MintPermissionResult>.isAnyDenied() = any { it.isDenied() }
+public fun List<MintPermissionResult>.isAnyDenied(): Boolean {
+    return any { it.isDenied() }
+}
 
-fun List<MintPermissionResult>.isAnyNeedsRationale() = any { it.isNeedsRationale() }
+public fun List<MintPermissionResult>.isAnyNeedsRationale(): Boolean {
+    return any { it.isNeedsRationale() }
+}
 
-fun List<MintPermissionResult>.isAnyNotFound() = any { it.isNotFound() }
+public fun List<MintPermissionResult>.isAnyNotFound(): Boolean {
+    return any { it.isNotFound() }
+}
 
 
 /* All flags */
-fun List<MintPermissionResult>.isAllGranted() = all { it.isGranted() }
+public fun List<MintPermissionResult>.isAllGranted(): Boolean {
+    return all { it.isGranted() }
+}
 
-fun List<MintPermissionResult>.isAllDenied() = all { it.isDenied() }
+public fun List<MintPermissionResult>.isAllDenied(): Boolean {
+    return all { it.isDenied() }
+}
 
-fun List<MintPermissionResult>.isAllNeedsRationale() = all { it.isNeedsRationale() }
+public fun List<MintPermissionResult>.isAllNeedsRationale(): Boolean {
+    return all { it.isNeedsRationale() }
+}
 
-fun List<MintPermissionResult>.isAllNotFound() = all { it.isNotFound() }
+public fun List<MintPermissionResult>.isAllNotFound(): Boolean {
+    return all { it.isNotFound() }
+}
 
 
 /* Filters */
-fun List<MintPermissionResult>.filterGranted() = filter { it.isGranted() }
+public fun List<MintPermissionResult>.filterGranted(): List<MintPermissionResult> {
+    return filter { it.isGranted() }
+}
 
-fun List<MintPermissionResult>.filterDenied() = filter { it.isDenied() }
+public fun List<MintPermissionResult>.filterDenied(): List<MintPermissionResult> {
+    return filter { it.isDenied() }
+}
 
-fun List<MintPermissionResult>.filterNeedsRationale() = filter { it.isNeedsRationale() }
+public fun List<MintPermissionResult>.filterNeedsRationale(): List<MintPermissionResult> {
+    return filter { it.isNeedsRationale() }
+}
 
-fun List<MintPermissionResult>.filterNotFound() = filter { it.isNotFound() }
+public fun List<MintPermissionResult>.filterNotFound(): List<MintPermissionResult> {
+    return filter { it.isNotFound() }
+}
 
 
 /* Filters not */
-fun List<MintPermissionResult>.filterNotGranted() = filterNot { it.isGranted() }
+public fun List<MintPermissionResult>.filterNotGranted(): List<MintPermissionResult> {
+    return filterNot { it.isGranted() }
+}
 
-fun List<MintPermissionResult>.filterNotDenied() = filterNot { it.isDenied() }
+public fun List<MintPermissionResult>.filterNotDenied(): List<MintPermissionResult> {
+    return filterNot { it.isDenied() }
+}
 
-fun List<MintPermissionResult>.filterNotNeedsRationale() = filterNot { it.isNeedsRationale() }
+public fun List<MintPermissionResult>.filterNotNeedsRationale(): List<MintPermissionResult> {
+    return filterNot { it.isNeedsRationale() }
+}
 
-fun List<MintPermissionResult>.filterNotNotFound() = filterNot { it.isNotFound() }
+public fun List<MintPermissionResult>.filterNotNotFound(): List<MintPermissionResult> {
+    return filterNot { it.isNotFound() }
+}

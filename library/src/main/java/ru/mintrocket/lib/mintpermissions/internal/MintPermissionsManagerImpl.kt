@@ -2,14 +2,11 @@ package ru.mintrocket.lib.mintpermissions.internal
 
 import androidx.activity.ComponentActivity
 import ru.mintrocket.lib.mintpermissions.MintPermissionsManager
-import ru.mintrocket.lib.mintpermissions.internal.requests.RequestsManager
-import ru.mintrocket.lib.mintpermissions.internal.requests.RequestsQueueManager
-import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusManger
+import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerInitializer
 
 internal class MintPermissionsManagerImpl(
-    private val queueManager: RequestsQueueManager,
-    private val statusManger: StatusManger,
-    private val requestsManager: RequestsManager
+    private val requestManager: ManagerInitializer,
+    private val statusManger: ManagerInitializer,
 ) : MintPermissionsManager {
 
     private var initCalled = false
@@ -19,8 +16,7 @@ internal class MintPermissionsManagerImpl(
             "Manager should only be initialized once per activity"
         }
         initCalled = true
-        queueManager.init(activity)
         statusManger.init(activity)
-        requestsManager.init(activity)
+        requestManager.init(activity)
     }
 }

@@ -4,10 +4,11 @@ import androidx.activity.ComponentActivity
 
 /**
  * Mint permissions manager
+ * This manager is needed to connect the activity and the controller
  *
  * @constructor Create empty Mint permissions manager
  */
-interface MintPermissionsManager {
+public interface MintPermissionsManager {
 
     /**
      * Init manager and internal components.
@@ -16,5 +17,5 @@ interface MintPermissionsManager {
      * @param activity instance of [ComponentActivity]
      * @throws Exception then initialized multiple times
      */
-    fun init(activity: ComponentActivity)
+    public fun init(activity: ComponentActivity)
 }
