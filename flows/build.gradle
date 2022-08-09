@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
+    id 'maven-publish'
 }
 
 android {
@@ -45,4 +46,18 @@ dependencies {
 
     implementation project(":tools")
     implementation project(":library")
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = 'com.github.mintrocket'
+                artifactId = 'mintpermissions-flows'
+                version = library_version_name
+            }
+        }
+    }
 }

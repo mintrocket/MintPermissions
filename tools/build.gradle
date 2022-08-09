@@ -2,13 +2,14 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
+    id 'maven-publish'
 }
 
 android {
     compileSdk app_compile_sdk_version
 
     defaultConfig {
-        minSdk app_min_sdk_version
+        minSdk library_min_sdk_version
         targetSdk app_target_sdk_version
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -40,4 +41,20 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_version"
+}
+
+
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = 'com.github.mintrocket'
+                artifactId = 'mintpermissions-tools'
+                version = library_version_name
+            }
+        }
+    }
 }
