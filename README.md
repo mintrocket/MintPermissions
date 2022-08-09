@@ -13,6 +13,13 @@ This library, using [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-g
 - No additional activities
 - Request queue - everything will be ok, even if you make several requests from different CoroutineScope at the same time
 
+#### mintpermissions-flows
+Library for processing permission states using dialogs in accordance with [Google recommendations](https://developer.android.com/training/permissions/requesting)
+- Also, all the advantages of mintpermissions
+- Easy to customize behavior and display with FlowConfig
+- DialogsFlow for  those cases when there is simply some kind of button on which an action must occur that requires permission
+- PlainFlow for those cases when there is some kind of full screen content (for example, creating youtube shorts) and you need to display the permission status right inside the screen. Internally, DialogFlow is used with special settings
+
 ## Setup
 
 ```gradle
@@ -25,7 +32,10 @@ allprojects {
 
 // Target module's build.gradle:
 dependencies {
-    implementation "com.github.mintrocket:MintPermissions:1.0.0"
+    implementation 'com.github.mintrocket.MintPermissions:mintpermissions:1.1.0'
+    
+    // if you need ready processing of permissions with dialogs 
+    implementation 'com.github.mintrocket.MintPermissions:mintpermissions-flows:1.1.0'
 }
 ```
 
@@ -48,6 +58,9 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         initMintPermissions()
+
+        // if you used "mintpermissions-flows"
+        initMintPermissionsFlow()
     }
 }
 ```
@@ -59,6 +72,9 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         initMintPermissions(MintPermissionsConfig(autoInitManagers = false))
+
+        // if you used "mintpermissions-flows"
+        initMintPermissions(MintPermissionsConfig(autoInitManagers = false))
     }
 }
 
@@ -66,6 +82,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initMintPermissionsManager()
+
+        // if you used "mintpermissions-flows"
+        initMintPermissionsFlowManager()
     }
 }
 ```
@@ -80,6 +99,8 @@ val libraryModule = module {
 ```
 
 ### Request example
+
+#### Request for self-processing
 
 ```kotlin
 class SampleViewModel(
@@ -105,6 +126,65 @@ class SampleViewModel(
             }
             val denied = result.filterDenied()
             val needsRationale = result.filterNeedsRationale()
+        }
+    }
+}
+```
+
+#### MintPermissionsDialogFlow sample with dialogs
+
+```kotlin
+class SampleViewModel(
+    private val permissionsDialogFlow: MintPermissionsDialogFlow
+) : ViewModel() {
+
+    companion object {
+        private val cameraPermissions = listOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+        )
+    }
+
+    fun onActionClick() {
+        viewModelScope.launch {
+            val result = permissionsDialogFlow.request(cameraPermissions)
+            if (result.isSuccess()) {
+                // handle all permissions granted
+            } else {
+                // handle any permission not granted or dialog canceled
+            }
+        }
+    }
+}
+```
+
+#### MintPermissionsPlainFlow sample with dialogs
+
+Useful for cases where the status of permissions needs to be displayed on the screen itself
+
+```kotlin
+class SampleViewModel : ViewModel() {
+
+    companion object {
+        private val cameraPermissions = listOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+        )
+    }
+
+    private val permissionsPlainFlow = MintPermissionsFlow.createPlainFlow(cameraPermissions)
+
+    // Use for update screen
+    val notGrantedFlow: Flow<List<MintPermissionStatus>> = permissionsPlainFlow.observeNotGranted()
+
+    fun onActionClick() {
+        viewModelScope.launch {
+            val result = permissionsPlainFlow.request()
+            if (result.isSuccess()) {
+                // handle all permissions granted
+            } else {
+                // handle any permission not granted or dialog canceled
+            }
         }
     }
 }
