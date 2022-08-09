@@ -32,7 +32,6 @@ allprojects {
 
 // Target module's build.gradle:
 dependencies {
-    // after version 1.1.0
     implementation 'com.github.mintrocket.MintPermissions:mintpermissions:1.0.1'
     
     // if you need ready processing of permissions with dialogs 
