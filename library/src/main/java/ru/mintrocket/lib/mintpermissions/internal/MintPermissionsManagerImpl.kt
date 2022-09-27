@@ -9,6 +9,7 @@ internal class MintPermissionsManagerImpl(
     private val statusManger: ManagerInitializer,
 ) : MintPermissionsManager {
 
+    @Volatile
     private var initCalled = false
 
     override fun init(activity: ComponentActivity) {
