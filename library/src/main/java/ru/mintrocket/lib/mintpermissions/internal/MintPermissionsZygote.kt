@@ -41,7 +41,7 @@ internal object MintPermissionsZygote {
         MintPermissionsControllerImpl(requestsZygote.controller, statusesController)
     }
 
-    private fun createStatusManger(): StatusManager {
+    private fun createStatusManager(): StatusManager {
         return StatusManager(statusUpdater)
     }
 
@@ -58,7 +58,7 @@ internal object MintPermissionsZygote {
 
     fun createManager(): MintPermissionsManager {
         val queueManager = requestsZygote.createManager()
-        val statusManger = createStatusManger()
-        return MintPermissionsManagerImpl(queueManager, statusManger)
+        val statusManager = createStatusManager()
+        return MintPermissionsManagerImpl(queueManager, statusManager)
     }
 }

@@ -6,7 +6,7 @@ import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerInitializer
 
 internal class MintPermissionsManagerImpl(
     private val requestManager: ManagerInitializer,
-    private val statusManger: ManagerInitializer,
+    private val statusManager: ManagerInitializer,
 ) : MintPermissionsManager {
 
     @Volatile
@@ -17,7 +17,7 @@ internal class MintPermissionsManagerImpl(
             "Manager should only be initialized once per activity"
         }
         initCalled = true
-        statusManger.init(activity)
+        statusManager.init(activity)
         requestManager.init(activity)
     }
 }
