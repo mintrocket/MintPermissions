@@ -6,7 +6,7 @@ import ru.mintrocket.lib.mintpermissions.MintPermissionsController
 import ru.mintrocket.lib.mintpermissions.MintPermissionsManager
 import ru.mintrocket.lib.mintpermissions.ext.initMintPermissionsManager
 import ru.mintrocket.lib.mintpermissions.internal.requests.PermissionsRequestConsumer
-import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusManger
+import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusManager
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusProvider
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusUpdater
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusesController
@@ -41,8 +41,8 @@ internal object MintPermissionsZygote {
         MintPermissionsControllerImpl(requestsZygote.controller, statusesController)
     }
 
-    private fun createStatusManger(): StatusManger {
-        return StatusManger(statusUpdater)
+    private fun createStatusManager(): StatusManager {
+        return StatusManager(statusUpdater)
     }
 
     val controller: MintPermissionsController by lazy { permissionsControllerImpl }
@@ -58,7 +58,7 @@ internal object MintPermissionsZygote {
 
     fun createManager(): MintPermissionsManager {
         val queueManager = requestsZygote.createManager()
-        val statusManger = createStatusManger()
-        return MintPermissionsManagerImpl(queueManager, statusManger)
+        val statusManager = createStatusManager()
+        return MintPermissionsManagerImpl(queueManager, statusManager)
     }
 }
