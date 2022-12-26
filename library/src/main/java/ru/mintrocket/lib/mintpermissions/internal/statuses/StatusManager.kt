@@ -3,7 +3,7 @@ package ru.mintrocket.lib.mintpermissions.internal.statuses
 import androidx.activity.ComponentActivity
 import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerInitializer
 
-internal class StatusManger(
+internal class StatusManager(
     private val statusUpdater: StatusUpdater
 ) : ManagerInitializer {
 

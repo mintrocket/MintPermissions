@@ -14,7 +14,7 @@ import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiResult
 
 internal class UiRequestViewModel<T, R>(
     private val handle: SavedStateHandle,
-    private val config: UiRequestConfig,
+    config: UiRequestConfig,
     private val controller: UiRequestControllerImpl<T, R>
 ) : ViewModel() {
 
