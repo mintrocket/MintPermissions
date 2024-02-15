@@ -74,7 +74,7 @@ class App : Application() {
         initMintPermissions(MintPermissionsConfig(autoInitManagers = false))
 
         // if you used "mintpermissions-flows"
-        initMintPermissions(MintPermissionsConfig(autoInitManagers = false))
+        initMintPermissionsFlow(MintPermissionsConfig(autoInitManagers = false))
     }
 }
 
