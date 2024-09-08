@@ -32,10 +32,10 @@ allprojects {
 
 // Target module's build.gradle:
 dependencies {
-    implementation 'com.github.mintrocket.MintPermissions:mintpermissions:1.1.2'
+    implementation 'com.github.mintrocket.MintPermissions:mintpermissions:1.1.3'
     
     // if you need ready processing of permissions with dialogs 
-    implementation 'com.github.mintrocket.MintPermissions:mintpermissions-flows:1.1.2'
+    implementation 'com.github.mintrocket.MintPermissions:mintpermissions-flows:1.1.3'
 }
 ```
 
@@ -74,7 +74,7 @@ class App : Application() {
         initMintPermissions(MintPermissionsConfig(autoInitManagers = false))
 
         // if you used "mintpermissions-flows"
-        initMintPermissions(MintPermissionsConfig(autoInitManagers = false))
+        initMintPermissionsFlow(MintPermissionsConfig(autoInitManagers = false))
     }
 }
 

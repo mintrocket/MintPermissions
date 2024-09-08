@@ -4,11 +4,13 @@ import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AlertDialog
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.parcelize.Parcelize
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogContent
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequestContent
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogResult
 import kotlin.coroutines.resume
 
+@Parcelize
 public class DefaultDialogContentConsumerImpl : DialogContentConsumer {
 
     override suspend fun request(

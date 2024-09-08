@@ -11,7 +11,7 @@ android {
         minSdk app_min_sdk_version
         targetSdk app_target_sdk_version
         versionCode app_version_code
-        versionName app_version_name
+        versionName library_version_name
         setProperty("archivesBaseName", "MintPermissions")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

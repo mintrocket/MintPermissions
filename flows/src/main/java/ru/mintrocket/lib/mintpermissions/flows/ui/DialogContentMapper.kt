@@ -1,13 +1,14 @@
 package ru.mintrocket.lib.mintpermissions.flows.ui
 
 import android.content.Context
+import android.os.Parcelable
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogContent
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequest
 
 /**
  * Used to map the request to the content for the dialog
  */
-public interface DialogContentMapper {
+public interface DialogContentMapper : Parcelable {
 
     /**
      * Map request to dialog content

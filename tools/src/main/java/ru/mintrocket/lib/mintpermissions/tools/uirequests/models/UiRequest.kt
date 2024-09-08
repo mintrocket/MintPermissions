@@ -1,5 +1,7 @@
 package ru.mintrocket.lib.mintpermissions.tools.uirequests.models
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-public data class UiRequest<T>(val key: String, val data: T) : Serializable
+@Parcelize
+public data class UiRequest<T : Parcelable>(val key: String, val data: T) : Parcelable

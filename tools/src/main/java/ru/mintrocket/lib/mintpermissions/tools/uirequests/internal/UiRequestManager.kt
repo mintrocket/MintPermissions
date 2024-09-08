@@ -1,7 +1,8 @@
 package ru.mintrocket.lib.mintpermissions.tools.uirequests.internal
 
+import android.os.Bundle
+import android.os.Parcelable
 import androidx.activity.ComponentActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
@@ -13,27 +14,47 @@ import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestConsumer
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiResult
 
-internal class UiRequestManager<T, R>(
+internal class UiRequestManager<T : Parcelable, R>(
     private val zygoteKey: String,
     private val config: UiRequestConfig,
     private val controller: UiRequestControllerImpl<T, R>,
     private val consumer: UiRequestConsumer<T, R>,
 ) : ManagerInitializer {
 
-    @Suppress("UNCHECKED_CAST")
-    override fun init(activity: ComponentActivity) {
-        val viewModel = lazy {
-            val factory = UiRequestViewModelFactory(config, controller, activity)
-            val provider = ViewModelProvider(activity.viewModelStore, factory)
-            provider[zygoteKey, UiRequestViewModel::class.java] as UiRequestViewModel<T, R>
-        }.value
+    private companion object {
+        const val KEY_REQUESTS = "requests"
+    }
 
-        activity.lifecycle.addObserver(ViewModeEnabledObserver(viewModel))
+    override fun init(activity: ComponentActivity) {
+        val viewModel = UiRequestViewModel(controller)
+        if (config.saveQueueState) {
+            initSavedState(activity, viewModel)
+        }
+
+        activity.lifecycle.addObserver(ViewModelLifecycleObserver(viewModel))
         viewModel.requestFlow
+            .mapLatest { request ->
+                if (request != null) {
+                    executeRequest(activity, request)
+                } else {
+                    null
+                }
+            }
             .filterNotNull()
-            .mapLatest { request -> executeRequest(activity, request) }
             .onEach(viewModel::finishRequest)
             .launchIn(activity.lifecycleScope)
+    }
+
+    private fun initSavedState(activity: ComponentActivity, viewModel: UiRequestViewModel<T, R>) {
+        activity.savedStateRegistry.registerSavedStateProvider(zygoteKey) {
+            Bundle().apply {
+                putParcelableArrayList(KEY_REQUESTS, ArrayList(viewModel.getRequestQueue()))
+            }
+        }
+        val savedRequests = activity.savedStateRegistry.consumeRestoredStateForKey(zygoteKey)
+            ?.getParcelableArrayList<UiRequest<T>>(KEY_REQUESTS)
+
+        viewModel.restoreRequestQueue(savedRequests.orEmpty())
     }
 
     private suspend fun executeRequest(
