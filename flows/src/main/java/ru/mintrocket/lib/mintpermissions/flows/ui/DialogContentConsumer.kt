@@ -1,5 +1,6 @@
 package ru.mintrocket.lib.mintpermissions.flows.ui
 
+import android.os.Parcelable
 import androidx.activity.ComponentActivity
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequestContent
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogResult
@@ -7,7 +8,7 @@ import ru.mintrocket.lib.mintpermissions.flows.models.DialogResult
 /**
  * Used to display a dialog. You can override and show for example a custom BottomSheetDialog.
  */
-public interface DialogContentConsumer {
+public interface DialogContentConsumer : Parcelable {
 
     /**
      * Request for show dialog

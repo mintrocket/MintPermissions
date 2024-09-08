@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import ru.mintrocket.lib.mintpermissions.ext.isDenied
 import ru.mintrocket.lib.mintpermissions.ext.isGranted
 import ru.mintrocket.lib.mintpermissions.ext.isNeedsRationale
+import ru.mintrocket.lib.mintpermissions.internal.models.PermissionsRequest
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusProvider
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionAction
@@ -16,11 +17,11 @@ import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
 
 internal class PermissionsRequestConsumer(
     private val statusProvider: StatusProvider,
-) : UiRequestConsumer<List<MintPermission>, List<MintPermissionResult>> {
+) : UiRequestConsumer<PermissionsRequest, List<MintPermissionResult>> {
 
     override suspend fun request(
         activity: ComponentActivity,
-        request: UiRequest<List<MintPermission>>
+        request: UiRequest<PermissionsRequest>
     ): List<MintPermissionResult> {
         val oldMap = statusProvider
             .getStatuses(activity, request.data)
@@ -40,7 +41,7 @@ internal class PermissionsRequestConsumer(
 
     private suspend fun computeResults(
         activity: ComponentActivity,
-        request: UiRequest<List<MintPermission>>,
+        request: UiRequest<PermissionsRequest>,
         oldMap: Map<MintPermission, MintPermissionStatus>
     ): List<MintPermissionResult> {
         val statuses = statusProvider.getStatuses(activity, request.data)

@@ -3,7 +3,7 @@ package ru.mintrocket.lib.mintpermissions.tools.uirequests.internal
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 
-internal class ViewModeEnabledObserver(
+internal class ViewModelLifecycleObserver(
     private val viewModel: UiRequestViewModel<*, *>
 ) : DefaultLifecycleObserver {
 
@@ -15,5 +15,10 @@ internal class ViewModeEnabledObserver(
     override fun onPause(owner: LifecycleOwner) {
         super.onPause(owner)
         viewModel.setEnabled(false)
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        super.onDestroy(owner)
+        viewModel.onDestroy()
     }
 }

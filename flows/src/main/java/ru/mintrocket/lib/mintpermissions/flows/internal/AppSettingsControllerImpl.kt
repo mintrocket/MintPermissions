@@ -1,11 +1,12 @@
 package ru.mintrocket.lib.mintpermissions.flows.internal
 
 import ru.mintrocket.lib.mintpermissions.flows.AppSettingsController
+import ru.mintrocket.lib.mintpermissions.flows.internal.models.SettingsRequest
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestController
 
 internal class AppSettingsControllerImpl(
-    private val requestController: UiRequestController<Unit, Unit>,
+    private val requestController: UiRequestController<SettingsRequest, Unit>,
 ) : AppSettingsController {
 
-    override suspend fun open() = requestController.request(Unit)
+    override suspend fun open() = requestController.request(SettingsRequest)
 }

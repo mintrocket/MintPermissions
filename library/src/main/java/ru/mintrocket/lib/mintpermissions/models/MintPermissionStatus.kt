@@ -1,12 +1,15 @@
 package ru.mintrocket.lib.mintpermissions.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 /**
  * Mint permission status
  *
  * @property permission from [android.Manifest.permission]
  * @constructor Create empty Mint permission status
  */
-public sealed class MintPermissionStatus(public open val permission: MintPermission) {
+public sealed class MintPermissionStatus(public open val permission: MintPermission) : Parcelable {
 
     /**
      * Granted
@@ -15,6 +18,7 @@ public sealed class MintPermissionStatus(public open val permission: MintPermiss
      * @property permission from [android.Manifest.permission]
      * @constructor Create empty Granted
      */
+    @Parcelize
     public data class Granted(
         override val permission: MintPermission
     ) : MintPermissionStatus(permission)
@@ -27,6 +31,7 @@ public sealed class MintPermissionStatus(public open val permission: MintPermiss
      * @property permission from [android.Manifest.permission]
      * @constructor Create empty Denied
      */
+    @Parcelize
     public data class Denied(
         override val permission: MintPermission
     ) : MintPermissionStatus(permission)
@@ -38,6 +43,7 @@ public sealed class MintPermissionStatus(public open val permission: MintPermiss
      * @property permission from [android.Manifest.permission]
      * @constructor Create empty Needs rationale
      */
+    @Parcelize
     public data class NeedsRationale(
         override val permission: MintPermission
     ) : MintPermissionStatus(permission)
@@ -49,6 +55,7 @@ public sealed class MintPermissionStatus(public open val permission: MintPermiss
      * @property permission from [android.Manifest.permission]
      * @constructor Create empty Not found
      */
+    @Parcelize
     public data class NotFound(
         override val permission: MintPermission
     ) : MintPermissionStatus(permission)
