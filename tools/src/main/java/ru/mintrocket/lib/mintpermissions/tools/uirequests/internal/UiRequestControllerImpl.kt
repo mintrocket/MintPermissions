@@ -1,34 +1,37 @@
 package ru.mintrocket.lib.mintpermissions.tools.uirequests.internal
 
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import android.os.Parcelable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestController
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiRequest
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.models.UiResult
-import java.util.*
+import java.util.UUID
 
-internal class UiRequestControllerImpl<T, R>(
-    private val dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate
-) : UiRequestController<T, R> {
-
-    private val scope by lazy {
-        CoroutineScope(dispatcher + SupervisorJob())
-    }
+internal class UiRequestControllerImpl<T : Parcelable, R> : UiRequestController<T, R> {
 
     private val queueNew = FlowQueue<UiRequest<T>>()
-    private val cancelFlow = MutableSharedFlow<UiRequest<T>>()
+    private val queueCancel = FlowQueue<UiRequest<T>>()
     private val resultFlow = MutableSharedFlow<UiResult<T, R>>()
 
     fun observeNewRequest(): Flow<UiRequest<T>> {
         return queueNew.headFlow.filterNotNull()
     }
 
-    fun observeCancelRequest(): Flow<UiRequest<T>> {
-        return cancelFlow.asSharedFlow()
+    fun observeCancelRequest(): Flow<List<UiRequest<T>>> {
+        return queueCancel.queueFlow
     }
 
-    fun consumeRequest(request: UiRequest<T>) {
+    fun consumeNewRequest(request: UiRequest<T>) {
         queueNew.remove(request)
+    }
+
+    fun consumeCancelRequest(request: UiRequest<T>) {
+        queueCancel.remove(request)
     }
 
     suspend fun sendResult(result: UiResult<T, R>) {
@@ -45,15 +48,11 @@ internal class UiRequestControllerImpl<T, R>(
     }
 
     private fun startRequest(request: UiRequest<T>) {
-        scope.launch {
-            queueNew.add(request)
-        }
+        queueNew.add(request)
     }
 
     private fun completeRequest(request: UiRequest<T>) {
-        scope.launch {
-            queueNew.remove(request)
-            cancelFlow.emit(request)
-        }
+        queueNew.remove(request)
+        queueCancel.add(request)
     }
 }

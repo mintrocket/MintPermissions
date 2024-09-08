@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import ru.mintrocket.lib.mintpermissions.MintPermissionsController
+import ru.mintrocket.lib.mintpermissions.internal.models.PermissionsRequest
 import ru.mintrocket.lib.mintpermissions.internal.statuses.StatusesController
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
@@ -12,7 +13,7 @@ import ru.mintrocket.lib.mintpermissions.models.MintPermissionStatus
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.UiRequestController
 
 internal class MintPermissionsControllerImpl(
-    private val requestsController: UiRequestController<List<MintPermission>, List<MintPermissionResult>>,
+    private val requestsController: UiRequestController<PermissionsRequest, List<MintPermissionResult>>,
     private val statusesController: StatusesController
 ) : MintPermissionsController {
 
@@ -58,7 +59,7 @@ internal class MintPermissionsControllerImpl(
     override suspend fun request(
         permissions: List<MintPermission>
     ): List<MintPermissionResult> {
-        return requestsController.request(permissions)
+        return requestsController.request(PermissionsRequest(permissions))
     }
 
     override suspend fun request(permission: MintPermission): MintPermissionResult {

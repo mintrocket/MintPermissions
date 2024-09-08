@@ -1,14 +1,18 @@
 package ru.mintrocket.lib.mintpermissions.flows.ui
 
 import android.content.Context
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 import ru.mintrocket.lib.mintpermissions.flows.R
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogContent
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequest
 import ru.mintrocket.lib.mintpermissions.flows.models.DialogRequestGroup
 import ru.mintrocket.lib.mintpermissions.models.MintPermission
 
+@Parcelize
 public class DefaultDialogContentMapperImpl : DialogContentMapper {
 
+    @IgnoredOnParcel
     private val regexName by lazy { Regex("android\\.permission\\.(\\w+)") }
 
     override suspend fun map(context: Context, request: DialogRequest): DialogContent {
@@ -41,6 +45,7 @@ public class DefaultDialogContentMapperImpl : DialogContentMapper {
         DialogRequestGroup.NEEDS_RATIONALE -> {
             context.getString(R.string.mint_flow_dialog_rationale_action)
         }
+
         DialogRequestGroup.DENIED -> {
             context.getString(R.string.mint_flow_dialog_denied_action)
         }
@@ -54,6 +59,7 @@ public class DefaultDialogContentMapperImpl : DialogContentMapper {
         DialogRequestGroup.NEEDS_RATIONALE -> {
             context.getString(R.string.mint_flow_dialog_rationale_message, permissionNames)
         }
+
         DialogRequestGroup.DENIED -> {
             context.getString(R.string.mint_flow_dialog_denied_message, permissionNames)
         }

@@ -1,5 +1,8 @@
 package ru.mintrocket.lib.mintpermissions.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 /**
  * Mint permission action
  * Used for detect status changes
@@ -7,7 +10,7 @@ package ru.mintrocket.lib.mintpermissions.models
  * @property permission from [android.Manifest.permission]
  * @constructor Create empty Mint permission action
  */
-public sealed class MintPermissionAction(public open val permission: MintPermission) {
+public sealed class MintPermissionAction(public open val permission: MintPermission) : Parcelable {
 
     /**
      * Granted
@@ -16,6 +19,7 @@ public sealed class MintPermissionAction(public open val permission: MintPermiss
      * @property permission from [android.Manifest.permission]
      * @constructor Create empty Granted
      */
+    @Parcelize
     public data class Granted(
         override val permission: MintPermission
     ) : MintPermissionAction(permission)
@@ -27,6 +31,7 @@ public sealed class MintPermissionAction(public open val permission: MintPermiss
      * @property permission from [android.Manifest.permission]
      * @constructor Create empty Needs rationale
      */
+    @Parcelize
     public data class NeedsRationale(
         override val permission: MintPermission
     ) : MintPermissionAction(permission)
@@ -38,6 +43,7 @@ public sealed class MintPermissionAction(public open val permission: MintPermiss
      * @property permission from [android.Manifest.permission]
      * @constructor Create empty Denied permanently
      */
+    @Parcelize
     public data class DeniedPermanently(
         override val permission: MintPermission
     ) : MintPermissionAction(permission)

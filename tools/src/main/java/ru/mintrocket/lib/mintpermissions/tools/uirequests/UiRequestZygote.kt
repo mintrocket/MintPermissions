@@ -1,10 +1,11 @@
 package ru.mintrocket.lib.mintpermissions.tools.uirequests
 
+import android.os.Parcelable
 import ru.mintrocket.lib.mintpermissions.tools.initializer.ManagerInitializer
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.internal.UiRequestControllerImpl
 import ru.mintrocket.lib.mintpermissions.tools.uirequests.internal.UiRequestManager
 
-public class UiRequestZygote<T, R>(
+public class UiRequestZygote<T : Parcelable, R>(
     private val key: String,
     private val consumer: UiRequestConsumer<T, R>,
     private val config: UiRequestConfig = UiRequestConfig()

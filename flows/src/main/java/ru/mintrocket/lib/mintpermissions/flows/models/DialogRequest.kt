@@ -1,5 +1,7 @@
 package ru.mintrocket.lib.mintpermissions.flows.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import ru.mintrocket.lib.mintpermissions.flows.ui.DialogContentConsumer
 import ru.mintrocket.lib.mintpermissions.flows.ui.DialogContentMapper
 import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
@@ -13,9 +15,10 @@ import ru.mintrocket.lib.mintpermissions.models.MintPermissionResult
  * @property contentConsumer for custom consumer (for example, you can show BottomSheetDialog)
  * @constructor Create empty [DialogRequest]
  */
+@Parcelize
 public data class DialogRequest(
     val group: DialogRequestGroup,
     val results: List<MintPermissionResult>,
     val contentMapper: DialogContentMapper?,
     val contentConsumer: DialogContentConsumer?
-)
+) : Parcelable
