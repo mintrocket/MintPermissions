@@ -1,0 +1,41 @@
+[versions]
+compileSdk = "32"
+minSdk = "21"
+targetSdk = "32"
+versionCode = "1"
+libraryVersionName = "1.1.3"
+libraryminSdk = "15"
+kotlin = "1.6.21"
+coroutines = "1.6.2"
+koin = "3.1.5"
+androidxCore = "1.8.0"
+androidxAppcompat = "1.4.2"
+androidxActivity = "1.4.0"
+androidxSplashscreen = "1.0.0-rc01"
+androidxLifecycle = "2.4.1"
+material = "1.5.0"
+viewbindingpropertydelegate = "1.5.6"
+androidxConstraintlayout = "2.1.3"
+junit = "4.13.2"
+androidxTestJunit = "1.2.1"
+espressoCore = "3.6.1"
+androidGradlePluginVersion = "8.6.1"
+
+[libraries]
+tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePluginVersion" }
+kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidxAppcompat" }
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "androidxActivity" }
+androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidxSplashscreen" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+viewbindingpropertydelegate = { module = "com.github.kirich1409:viewbindingpropertydelegate", version.ref = "viewbindingpropertydelegate" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidxConstraintlayout" }
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestJunit" }
+androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
