@@ -1,0 +1,5 @@
+rootProject.name = "MintPermissions"
+include("library")
+include("example")
+include("tools")
+include("flows")
